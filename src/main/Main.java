@@ -10,6 +10,9 @@ public class Main {
         sm.setVisible(true);
         sm.start();
 
+
+        System.out.print("Second push");
+
     }
 
 
