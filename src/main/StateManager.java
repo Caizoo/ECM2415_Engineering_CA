@@ -35,7 +35,9 @@ public class StateManager extends JFrame implements ActionListener{
 
         states[0] = new QuickMenuState();
         states[0].setRenderer(g);
+        states[0].setFrame(this);
         states[state].start();
+        states[state].render();
     }
 
     public void backFromState() {
