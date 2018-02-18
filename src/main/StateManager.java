@@ -20,6 +20,7 @@ import static main.NavigationAction.POWER;
 
 public class StateManager extends JFrame implements ActionListener, MouseListener {
 
+    // graphics
     private MenuState states[] = new MenuState[6];
     private Graphics2D g2d = null;
     private JPanel screen = null;
@@ -27,6 +28,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
     private static BufferedImage gpsImage = null;
     private JButton power = null;
 
+    //states
     private static final int ON_OFF_STATE = 0;
     private static final int MAIN_STATE = 1;
     private static final int WHERE_TO_STATE = 2;
@@ -38,6 +40,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
 
     private static int state = 0;
 
+    // graphics constants
     public static final int GPS_WIDTH = 650;
     public static final int GPS_HEIGHT = 650;
     public static final int GPS_X = 340;
@@ -47,11 +50,14 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
     public static final int SCREEN_X = 561;
     public static final int SCREEN_Y = 278;
 
+    // device physical button bounds
     public final Rectangle boundsPlusButton = new Rectangle(512,154,6,40);
     public final Rectangle boundsMinusButton = new Rectangle(508,206,6,40);
 
     public final Rectangle boundsSelectButton = new Rectangle(508,279,8,50);
     public final Rectangle boundsMenuButton = new Rectangle(810,158,14,52);
+
+
 
     public StateManager() {
         setTitle("GPS");
@@ -61,15 +67,20 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
         setLayout(null);
     }
 
+    /**
+     * Sets up the frame, screen and power button ready for use, and creates state objects for the array of states
+     */
+
     public void start() {
         this.g2d = (Graphics2D)(super.getGraphics());
-        this.addMouseListener(this);
+        this.addMouseListener(this); // add mouselistener to frame
 
+        // create screen of device as JPanel
         screen = new JPanel();
-        screen.setOpaque(false);
         screen.setBackground(new Color(27,27,27,255));
         screen.setBounds(SCREEN_X,SCREEN_Y,SCREEN_WIDTH,SCREEN_HEIGHT);
 
+        // power button which will be active across all states
         power = new JButton("Power");
         power.addActionListener(this);
         power.setSize(80,40);
@@ -79,17 +90,22 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
         /**TODO:  change layout of screen to null when using absolute locations for buttons**/
         //screen.setLayout(null);
 
+        // add screen to frame
         getContentPane().add(screen);
 
+        // read in image for device
         try {
             gpsImage = ImageIO.read(new File("res/gpsDevice.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+
+        // create new state objects
         states[0] = new OnOffState();
         states[1] = new MainMenuState();
 
+        // set rendering and listening objects to states
         for(MenuState state:states) {
             if(state!=null) {
                 state.setRenderer(g2d);
@@ -99,10 +115,17 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
             }
         }
 
+        // start the first state, and paint
         states[state].start();
-        screen.revalidate();
         super.repaint();
     }
+
+    /**
+     *
+     * Handles the case of device physical button push
+     *
+     * @param action enum for device physical button action
+     */
 
     public void doAction(NavigationAction action) {
         switch(action) {
@@ -129,7 +152,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
         paintScreen();
     }
 
-    /** paints everything including the device, need only render when opening the program **/
+    /** paints everything including the device **/
     @Override
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D)g;
@@ -148,6 +171,12 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
         power.repaint();
     }
 
+    /**
+     * Called when a JButton which has had an instance of StateManager added as it's action listener
+     * is pressed, can then send event object to appropriate state
+     *
+     * @param e event object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(power)) {

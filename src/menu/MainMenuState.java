@@ -1,7 +1,6 @@
 package menu;
 
 import main.NavigationAction;
-import main.StateManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,10 +10,10 @@ import java.util.ArrayList;
 
 public class MainMenuState implements MenuState {
 
-    private JFrame frame = null;
-    private JPanel screen = null;
+    private JFrame frame;
+    private JPanel screen;
     private ActionListener listener;
-    private Graphics2D renderer = null;
+    private Graphics2D renderer;
 
     ArrayList<JButton> buttons = new ArrayList<>();
 
@@ -30,15 +29,6 @@ public class MainMenuState implements MenuState {
     public void setListener(ActionListener listener) { this.listener = listener; }
 
     private void loadResources() {
-        /*
-         JButton btnPower = null;
-         JButton btnWhereTo = null;
-         JButton btnTripComputer = null;
-         JButton btnMap = null;
-         JButton btnSpeech = null;
-         JButton btnSatellite = null;
-         JButton btnAbout = null;
-         */
 
         buttons.add(new JButton("Where To"));
         buttons.add(new JButton("Trip Computer"));
@@ -48,9 +38,9 @@ public class MainMenuState implements MenuState {
         buttons.add(new JButton("About"));
 
         for(JButton b:buttons) {
-            b.setPreferredSize(new Dimension(90,75));
-            b.addActionListener(listener);
-            screen.add(b);
+            b.setPreferredSize(new Dimension(90,75)); // set preferred dimensions of buttons for 2x3 display
+            b.addActionListener(listener); // add the action listener from StateManager to listen to the buttons' events
+            screen.add(b); // add button to JPanel screen
         }
 
     }

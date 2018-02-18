@@ -8,12 +8,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ *
+ * Empty class of type MenuState which displays nothing,
+ * but comforms with state switching in StateManager for on/off
+ * to menu and from any state to on/off
+ *
+ */
+
 public class OnOffState implements MenuState {
 
-    private JFrame frame = null;
-    private JPanel screen = null;
+    private JFrame frame;
+    private JPanel screen;
     private ActionListener listener;
-    private Graphics2D renderer = null;
+    private Graphics2D renderer;
 
     public OnOffState() {
 
