@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.lang.reflect.*;
-public class whereTo implements MenuState {
+public class WhereTo implements MenuState {
 
     Graphics2D renderer;
     private JFrame frame;
@@ -436,7 +436,7 @@ public class whereTo implements MenuState {
             });
         }
     }
-    public whereTo(){
+    public WhereTo(){
 
 
 
