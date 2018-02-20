@@ -3,6 +3,7 @@ package main;
 import menu.MainMenuState;
 import menu.MenuState;
 import menu.OnOffState;
+import whereTo.WhereTo;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -29,14 +30,14 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
     private JButton power = null;
 
     //states
-    private static final int ON_OFF_STATE = 0;
-    private static final int MAIN_STATE = 1;
-    private static final int WHERE_TO_STATE = 2;
-    private static final int TRIP_COMPUTER_STATE = 3;
-    private static final int MAP_STATE = 4;
-    private static final int SPEECH_STATE = 5;
-    private static final int SATELLITE_STATE = 6;
-    private static final int ABOUT_STATE = 7;
+    public static final int ON_OFF_STATE = 0;
+    public static final int MAIN_STATE = 1;
+    public static final int WHERE_TO_STATE = 2;
+    public static final int TRIP_COMPUTER_STATE = 3;
+    public static final int MAP_STATE = 4;
+    public static final int SPEECH_STATE = 5;
+    public static final int SATELLITE_STATE = 6;
+    public static final int ABOUT_STATE = 7;
 
     private static int state = 0;
 
@@ -103,7 +104,8 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
 
         // create new state objects
         states[0] = new OnOffState();
-        states[1] = new MainMenuState();
+        states[1] = new MainMenuState(this);
+        states[WHERE_TO_STATE] = new WhereTo();
 
         // set rendering and listening objects to states
         for(MenuState state:states) {
@@ -151,6 +153,17 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
 
         paintScreen();
     }
+
+
+    public void goToState(int state) {
+        if(states[state]==null) return;
+        states[this.state].stop();
+        this.state = state;
+        states[this.state].start();
+        screen.revalidate();
+        states[this.state].render();
+    }
+
 
     /** paints everything including the device **/
     @Override

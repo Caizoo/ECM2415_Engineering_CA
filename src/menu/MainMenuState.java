@@ -1,6 +1,7 @@
 package menu;
 
 import main.NavigationAction;
+import main.StateManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +11,8 @@ import java.util.ArrayList;
 
 public class MainMenuState implements MenuState {
 
+    private StateManager sm;
+
     private JFrame frame;
     private JPanel screen;
     private ActionListener listener;
@@ -17,8 +20,8 @@ public class MainMenuState implements MenuState {
 
     ArrayList<JButton> buttons = new ArrayList<>();
 
-    public MainMenuState() {
-
+    public MainMenuState(StateManager sm) {
+        this.sm = sm;
     }
 
     public void setRenderer(Graphics2D renderer) {
@@ -62,7 +65,9 @@ public class MainMenuState implements MenuState {
     }
 
     public void actionPerformed(ActionEvent e) {
-
+        if(e.getSource().equals(buttons.get(0))) {
+            sm.goToState(StateManager.WHERE_TO_STATE);
+        }
     }
 
     public void navigationButton(NavigationAction e) {
