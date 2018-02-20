@@ -107,6 +107,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
         states[1] = new MainMenuState(this);
         states[WHERE_TO_STATE] = new WhereTo();
 
+
         // set rendering and listening objects to states
         for(MenuState state:states) {
             if(state!=null) {
@@ -136,7 +137,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
                     states[state].stop();
                     state = MAIN_STATE;
                     states[state].start();
-                }else if(state==MAIN_STATE) {
+                }else {
                     states[state].stop();
                     state = ON_OFF_STATE;
                     states[state].start();
