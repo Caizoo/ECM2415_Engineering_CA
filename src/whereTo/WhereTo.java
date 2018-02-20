@@ -138,7 +138,10 @@ public class WhereTo implements MenuState {
 
     @Override
     public void stop() {
-
+        System.out.println("STOP");
+        for(CharacterButton x: charButtons){
+            screen.remove(x);
+        }
     }
 
     @Override
@@ -212,29 +215,7 @@ public class WhereTo implements MenuState {
             }
         }
         else if (e== NavigationAction.POWER){
-            boolean powerOn=true;
-            if (powerOn) {
-                for (CharacterButton x : charButtons) {
-                    x.setVisible(false);
-                }
-                for (NumberButton x : numButtons) {
-                    x.setVisible(false);
-                }
-                txtf.setVisible(false);
-                powerOn = false;
-            }
-            else {
-                for (CharacterButton x : charButtons) {
-                    x.setVisible(true);
-                }
-                for (NumberButton x : numButtons) {
-                    x.setVisible(true);
-                }
-                txtf.setText("");
-                txtf.setVisible(true);
-                powerOn=true;
-            }
-            currentButton=0;
+            stop();
         }
         else if (e == NavigationAction.MENU);
         String directions = whereTo();
