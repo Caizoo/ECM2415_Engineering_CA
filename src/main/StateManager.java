@@ -141,6 +141,8 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
                     states[state].stop();
                     state = ON_OFF_STATE;
                     states[state].start();
+                    screen.removeAll();
+                    paintScreen();
                 }
             case MENU:
                 states[state].navigationButton(NavigationAction.MENU);
