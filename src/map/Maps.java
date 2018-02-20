@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class Maps {
-  final static String OUTPUT    = "output.png";  /* Ouput file        */
+  final static String OUTPUT    = "src/map/output.png";  /* Ouput file        */
   String latitude;
   String longitude;     
   String zoom      = "15";           /* 0 .. 21           */
