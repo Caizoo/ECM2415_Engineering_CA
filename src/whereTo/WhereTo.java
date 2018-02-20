@@ -144,6 +144,12 @@ public class WhereTo implements MenuState {
 
     @Override
     public void render() {
+        for(CharacterButton x: charButtons){
+           if(x!=null) x.repaint();
+        }
+        for(NumberButton x: numButtons){
+            if(x!=null) x.repaint();
+        }
 
     }
 
