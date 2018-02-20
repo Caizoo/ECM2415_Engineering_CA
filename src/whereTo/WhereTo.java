@@ -17,8 +17,8 @@ public class WhereTo implements MenuState {
     public int currentButton=0;
     public int currentMode=1;
 
-    CharacterButton[] charButtons= new CharacterButton[28];
-    NumberButton[] numButtons = new NumberButton[13];
+    CharacterButton[] charButtons = new CharacterButton[28];
+    NumberButton[] numButtons = new NumberButton[12];
 
 
     @Override
@@ -44,91 +44,95 @@ public class WhereTo implements MenuState {
 
     @Override
     public void start() {
-        CharacterButton btnHideNum = new CharacterButton(28);
-        CharacterButton btna = new CharacterButton("a",1);
-        CharacterButton btnb = new CharacterButton("b",2);
-        CharacterButton btnc = new CharacterButton("c",3);
-        CharacterButton btnd = new CharacterButton("d",4);
-        CharacterButton btne = new CharacterButton("e",5);
-        CharacterButton btnf = new CharacterButton("f",6);
-        CharacterButton btng = new CharacterButton("g",7);
-        CharacterButton btnh = new CharacterButton("h",8);
-        CharacterButton btni = new CharacterButton("i",9);
-        CharacterButton btnj = new CharacterButton("j",10);
-        CharacterButton btnk = new CharacterButton("k",11);
-        CharacterButton btnl = new CharacterButton("l",12);
-        CharacterButton btnm = new CharacterButton("m",13);
-        CharacterButton btnn = new CharacterButton("n",14);
-        CharacterButton btno = new CharacterButton("o",15);
-        CharacterButton btnp = new CharacterButton("p",16);
-        CharacterButton btnq = new CharacterButton("q",17);
-        CharacterButton btnr = new CharacterButton("r",18);
-        CharacterButton btns = new CharacterButton("s",19);
-        CharacterButton btnt = new CharacterButton("t",20);
-        CharacterButton btnu = new CharacterButton("u",21);
-        CharacterButton btnv = new CharacterButton("v",22);
-        CharacterButton btnw = new CharacterButton("w",23);
-        CharacterButton btnx = new CharacterButton("x",24);
-        CharacterButton btny = new CharacterButton("y",25);
-        CharacterButton btnz = new CharacterButton("z",26);
-        CharacterButton btnSpace = new CharacterButton(" ",27);
-        CharacterButton[] charButtons={btna,btnb,btnc,btnd,btne,btnf,btng,btnh,btni,btnj,btnk
-                ,btnl,btnm,btnn,btno,btnp,btnq,btnr,btns,btnt,btnu,btnv,btnw,btnx,btny,btnz,btnSpace,btnHideNum};
-        NumberButton btn1 = new NumberButton(1);
-        NumberButton btn2 = new NumberButton(2);
-        NumberButton btn3 = new NumberButton(3);
-        NumberButton btn4 = new NumberButton(4);
-        NumberButton btn5 = new NumberButton(5);
-        NumberButton btn6 = new NumberButton(6);
-        NumberButton btn7 = new NumberButton(7);
-        NumberButton btn8 = new NumberButton(8);
-        NumberButton btn9 = new NumberButton(9);
-        NumberButton btn0 = new NumberButton(0);
-        NumberButton btnDel = new NumberButton("DEL");
-        NumberButton btnHideChar = new NumberButton("<=");
-        NumberButton[] numButtons={btn1,btn2,btn3,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0,btnDel,btnHideChar};
+
+        charButtons[0]= new CharacterButton(" a",1);
+        charButtons[1]= new CharacterButton(" b",2);
+        charButtons[2]= new CharacterButton("c",3);
+        charButtons[3]= new CharacterButton(" d",4);
+        charButtons[4]= new CharacterButton("e",5);
+        charButtons[5]= new CharacterButton(" f",6);
+        charButtons[6]= new CharacterButton(" g",7);
+        charButtons[7]= new CharacterButton(" h",8);
+        charButtons[8]= new CharacterButton(" i",9);
+        charButtons[9]= new CharacterButton(" j",10);
+        charButtons[10]= new CharacterButton(" k",11);
+        charButtons[11]= new CharacterButton(" l",12);
+        charButtons[12]= new CharacterButton(" m",13);
+        charButtons[13]= new CharacterButton(" n",14);
+        charButtons[14]= new CharacterButton(" o",15);
+        charButtons[15]= new CharacterButton(" p",16);
+        charButtons[16]= new CharacterButton(" q",17);
+        charButtons[17]= new CharacterButton(" r",18);
+        charButtons[18]= new CharacterButton(" s",19);
+        charButtons[19]= new CharacterButton(" t",20);
+        charButtons[20]= new CharacterButton(" u",21);
+        charButtons[21]= new CharacterButton(" v",22);
+        charButtons[22]= new CharacterButton(" w",23);
+        charButtons[23] = new CharacterButton("x",24);
+        charButtons[24] = new CharacterButton("y",25);
+        charButtons[25]= new CharacterButton(" z",26);
+        charButtons[26]= new CharacterButton("  ",27);
+        charButtons[27] = new CharacterButton(28);
+
+
+        numButtons[0] = new NumberButton(1);
+        numButtons[1]= new NumberButton(2);
+        numButtons[2] = new NumberButton(3);
+        numButtons[3] = new NumberButton(4);
+        numButtons[4] = new NumberButton(5);
+        numButtons[5] = new NumberButton(6);
+        numButtons[6] = new NumberButton(7);
+        numButtons[7] = new NumberButton(8);
+        numButtons[8]= new NumberButton(9);
+        numButtons[9] = new NumberButton(0);
+        numButtons[10] = new NumberButton("DEL");
+        numButtons[11] = new NumberButton("<=");
+
+
 
         txtf.setBounds(150,360,300,30); screen.add(txtf);
-        btna.setBounds(150,400,75,45); screen.add(btna);btna.setBackground(Color.ORANGE);
-        btnb.setBounds(225,400,75,45); screen.add(btnb);
-        btnc.setBounds(300,400,75,45); screen.add(btnc);
-        btnd.setBounds(375,400,75,45); screen.add(btnd);
-        btne.setBounds(150,445,75,45); screen.add(btne);
-        btnf.setBounds(225,445,75,45); screen.add(btnf);
-        btng.setBounds(300,445,75,45); screen.add(btng);
-        btnh.setBounds(375,445,75,45); screen.add(btnh);
-        btni.setBounds(150,490,75,45); screen.add(btni);
-        btnj.setBounds(225,490,75,45); screen.add(btnj);
-        btnk.setBounds(300,490,75,45); screen.add(btnk);
-        btnl.setBounds(375,490,75,45); screen.add(btnl);
-        btnm.setBounds(150,535,75,45); screen.add(btnm);
-        btnn.setBounds(225,535,75,45); screen.add(btnn);
-        btno.setBounds(300,535,75,45); screen.add(btno);
-        btnp.setBounds(375,535,75,45); screen.add(btnp);
-        btnq.setBounds(150,580,75,45); screen.add(btnq);
-        btnr.setBounds(225,580,75,45); screen.add(btnr);
-        btns.setBounds(300,580,75,45); screen.add(btns);
-        btnt.setBounds(375,580,75,45); screen.add(btnt);
-        btnu.setBounds(150,625,75,45); screen.add(btnu);
-        btnv.setBounds(225,625,75,45); screen.add(btnv);
-        btnw.setBounds(300,625,75,45); screen.add(btnw);
-        btnx.setBounds(375,625,75,45); screen.add(btnx);
-        btny.setBounds(150,670,75,45); screen.add(btny);
-        btnz.setBounds(225,670,75,45); screen.add(btnz);
-        btnSpace.setBounds(300,670,75,45);screen.add(btnSpace);
-        btn1.setBounds(150,400,75,45); screen.add(btn1);btn1.setBackground(Color.ORANGE);btn1.setVisible(false);
-        btn2.setBounds(225,400,75,45); screen.add(btn2);btn2.setVisible(false);
-        btn3.setBounds(300,400,75,45); screen.add(btn3);btn3.setVisible(false);
-        btn4.setBounds(375,400,75,45); screen.add(btn4);btn4.setVisible(false);
-        btn5.setBounds(150,445,75,45); screen.add(btn5);btn5.setVisible(false);
-        btn6.setBounds(225,445,75,45); screen.add(btn6);btn6.setVisible(false);
-        btn7.setBounds(300,445,75,45); screen.add(btn7);btn7.setVisible(false);
-        btn8.setBounds(375,445,75,45); screen.add(btn8);btn8.setVisible(false);
-        btn9.setBounds(150,490,75,45); screen.add(btn9);btn9.setVisible(false);
-        btn0.setBounds(225,490,75,45); screen.add(btn0);btn0.setVisible(false);
-        btnDel.setBounds(300,490,75,45); screen.add(btnDel); btnDel.setVisible(false);
-        btnHideChar.setBounds(375,670,75,45); screen.add(btnHideChar);btnHideChar.setVisible(false);
-        btnHideNum.setBounds(375,670,75,45); screen.add(btnHideNum);
+        charButtons[0].setBounds(150,400,75,45); screen.add(charButtons[0]);charButtons[0].setBackground(Color.ORANGE);
+        charButtons[1].setBounds(225,400,75,45); screen.add(charButtons[1]);
+        charButtons[2].setBounds(300,400,75,45); screen.add(charButtons[2]);
+        charButtons[3].setBounds(375,400,75,45); screen.add(charButtons[3]);
+        charButtons[4].setBounds(150,445,75,45); screen.add(charButtons[4]);
+        charButtons[5].setBounds(225,445,75,45); screen.add(charButtons[5]);
+        charButtons[6].setBounds(300,445,75,45); screen.add(charButtons[6]);
+        charButtons[7].setBounds(375,445,75,45); screen.add(charButtons[7]);
+        charButtons[8].setBounds(150,490,75,45); screen.add(charButtons[8]);
+        charButtons[9].setBounds(225,490,75,45); screen.add(charButtons[9]);
+        charButtons[10].setBounds(300,490,75,45); screen.add(charButtons[10]);
+        charButtons[11].setBounds(375,490,75,45); screen.add(charButtons[11]);
+        charButtons[12].setBounds(150,535,75,45); screen.add(charButtons[12]);
+        charButtons[13].setBounds(225,535,75,45); screen.add(charButtons[13]);
+        charButtons[14].setBounds(300,535,75,45); screen.add(charButtons[14]);
+        charButtons[15].setBounds(375,535,75,45); screen.add(charButtons[15]);
+        charButtons[16].setBounds(150,580,75,45); screen.add(charButtons[16]);
+        charButtons[17].setBounds(225,580,75,45); screen.add(charButtons[17]);
+        charButtons[18].setBounds(300,580,75,45); screen.add(charButtons[18]);
+        charButtons[19].setBounds(375,580,75,45); screen.add(charButtons[19]);
+        charButtons[20].setBounds(150,625,75,45); screen.add(charButtons[20]);
+        charButtons[21].setBounds(225,625,75,45); screen.add(charButtons[21]);
+        charButtons[22].setBounds(300,625,75,45); screen.add(charButtons[22]);
+        charButtons[23].setBounds(375,625,75,45); screen.add(charButtons[23]);
+        charButtons[24].setBounds(150,670,75,45); screen.add(charButtons[24]);
+        charButtons[25].setBounds(225,670,75,45); screen.add(charButtons[25]);
+        charButtons[26].setBounds(300,670,75,45);screen.add(charButtons[26]);
+        charButtons[27].setBounds(375,670,75,45); screen.add(charButtons[27]);
+
+        numButtons[0].setBounds(150,400,75,45); screen.add(numButtons[0]);numButtons[0].setBackground(Color.ORANGE);numButtons[0].setVisible(false);
+        numButtons[1].setBounds(225,400,75,45); screen.add(numButtons[1]);numButtons[1].setVisible(false);
+        numButtons[2].setBounds(300,400,75,45); screen.add(numButtons[2]);numButtons[2].setVisible(false);
+        numButtons[3].setBounds(375,400,75,45); screen.add(numButtons[3]);numButtons[3].setVisible(false);
+        numButtons[4].setBounds(150,445,75,45); screen.add(numButtons[4]);numButtons[4].setVisible(false);
+        numButtons[5].setBounds(225,445,75,45); screen.add(numButtons[5]);numButtons[5].setVisible(false);
+        numButtons[6].setBounds(300,445,75,45); screen.add(numButtons[6]);numButtons[6].setVisible(false);
+        numButtons[7].setBounds(375,445,75,45); screen.add(numButtons[7]);numButtons[7].setVisible(false);
+        numButtons[8].setBounds(150,490,75,45); screen.add(numButtons[8]);numButtons[8].setVisible(false);
+        numButtons[9].setBounds(225,490,75,45); screen.add(numButtons[9]);numButtons[9].setVisible(false);
+        numButtons[10].setBounds(300,490,75,45); screen.add(numButtons[10]); numButtons[10].setVisible(false);
+        charButtons[27].setBounds(375,670,75,45); screen.add(charButtons[27]);charButtons[27].setVisible(false);
+        numButtons[11].setBounds(375,670,75,45); screen.add(numButtons[11]);
 
     }
 
