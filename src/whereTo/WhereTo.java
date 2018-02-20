@@ -237,6 +237,7 @@ public class WhereTo implements MenuState {
             currentButton=0;
         }
         else if (e == NavigationAction.MENU);
+        String directions = whereTo();
     }
 
     public class NumberButton extends JButton{
