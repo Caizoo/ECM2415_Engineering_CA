@@ -159,7 +159,9 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
         if(states[state]==null) return;
         states[this.state].stop();
         this.state = state;
-        states[state].start();
+        states[this.state].start();
+        screen.revalidate();
+        states[this.state].render();
     }
 
 
