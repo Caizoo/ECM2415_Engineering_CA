@@ -44,7 +44,6 @@ public class WhereTo implements MenuState {
 
     @Override
     public void start() {
-
         charButtons[0]= new CharacterButton(" a",1);
         charButtons[1]= new CharacterButton(" b",2);
         charButtons[2]= new CharacterButton("c",3);
@@ -142,6 +141,10 @@ public class WhereTo implements MenuState {
         for(CharacterButton x: charButtons){
             screen.remove(x);
         }
+        for(NumberButton x: numButtons){
+            screen.remove(x);
+        }
+        screen.remove(txtf);
     }
 
     @Override
@@ -185,10 +188,14 @@ public class WhereTo implements MenuState {
 
          }
         else if(e== NavigationAction.PLUS){
+
             if (currentMode>0){
+
                 if (currentButton<27) {
+                    System.out.println(currentButton);
                     charButtons[currentButton].setBackground(Color.WHITE);
                     currentButton++;
+                    System.out.println(currentButton);
                     charButtons[currentButton].setBackground(Color.ORANGE);
                 }
             }
@@ -436,6 +443,10 @@ public class WhereTo implements MenuState {
     public  String whereTo (){
         String destination = txtf.getText();
         return destination;
+    }
+    public int increment(){
+        currentButton++;
+        return currentButton;
     }
 
 }
