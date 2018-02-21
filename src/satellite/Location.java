@@ -1,5 +1,5 @@
-/*
 
+/*
 package satellite;
 import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
@@ -8,14 +8,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- *
+ * COMMENT IN WHEN ALL MACHINES CAN RUN THE GPS
  * @author Scott
  */
-/*
-public class Location {
+/*public class Location {
     private final String[] data;
-    //private SerialPort serialPort;
-    final static String PORT_NAME = "COM4";
+    private SerialPort serialPort;
+    //final static String PORT_NAME = "COM4";
     final static int    BAUD_RATE =  9600; 
     final static int    TIMEOUT   =  2000; 
     final static int    BUFF_SIZE =  1024;
@@ -62,7 +61,7 @@ public class Location {
     
     private void updateLocation() throws IOException{
         InputStream in = this.serialPort.getInputStream();
-	byte[] buffer  = new byte[ BUFF_SIZE ];
+	    byte[] buffer  = new byte[ BUFF_SIZE ];
         String s;
         int    n;
                 
@@ -76,6 +75,7 @@ public class Location {
               this.data[0] = (ss[2].equals("N")) ? ss[1] : "-" + ss[1];
               this.data[1] = (ss[4].equals("E")) ? ss[3] : "-" + ss[3];
               this.data[2] = ss[5];
+              break;
           }
         }
         //serialPort.getOutputStream().close();
