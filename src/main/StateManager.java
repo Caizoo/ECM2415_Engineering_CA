@@ -82,7 +82,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
 
         // create screen of device as JPanel
         screen = new JPanel();
-        screen.setBackground(new Color(27,27,27,255));
+        screen.setBackground(new Color(27,27,27,0));
         screen.setBounds(SCREEN_X,SCREEN_Y,SCREEN_WIDTH,SCREEN_HEIGHT);
 
         // power button which will be active across all states

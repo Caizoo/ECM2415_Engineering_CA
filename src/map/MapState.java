@@ -1,6 +1,7 @@
 package map;
 
 import main.NavigationAction;
+import main.StateManager;
 import menu.MenuState;
 
 import java.awt.Dimension;
@@ -10,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 import javax.imageio.ImageIO;
@@ -75,10 +77,10 @@ public class MapState extends JPanel implements Observer, MenuState{
   @Override
   public void render(){
     double radians = Math.toRadians( (double) rotation );
-    renderer.clearRect( 0, 0, screen.getWidth(), screen.getHeight() );
+    screen.revalidate();
     renderer.rotate( radians, image.getWidth() / 2, image.getHeight() / 2 );
-    renderer.drawImage( image, 0, 0, this );
-    renderer.drawImage( dot, 300, 300, this );
+    renderer.drawImage( image, StateManager.SCREEN_X+8,StateManager.SCREEN_Y+28,screen.getWidth(),screen.getHeight(),null);
+    renderer.drawImage( dot, 300, 300, screen );
 
   }
 
@@ -87,10 +89,20 @@ public class MapState extends JPanel implements Observer, MenuState{
     if(e== NavigationAction.PLUS){
       map.zoomIn();
       map.make();
-      render();
+        try {
+            image = ImageIO.read(new File("src/map/output.png"));
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        render();
     } else if(e== NavigationAction.MINUS) {
       map.zoomOut();
       map.make();
+      try {
+          image = ImageIO.read(new File("src/map/output.png"));
+      } catch (IOException e1) {
+          e1.printStackTrace();
+      }
       render();
     }
   }

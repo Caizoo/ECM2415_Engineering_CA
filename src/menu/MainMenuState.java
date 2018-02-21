@@ -68,8 +68,17 @@ public class MainMenuState implements MenuState {
         if(e.getSource().equals(buttons.get(0))) {
             sm.goToState(StateManager.WHERE_TO_STATE);
         }
+        if(e.getSource().equals(buttons.get(2))) {
+            sm.goToState(StateManager.MAP_STATE);
+        }
         if(e.getSource().equals(buttons.get(3))) {
             sm.goToState(StateManager.SPEECH_STATE);
+        }
+        if(e.getSource().equals(buttons.get(4))) {
+            sm.goToState(StateManager.SATELLITE_STATE);
+        }
+        if(e.getSource().equals(buttons.get(5))) {
+            sm.goToState(StateManager.ABOUT_STATE);
         }
     }
 

@@ -9,7 +9,7 @@ public class Maps {
   String latitude;
   String longitude;     
   String zoom      = "15";           /* 0 .. 21           */
-  final static String SIZE      = "612x612";     /* Size              */
+  final static String SIZE      = "191x241";     /* Size              */
 
   static byte[] readData( String latitude
                         , String longitude
