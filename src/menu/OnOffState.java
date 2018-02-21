@@ -1,3 +1,7 @@
+/**
+ * Author: Cai Davies
+ */
+
 package menu;
 
 import main.NavigationAction;
@@ -34,12 +38,8 @@ public class OnOffState implements MenuState {
     public void setPanel(JPanel screen) { this.screen = screen; }
     public void setListener(ActionListener listener) { this.listener = listener; }
 
-    private void loadResources() {
-
-    }
-
     public void start() {
-        loadResources();
+
     }
 
     public void stop() {

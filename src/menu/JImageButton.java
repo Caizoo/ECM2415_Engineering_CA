@@ -6,6 +6,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
+/**
+ * TODO: implement as a JButton that uses an image to render instead of a clunky button
+ */
+
 public class JImageButton extends JComponent implements MouseListener {
 
     private BufferedImage img;

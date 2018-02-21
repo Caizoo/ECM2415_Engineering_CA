@@ -1,3 +1,7 @@
+/**
+ * Author: Cai Davies
+ */
+
 package main;
 
 import menu.MainMenuState;

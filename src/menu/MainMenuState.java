@@ -1,3 +1,7 @@
+/**
+ * Author: Cai Davies
+ */
+
 package menu;
 
 import main.NavigationAction;
@@ -31,8 +35,8 @@ public class MainMenuState implements MenuState {
     public void setPanel(JPanel screen) { this.screen = screen; }
     public void setListener(ActionListener listener) { this.listener = listener; }
 
-    private void loadResources() {
-
+    public void start() {
+        // add all buttons to screen
         buttons.add(new JButton("Where To"));
         buttons.add(new JButton("Trip Computer"));
         buttons.add(new JButton("Map"));
@@ -45,26 +49,24 @@ public class MainMenuState implements MenuState {
             b.addActionListener(listener); // add the action listener from StateManager to listen to the buttons' events
             screen.add(b); // add button to JPanel screen
         }
-
-    }
-
-    public void start() {
-        loadResources();
     }
 
     public void stop() {
+        // remove all buttons from screen
         for(JButton b:buttons) {
             screen.remove(b);
         }
     }
 
     public void render() {
+        // render all buttons
         for(JButton b:buttons) {
             b.repaint();
         }
     }
 
     public void actionPerformed(ActionEvent e) {
+        // if a button has been clicked, redirect to the appropriate state
         if(e.getSource().equals(buttons.get(0))) {
             sm.goToState(StateManager.WHERE_TO_STATE);
         }
