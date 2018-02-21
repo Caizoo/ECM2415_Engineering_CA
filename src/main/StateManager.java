@@ -82,7 +82,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
 
         // create screen of device as JPanel
         screen = new JPanel();
-        screen.setBackground(new Color(27,27,27,0));
+        screen.setBackground(new Color(27,27,27,255));
         screen.setBounds(SCREEN_X,SCREEN_Y,SCREEN_WIDTH,SCREEN_HEIGHT);
 
         // power button which will be active across all states
@@ -150,11 +150,14 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
                     state = ON_OFF_STATE;
                     states[state].start();
                     screen.removeAll();
-                    paintScreen();
+                    screen.repaint();
                 }
                 break;
             case MENU:
-                states[state].navigationButton(NavigationAction.MENU);
+                states[state].stop();
+                state = MAIN_STATE;
+                states[state].start();
+                states[state].render();
                 break;
             case SELECT:
                 states[state].navigationButton(NavigationAction.SELECT);
@@ -194,7 +197,9 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
     /** paints the screen and the power button **/
 
     public void paintScreen() {
-        super.repaint();
+        Graphics2D g2d = (Graphics2D) getGraphics();
+        g2d.setColor(new Color(27,27,27,255));
+        g2d.fillRect(SCREEN_X+8,SCREEN_Y+32,SCREEN_WIDTH,SCREEN_HEIGHT);
         screen.revalidate();
         if(states[state]!=null) states[state].render();
         power.repaint();

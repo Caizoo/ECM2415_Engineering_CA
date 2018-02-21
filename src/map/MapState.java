@@ -77,11 +77,9 @@ public class MapState extends JPanel implements Observer, MenuState{
   @Override
   public void render(){
     double radians = Math.toRadians( (double) rotation );
-    screen.revalidate();
     renderer.rotate( radians, image.getWidth() / 2, image.getHeight() / 2 );
-    renderer.drawImage( image, StateManager.SCREEN_X+8,StateManager.SCREEN_Y+28,screen.getWidth(),screen.getHeight(),null);
+    renderer.drawImage( image, StateManager.SCREEN_X+8,StateManager.SCREEN_Y+32,screen.getWidth()-4,screen.getHeight()-4,screen);
     renderer.drawImage( dot, 300, 300, screen );
-
   }
 
   @Override
