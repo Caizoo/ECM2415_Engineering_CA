@@ -20,7 +20,7 @@ import javax.swing.*;
  *
  * David Wakeling 2018.
  */
-class MapState extends JPanel implements Observer, MenuState{
+public class MapState extends JPanel implements Observer, MenuState{
   private BufferedImage image;
   private BufferedImage dot;
   private int rotation;
@@ -96,7 +96,7 @@ class MapState extends JPanel implements Observer, MenuState{
   }
 
 
-  public MapState(Maps map) {
+  public MapState() {
     try {
       image = ImageIO.read( new File( "output.png" ) );
       dot = ImageIO.read( new File( "red.png"));
