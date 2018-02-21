@@ -20,7 +20,7 @@ import javax.swing.*;
  *
  * David Wakeling 2018.
  */
-class MapState extends JPanel implements Observer, MenuState{
+public class MapState extends JPanel implements Observer, MenuState{
   private BufferedImage image;
   private BufferedImage dot;
   private int rotation;
