@@ -1,9 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
+package satellite;
 import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
@@ -14,9 +11,10 @@ import java.io.InputStream;
  *
  * @author Scott
  */
+/*
 public class Location {
     private final String[] data;
-    private SerialPort serialPort;
+    //private SerialPort serialPort;
     final static String PORT_NAME = "COM4";
     final static int    BAUD_RATE =  9600; 
     final static int    TIMEOUT   =  2000; 
@@ -84,3 +82,4 @@ public class Location {
         //serialPort.close();
     }    
 }
+*/
