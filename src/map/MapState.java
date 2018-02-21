@@ -96,7 +96,7 @@ class MapState extends JPanel implements Observer, MenuState{
   }
 
 
-  public MapState(Maps map) {
+  public MapState() {
     try {
       image = ImageIO.read( new File( "output.png" ) );
       dot = ImageIO.read( new File( "red.png"));
