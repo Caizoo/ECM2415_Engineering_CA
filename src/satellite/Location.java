@@ -9,7 +9,7 @@ import java.io.InputStream;
 
 /**
  * COMMENT IN WHEN ALL MACHINES CAN RUN THE GPS
- * @author Scott
+ * Code modified, with permission, from David Wakeling
  */
 /*public class Location {
     private final String[] data;
