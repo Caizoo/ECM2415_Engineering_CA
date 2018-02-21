@@ -26,7 +26,7 @@ import static main.NavigationAction.POWER;
 public class StateManager extends JFrame implements ActionListener, MouseListener {
 
     // graphics
-    private MenuState states[] = new MenuState[6];
+    private MenuState states[] = new MenuState[8];
     private Graphics2D g2d = null;
     private JPanel screen = null;
 
