@@ -14,8 +14,8 @@ public class WhereTo implements MenuState {
     private JPanel screen;
     private ActionListener listener;
     final TextField txtf = new TextField();
-    public int currentButton=0;
-    public int currentMode=1;
+    int currentButton;
+    int currentMode;
 
     CharacterButton[] charButtons = new CharacterButton[28];
     NumberButton[] numButtons = new NumberButton[12];
@@ -44,6 +44,11 @@ public class WhereTo implements MenuState {
 
     @Override
     public void start() {
+
+        currentButton=0;
+        currentMode=1;
+
+
         charButtons[0]= new CharacterButton(" a",1);
         charButtons[1]= new CharacterButton(" b",2);
         charButtons[2]= new CharacterButton("c",3);
@@ -149,7 +154,6 @@ public class WhereTo implements MenuState {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
     }
 
     @Override
@@ -160,9 +164,7 @@ public class WhereTo implements MenuState {
         for(NumberButton x: numButtons){
             if(x!=null) x.repaint();
         }
-
     }
-
     @Override
     public void navigationButton(NavigationAction e) {
         if(e== NavigationAction.SELECT){
@@ -191,12 +193,12 @@ public class WhereTo implements MenuState {
 
             if (currentMode>0){
 
-                if (currentButton<27) {
-                    System.out.println(currentButton);
+                if (this.currentButton<27) {
                     charButtons[currentButton].setBackground(Color.WHITE);
-                    currentButton++;
-                    System.out.println(currentButton);
+                    this.currentButton++;
                     charButtons[currentButton].setBackground(Color.ORANGE);
+
+
                 }
             }
             else{
@@ -208,7 +210,7 @@ public class WhereTo implements MenuState {
             }
         }
         else if (e== NavigationAction.MINUS){
-            if (currentButton >= 1) {
+            if (currentButton >=1) {
                 if(currentMode>0) {
                     charButtons[currentButton].setBackground(Color.WHITE);
                     currentButton--;
@@ -303,142 +305,7 @@ public class WhereTo implements MenuState {
             charButtons[currentButton].setBackground(Color.ORANGE);
         }
     }
-    public class IncrementUpButton extends JButton{
-        IncrementUpButton (){
-            addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    if (currentMode>0){
-                        if (currentButton<27) {
-                            charButtons[currentButton].setBackground(Color.WHITE);
-                            currentButton++;
-                            charButtons[currentButton].setBackground(Color.ORANGE);
-                        }
-                    }
-                    else{
-                        if (currentButton<12){
-                            numButtons[currentButton].setBackground(Color.WHITE);
-                            currentButton++;
-                            numButtons[currentButton].setBackground(Color.ORANGE);
-                        }
-                    }
-                }
-            });
-        }
-    }
-    public class IncrementDownButton extends JButton{
-        IncrementDownButton () {
-            addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    if (currentButton >= 1) {
-                        if(currentMode>0) {
-                            charButtons[currentButton].setBackground(Color.WHITE);
-                            currentButton--;
-                            charButtons[currentButton].setBackground(Color.ORANGE);
-                        }
-                        else{
-                            numButtons[currentButton].setBackground(Color.WHITE);
-                            currentButton--;
-                            numButtons[currentButton].setBackground(Color.ORANGE);
-                        }
-
-                    }
-                }
-            });
-        }
-    }
-    public class SelectButton extends JButton{
-        SelectButton () {
-            addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    if (currentMode > 0) {
-                        if (currentButton ==27){
-                            charButtons[currentButton].switchToNums();
-                        }
-                        else {
-                            charButtons[currentButton].textInput();
-                        }
-                    }
-                    else{
-                        if (currentButton == 11){
-                            numButtons[currentButton].backSpace();
-                        }
-                        else if(currentButton == 12){
-                            numButtons[currentButton].switchToChars();
-                        }
-                        else {
-                            numButtons[currentButton].numInput();
-                        }
-                    }
-                }
-            });
-        }
-    }
-    public class PowerButton extends JButton{
-        boolean powerOn = true;
-
-        PowerButton(){
-            this.setVisible(true);
-            addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    if (powerOn) {
-                        for (CharacterButton x : charButtons) {
-                            x.setVisible(false);
-                        }
-                        for (NumberButton x : numButtons) {
-                            x.setVisible(false);
-                        }
-                        txtf.setVisible(false);
-                        powerOn = false;
-                    }
-                    else {
-                        for (CharacterButton x : charButtons) {
-                            x.setVisible(true);
-                        }
-                        for (NumberButton x : numButtons) {
-                            x.setVisible(true);
-                        }
-                        txtf.setText("");
-                        txtf.setVisible(true);
-                        powerOn=true;
-                    }
-                    currentButton=0;
-                }
-            });
-        }
-    }
-    public class HideButtons extends JButton{
-        HideButtons () {
-            this.setText("=>");
-            addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    currentMode=-(currentMode);
-                    if(currentMode<0) {
-                        for (CharacterButton x : charButtons) {
-                            x.setVisible(false);
-
-                        }
-                        for (NumberButton x: numButtons){
-                            x.setVisible(true);
-                        }
-                        currentButton=0;
-                    }
-                    else{
-                        for (CharacterButton x : charButtons) {
-                            x.setVisible(true);
-                        }
-                        for (NumberButton x: numButtons){
-                            x.setVisible(false);
-                        }
-                        currentButton=0;
-                    }
-                }
-            });
-        }
-    }
     public WhereTo(){
-
-
-
     }
     public  String whereTo (){
         String destination = txtf.getText();
