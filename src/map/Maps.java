@@ -54,13 +54,13 @@ public class Maps {
   
   void zoomIn(){
     int iZoom = Integer.parseInt(zoom);
-    iZoom++;
+    if (iZoom < 21) iZoom++;
     zoom = Integer.toString(iZoom);
   }
   
   void zoomOut(){
     int iZoom = Integer.parseInt(zoom);
-    iZoom--;
+    if (iZoom > 0) iZoom--;
     zoom = Integer.toString(iZoom);
   }
   
