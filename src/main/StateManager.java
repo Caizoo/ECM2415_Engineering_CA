@@ -3,8 +3,11 @@ package main;
 import menu.MainMenuState;
 import menu.MenuState;
 import menu.OnOffState;
+import satellite.AboutMode;
+import satellite.SatelliteMode;
 import speech.Speech;
 import whereTo.WhereTo;
+import map.MapState;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -107,8 +110,10 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
         states[0] = new OnOffState();
         states[1] = new MainMenuState(this);
         states[WHERE_TO_STATE] = new WhereTo();
-        //states[MAP_STATE] = new MapState();
+        states[MAP_STATE] = new MapState();
         states[SPEECH_STATE] = new Speech();
+        states[SATELLITE_STATE] = new SatelliteMode();
+        states[ABOUT_STATE] = new AboutMode();
 
 
         // set rendering and listening objects to states
@@ -147,14 +152,19 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
                     screen.removeAll();
                     paintScreen();
                 }
+                break;
             case MENU:
                 states[state].navigationButton(NavigationAction.MENU);
+                break;
             case SELECT:
                 states[state].navigationButton(NavigationAction.SELECT);
+                break;
             case PLUS:
                 states[state].navigationButton(NavigationAction.PLUS);
+                break;
             case MINUS:
                 states[state].navigationButton(NavigationAction.MINUS);
+                break;
         }
 
         paintScreen();
