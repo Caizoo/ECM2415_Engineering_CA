@@ -3,6 +3,7 @@ package main;
 import menu.MainMenuState;
 import menu.MenuState;
 import menu.OnOffState;
+import speech.Speech;
 import whereTo.WhereTo;
 
 import javax.imageio.ImageIO;
@@ -106,6 +107,8 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
         states[0] = new OnOffState();
         states[1] = new MainMenuState(this);
         states[WHERE_TO_STATE] = new WhereTo();
+        //states[MAP_STATE] = new MapState();
+        states[SPEECH_STATE] = new Speech();
 
 
         // set rendering and listening objects to states
