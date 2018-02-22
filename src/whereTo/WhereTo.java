@@ -6,7 +6,7 @@ import menu.MenuState;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.lang.reflect.*;
+
 public class WhereTo implements MenuState {
 
     Graphics2D renderer;
@@ -49,32 +49,32 @@ public class WhereTo implements MenuState {
         currentMode=1;
 
 
-        charButtons[0]= new CharacterButton(" a",1);
-        charButtons[1]= new CharacterButton(" b",2);
-        charButtons[2]= new CharacterButton("c",3);
-        charButtons[3]= new CharacterButton(" d",4);
-        charButtons[4]= new CharacterButton("e",5);
-        charButtons[5]= new CharacterButton(" f",6);
-        charButtons[6]= new CharacterButton(" g",7);
-        charButtons[7]= new CharacterButton(" h",8);
-        charButtons[8]= new CharacterButton(" i",9);
-        charButtons[9]= new CharacterButton(" j",10);
-        charButtons[10]= new CharacterButton(" k",11);
-        charButtons[11]= new CharacterButton(" l",12);
-        charButtons[12]= new CharacterButton(" m",13);
-        charButtons[13]= new CharacterButton(" n",14);
-        charButtons[14]= new CharacterButton(" o",15);
-        charButtons[15]= new CharacterButton(" p",16);
-        charButtons[16]= new CharacterButton(" q",17);
-        charButtons[17]= new CharacterButton(" r",18);
-        charButtons[18]= new CharacterButton(" s",19);
-        charButtons[19]= new CharacterButton(" t",20);
-        charButtons[20]= new CharacterButton(" u",21);
-        charButtons[21]= new CharacterButton(" v",22);
-        charButtons[22]= new CharacterButton(" w",23);
-        charButtons[23] = new CharacterButton("x",24);
-        charButtons[24] = new CharacterButton("y",25);
-        charButtons[25]= new CharacterButton(" z",26);
+        charButtons[0]= new CharacterButton("A",1);
+        charButtons[1]= new CharacterButton("B",2);
+        charButtons[2]= new CharacterButton("C",3);
+        charButtons[3]= new CharacterButton("D",4);
+        charButtons[4]= new CharacterButton("E",5);
+        charButtons[5]= new CharacterButton("F",6);
+        charButtons[6]= new CharacterButton("G",7);
+        charButtons[7]= new CharacterButton("H",8);
+        charButtons[8]= new CharacterButton("I",9);
+        charButtons[9]= new CharacterButton("J",10);
+        charButtons[10]= new CharacterButton("K",11);
+        charButtons[11]= new CharacterButton("L",12);
+        charButtons[12]= new CharacterButton("M",13);
+        charButtons[13]= new CharacterButton("N",14);
+        charButtons[14]= new CharacterButton("O",15);
+        charButtons[15]= new CharacterButton("P",16);
+        charButtons[16]= new CharacterButton("Q",17);
+        charButtons[17]= new CharacterButton("R",18);
+        charButtons[18]= new CharacterButton("S",19);
+        charButtons[19]= new CharacterButton("T",20);
+        charButtons[20]= new CharacterButton("U",21);
+        charButtons[21]= new CharacterButton("V",22);
+        charButtons[22]= new CharacterButton("W",23);
+        charButtons[23]= new CharacterButton("X",24);
+        charButtons[24]= new CharacterButton("Y",25);
+        charButtons[25]= new CharacterButton("X",26);
         charButtons[26]= new CharacterButton("  ",27);
         charButtons[27] = new CharacterButton(28);
 
@@ -94,37 +94,60 @@ public class WhereTo implements MenuState {
 
 
 
-        txtf.setBounds(150,360,300,30); screen.add(txtf);
-        charButtons[0].setBounds(150,400,75,45); screen.add(charButtons[0]);charButtons[0].setBackground(Color.ORANGE);
-        charButtons[1].setBounds(225,400,75,45); screen.add(charButtons[1]);
-        charButtons[2].setBounds(300,400,75,45); screen.add(charButtons[2]);
-        charButtons[3].setBounds(375,400,75,45); screen.add(charButtons[3]);
-        charButtons[4].setBounds(150,445,75,45); screen.add(charButtons[4]);
-        charButtons[5].setBounds(225,445,75,45); screen.add(charButtons[5]);
-        charButtons[6].setBounds(300,445,75,45); screen.add(charButtons[6]);
-        charButtons[7].setBounds(375,445,75,45); screen.add(charButtons[7]);
-        charButtons[8].setBounds(150,490,75,45); screen.add(charButtons[8]);
-        charButtons[9].setBounds(225,490,75,45); screen.add(charButtons[9]);
-        charButtons[10].setBounds(300,490,75,45); screen.add(charButtons[10]);
-        charButtons[11].setBounds(375,490,75,45); screen.add(charButtons[11]);
-        charButtons[12].setBounds(150,535,75,45); screen.add(charButtons[12]);
-        charButtons[13].setBounds(225,535,75,45); screen.add(charButtons[13]);
-        charButtons[14].setBounds(300,535,75,45); screen.add(charButtons[14]);
-        charButtons[15].setBounds(375,535,75,45); screen.add(charButtons[15]);
-        charButtons[16].setBounds(150,580,75,45); screen.add(charButtons[16]);
-        charButtons[17].setBounds(225,580,75,45); screen.add(charButtons[17]);
-        charButtons[18].setBounds(300,580,75,45); screen.add(charButtons[18]);
-        charButtons[19].setBounds(375,580,75,45); screen.add(charButtons[19]);
-        charButtons[20].setBounds(150,625,75,45); screen.add(charButtons[20]);
-        charButtons[21].setBounds(225,625,75,45); screen.add(charButtons[21]);
-        charButtons[22].setBounds(300,625,75,45); screen.add(charButtons[22]);
-        charButtons[23].setBounds(375,625,75,45); screen.add(charButtons[23]);
-        charButtons[24].setBounds(150,670,75,45); screen.add(charButtons[24]);
-        charButtons[25].setBounds(225,670,75,45); screen.add(charButtons[25]);
-        charButtons[26].setBounds(300,670,75,45);screen.add(charButtons[26]);
-        charButtons[27].setBounds(375,670,75,45); screen.add(charButtons[27]);
+        txtf.setPreferredSize(new Dimension(170, 30));
+        txtf.setFont(new Font("Ariel", Font.BOLD, 18));
+        screen.add(txtf);
+        for(CharacterButton x: charButtons){
+            if(x.getChar()=="A"){
+                x.setPreferredSize(new Dimension(40, 25));
+                screen.add(x);
+                x.setBackground(Color.ORANGE);
+            }
+            x.setPreferredSize(new Dimension(40, 25));
+            screen.add(x);
+        }
+        for (NumberButton x: numButtons){
+            if(x.getNum()==1){
+                x.setPreferredSize(new Dimension(40, 40));
+                x.setVisible(false);
+                x.setBackground(Color.ORANGE);
+                screen.add(x);
 
-        numButtons[0].setBounds(150,400,75,45); screen.add(numButtons[0]);numButtons[0].setBackground(Color.ORANGE);numButtons[0].setVisible(false);
+            }
+            x.setPreferredSize(new Dimension(40, 40));
+            x.setVisible(false);
+            screen.add(x);
+        }
+        //charButtons[0].setBounds(150,400,75,45); screen.add(charButtons[0]);charButtons[0].setBackground(Color.ORANGE);
+        //charButtons[1].setBounds(225,400,75,45); screen.add(charButtons[1]);
+        //charButtons[2].setBounds(300,400,75,45); screen.add(charButtons[2]);
+        //charButtons[3].setBounds(375,400,75,45); screen.add(charButtons[3]);
+        //charButtons[4].setBounds(150,445,75,45); screen.add(charButtons[4]);
+        //charButtons[5].setBounds(225,445,75,45); screen.add(charButtons[5]);
+        //charButtons[6].setBounds(300,445,75,45); screen.add(charButtons[6]);
+        //charButtons[7].setBounds(375,445,75,45); screen.add(charButtons[7]);
+        //charButtons[8].setBounds(150,490,75,45); screen.add(charButtons[8]);
+        //charButtons[9].setBounds(225,490,75,45); screen.add(charButtons[9]);
+        //charButtons[10].setBounds(300,490,75,45); screen.add(charButtons[10]);
+        //charButtons[11].setBounds(375,490,75,45); screen.add(charButtons[11]);
+        //charButtons[12].setBounds(150,535,75,45); screen.add(charButtons[12]);
+        //charButtons[13].setBounds(225,535,75,45); screen.add(charButtons[13]);
+        //charButtons[14].setBounds(300,535,75,45); screen.add(charButtons[14]);
+        //charButtons[15].setBounds(375,535,75,45); screen.add(charButtons[15]);
+        //charButtons[16].setBounds(150,580,75,45); screen.add(charButtons[16]);
+        //charButtons[17].setBounds(225,580,75,45); screen.add(charButtons[17]);
+        //charButtons[18].setBounds(300,580,75,45); screen.add(charButtons[18]);
+        //charButtons[19].setBounds(375,580,75,45); screen.add(charButtons[19]);
+        //charButtons[20].setBounds(150,625,75,45); screen.add(charButtons[20]);
+        //charButtons[21].setBounds(225,625,75,45); screen.add(charButtons[21]);
+        //charButtons[22].setBounds(300,625,75,45); screen.add(charButtons[22]);
+        //charButtons[23].setBounds(375,625,75,45); screen.add(charButtons[23]);
+        //charButtons[24].setBounds(150,670,75,45); screen.add(charButtons[24]);
+        //charButtons[25].setBounds(225,670,75,45); screen.add(charButtons[25]);
+        //charButtons[26].setBounds(300,670,75,45);screen.add(charButtons[26]);
+        //charButtons[27].setBounds(375,670,75,45); screen.add(charButtons[27]);
+
+    /**    numButtons[0].setBounds(150,400,75,45); screen.add(numButtons[0]);numButtons[0].setBackground(Color.ORANGE);numButtons[0].setVisible(false);
         numButtons[1].setBounds(225,400,75,45); screen.add(numButtons[1]);numButtons[1].setVisible(false);
         numButtons[2].setBounds(300,400,75,45); screen.add(numButtons[2]);numButtons[2].setVisible(false);
         numButtons[3].setBounds(375,400,75,45); screen.add(numButtons[3]);numButtons[3].setVisible(false);
@@ -135,9 +158,9 @@ public class WhereTo implements MenuState {
         numButtons[8].setBounds(150,490,75,45); screen.add(numButtons[8]);numButtons[8].setVisible(false);
         numButtons[9].setBounds(225,490,75,45); screen.add(numButtons[9]);numButtons[9].setVisible(false);
         numButtons[10].setBounds(300,490,75,45); screen.add(numButtons[10]); numButtons[10].setVisible(false);
-        charButtons[27].setBounds(375,670,75,45); screen.add(charButtons[27]);charButtons[27].setVisible(false);
-        numButtons[11].setBounds(375,670,75,45); screen.add(numButtons[11]);
-
+        //charButtons[28].setBounds(375,670,75,45); screen.add(charButtons[27]);charButtons[27].setVisible(false);
+        numButtons[11].setBounds(375,670,75,45); screen.add(numButtons[11]);numButtons[11].setVisible(false);
+**/
     }
 
     @Override
@@ -177,10 +200,10 @@ public class WhereTo implements MenuState {
                 }
             }
             else{
-                if (currentButton == 11){
+                if (currentButton == 10){
                     numButtons[currentButton].backSpace();
                 }
-                else if(currentButton == 12){
+                else if(currentButton == 11){
                 numButtons[currentButton].switchToChars();
                 }
                 else {
@@ -193,12 +216,17 @@ public class WhereTo implements MenuState {
 
             if (currentMode>0){
 
-                if (this.currentButton<27) {
+                if (this.currentButton==27) {
                     charButtons[currentButton].setBackground(Color.WHITE);
-                    this.currentButton++;
+                    this.currentButton=0;
                     charButtons[currentButton].setBackground(Color.ORANGE);
 
 
+                }
+                else {
+                    charButtons[currentButton].setBackground(Color.WHITE);
+                    this.currentButton++;
+                    charButtons[currentButton].setBackground(Color.ORANGE);
                 }
             }
             else{
@@ -208,6 +236,7 @@ public class WhereTo implements MenuState {
                     numButtons[currentButton].setBackground(Color.ORANGE);
                 }
             }
+            System.out.println(currentButton);
         }
         else if (e== NavigationAction.MINUS){
             if (currentButton >=1) {
@@ -237,10 +266,14 @@ public class WhereTo implements MenuState {
             String num= Integer.toString(i);
             this.setText(num);
             this.setBackground(Color.WHITE);
+            this.setFont(new Font("Ariel", Font.BOLD, 18));
+            this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 6));
         }
         NumberButton(String special){
             this.setText(special);
             this.setBackground(Color.WHITE);
+            this.setFont(new Font("Ariel", Font.BOLD, 18));
+            this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 6));
         }
         public void switchToChars(){
             currentMode=-(currentMode);
@@ -273,6 +306,8 @@ public class WhereTo implements MenuState {
             this.alphaNum =i;
             this.s=s;
             this.setBackground(Color.WHITE);
+            this.setFont(new Font("Ariel", Font.BOLD, 18));
+            this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
             if (s == " "){
                 this.setText("Space");
             }
@@ -283,6 +318,9 @@ public class WhereTo implements MenuState {
         CharacterButton(int i){
             this.setText("=>");
             this.setBackground(Color.WHITE);
+            this.setFont(new Font("Ariel", Font.BOLD, 18));
+            this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+
         }
         public void textInput(){
             txtf.setText(txtf.getText() +this.getChar());
