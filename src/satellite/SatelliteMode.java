@@ -34,15 +34,19 @@ public class SatelliteMode implements MenuState{
 
     @Override
     public void start() {
-        /*
-        Comment in when all machines work with GPS
-        Location l = new Location();
+
+       /*Comment in when all machines work with GPS*/
+        /*Location l = new Location();
         l.openPort("COM4");
         String[] data = l.getData();
         System.out.println(data[0]);
         System.out.println(data[1]);
         System.out.println(data[2]);
-*/
+        data = l.getData();
+        System.out.println(data[0]);
+        System.out.println(data[1]);
+        System.out.println(data[2]);*/
+
 
     }
 
