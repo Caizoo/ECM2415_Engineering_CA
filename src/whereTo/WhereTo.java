@@ -118,49 +118,6 @@ public class WhereTo implements MenuState {
             x.setVisible(false);
             screen.add(x);
         }
-        //charButtons[0].setBounds(150,400,75,45); screen.add(charButtons[0]);charButtons[0].setBackground(Color.ORANGE);
-        //charButtons[1].setBounds(225,400,75,45); screen.add(charButtons[1]);
-        //charButtons[2].setBounds(300,400,75,45); screen.add(charButtons[2]);
-        //charButtons[3].setBounds(375,400,75,45); screen.add(charButtons[3]);
-        //charButtons[4].setBounds(150,445,75,45); screen.add(charButtons[4]);
-        //charButtons[5].setBounds(225,445,75,45); screen.add(charButtons[5]);
-        //charButtons[6].setBounds(300,445,75,45); screen.add(charButtons[6]);
-        //charButtons[7].setBounds(375,445,75,45); screen.add(charButtons[7]);
-        //charButtons[8].setBounds(150,490,75,45); screen.add(charButtons[8]);
-        //charButtons[9].setBounds(225,490,75,45); screen.add(charButtons[9]);
-        //charButtons[10].setBounds(300,490,75,45); screen.add(charButtons[10]);
-        //charButtons[11].setBounds(375,490,75,45); screen.add(charButtons[11]);
-        //charButtons[12].setBounds(150,535,75,45); screen.add(charButtons[12]);
-        //charButtons[13].setBounds(225,535,75,45); screen.add(charButtons[13]);
-        //charButtons[14].setBounds(300,535,75,45); screen.add(charButtons[14]);
-        //charButtons[15].setBounds(375,535,75,45); screen.add(charButtons[15]);
-        //charButtons[16].setBounds(150,580,75,45); screen.add(charButtons[16]);
-        //charButtons[17].setBounds(225,580,75,45); screen.add(charButtons[17]);
-        //charButtons[18].setBounds(300,580,75,45); screen.add(charButtons[18]);
-        //charButtons[19].setBounds(375,580,75,45); screen.add(charButtons[19]);
-        //charButtons[20].setBounds(150,625,75,45); screen.add(charButtons[20]);
-        //charButtons[21].setBounds(225,625,75,45); screen.add(charButtons[21]);
-        //charButtons[22].setBounds(300,625,75,45); screen.add(charButtons[22]);
-        //charButtons[23].setBounds(375,625,75,45); screen.add(charButtons[23]);
-        //charButtons[24].setBounds(150,670,75,45); screen.add(charButtons[24]);
-        //charButtons[25].setBounds(225,670,75,45); screen.add(charButtons[25]);
-        //charButtons[26].setBounds(300,670,75,45);screen.add(charButtons[26]);
-        //charButtons[27].setBounds(375,670,75,45); screen.add(charButtons[27]);
-
-    /**    numButtons[0].setBounds(150,400,75,45); screen.add(numButtons[0]);numButtons[0].setBackground(Color.ORANGE);numButtons[0].setVisible(false);
-        numButtons[1].setBounds(225,400,75,45); screen.add(numButtons[1]);numButtons[1].setVisible(false);
-        numButtons[2].setBounds(300,400,75,45); screen.add(numButtons[2]);numButtons[2].setVisible(false);
-        numButtons[3].setBounds(375,400,75,45); screen.add(numButtons[3]);numButtons[3].setVisible(false);
-        numButtons[4].setBounds(150,445,75,45); screen.add(numButtons[4]);numButtons[4].setVisible(false);
-        numButtons[5].setBounds(225,445,75,45); screen.add(numButtons[5]);numButtons[5].setVisible(false);
-        numButtons[6].setBounds(300,445,75,45); screen.add(numButtons[6]);numButtons[6].setVisible(false);
-        numButtons[7].setBounds(375,445,75,45); screen.add(numButtons[7]);numButtons[7].setVisible(false);
-        numButtons[8].setBounds(150,490,75,45); screen.add(numButtons[8]);numButtons[8].setVisible(false);
-        numButtons[9].setBounds(225,490,75,45); screen.add(numButtons[9]);numButtons[9].setVisible(false);
-        numButtons[10].setBounds(300,490,75,45); screen.add(numButtons[10]); numButtons[10].setVisible(false);
-        //charButtons[28].setBounds(375,670,75,45); screen.add(charButtons[27]);charButtons[27].setVisible(false);
-        numButtons[11].setBounds(375,670,75,45); screen.add(numButtons[11]);numButtons[11].setVisible(false);
-**/
     }
 
     @Override
@@ -213,15 +170,11 @@ public class WhereTo implements MenuState {
 
          }
         else if(e== NavigationAction.PLUS){
-
             if (currentMode>0){
-
                 if (this.currentButton==27) {
                     charButtons[currentButton].setBackground(Color.WHITE);
                     this.currentButton=0;
                     charButtons[currentButton].setBackground(Color.ORANGE);
-
-
                 }
                 else {
                     charButtons[currentButton].setBackground(Color.WHITE);
@@ -230,20 +183,37 @@ public class WhereTo implements MenuState {
                 }
             }
             else{
-                if (currentButton<12){
+                if (currentButton==12){
+                    numButtons[currentButton].setBackground(Color.WHITE);
+                    currentButton=0;
+                    numButtons[currentButton].setBackground(Color.ORANGE);
+                }
+                else{
                     numButtons[currentButton].setBackground(Color.WHITE);
                     currentButton++;
                     numButtons[currentButton].setBackground(Color.ORANGE);
                 }
             }
-            System.out.println(currentButton);
         }
         else if (e== NavigationAction.MINUS){
-            if (currentButton >=1) {
-                if(currentMode>0) {
+            if (currentMode>0){
+                if (this.currentButton==0) {
                     charButtons[currentButton].setBackground(Color.WHITE);
-                    currentButton--;
+                    this.currentButton=27;
                     charButtons[currentButton].setBackground(Color.ORANGE);
+                }
+                else {
+                    charButtons[currentButton].setBackground(Color.WHITE);
+                    this.currentButton--;
+                    charButtons[currentButton].setBackground(Color.ORANGE);
+                }
+                System.out.println(currentButton);
+            }
+            else{
+                if (currentButton==0){
+                    numButtons[currentButton].setBackground(Color.WHITE);
+                    currentButton=27;
+                    numButtons[currentButton].setBackground(Color.ORANGE);
                 }
                 else{
                     numButtons[currentButton].setBackground(Color.WHITE);
