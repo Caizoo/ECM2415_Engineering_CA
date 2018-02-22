@@ -79,18 +79,18 @@ public class WhereTo implements MenuState {
         charButtons[27] = new CharacterButton(28);
 
 
-        numButtons[0] = new NumberButton(1);
-        numButtons[1]= new NumberButton(2);
-        numButtons[2] = new NumberButton(3);
-        numButtons[3] = new NumberButton(4);
-        numButtons[4] = new NumberButton(5);
-        numButtons[5] = new NumberButton(6);
-        numButtons[6] = new NumberButton(7);
-        numButtons[7] = new NumberButton(8);
-        numButtons[8]= new NumberButton(9);
-        numButtons[9] = new NumberButton(0);
-        numButtons[10] = new NumberButton("DEL");
-        numButtons[11] = new NumberButton("<=");
+        numButtons[0] = new NumberButton(1,"1");
+        numButtons[1]= new NumberButton(2,"2");
+        numButtons[2] = new NumberButton(3,"3");
+        numButtons[3] = new NumberButton(4,"4");
+        numButtons[4] = new NumberButton(5,"5");
+        numButtons[5] = new NumberButton(6,"6");
+        numButtons[6] = new NumberButton(7,"7");
+        numButtons[7] = new NumberButton(8,"8");
+        numButtons[8]= new NumberButton(9,"9");
+        numButtons[9] = new NumberButton(0,"0");
+        numButtons[10] = new NumberButton(-1,"DEL");
+        numButtons[11] = new NumberButton(-1,"<=");
 
 
 
@@ -99,26 +99,28 @@ public class WhereTo implements MenuState {
         screen.add(txtf);
         for(CharacterButton x: charButtons){
             if(x.getChar()=="A"){
-                x.setPreferredSize(new Dimension(40, 25));
+                x.setPreferredSize(new Dimension(42, 25));
                 screen.add(x);
                 x.setBackground(Color.ORANGE);
             }
-            x.setPreferredSize(new Dimension(40, 25));
+            x.setPreferredSize(new Dimension(42, 25));
             screen.add(x);
         }
         for (NumberButton x: numButtons){
-            if(x.getNum()==1){
-                x.setPreferredSize(new Dimension(40, 40));
+            if(x.getChar()=="1"){
+                x.setPreferredSize(new Dimension(45, 45));
+
                 x.setVisible(false);
                 x.setBackground(Color.ORANGE);
                 screen.add(x);
-
             }
-            x.setPreferredSize(new Dimension(40, 40));
-            x.setVisible(false);
-            screen.add(x);
+
+                x.setPreferredSize(new Dimension(45, 45));
+                x.setVisible(false);
+                screen.add(x);
+            }
         }
-    }
+
 
     @Override
     public void stop() {
@@ -183,7 +185,7 @@ public class WhereTo implements MenuState {
                 }
             }
             else{
-                if (currentButton==12){
+                if (currentButton==11){
                     numButtons[currentButton].setBackground(Color.WHITE);
                     currentButton=0;
                     numButtons[currentButton].setBackground(Color.ORANGE);
@@ -207,12 +209,11 @@ public class WhereTo implements MenuState {
                     this.currentButton--;
                     charButtons[currentButton].setBackground(Color.ORANGE);
                 }
-                System.out.println(currentButton);
             }
             else{
                 if (currentButton==0){
                     numButtons[currentButton].setBackground(Color.WHITE);
-                    currentButton=27;
+                    currentButton=11;
                     numButtons[currentButton].setBackground(Color.ORANGE);
                 }
                 else{
@@ -230,21 +231,15 @@ public class WhereTo implements MenuState {
     }
 
     public class NumberButton extends JButton{
-        public int Num;
-        NumberButton(int i){
-            this.Num =i;
-            String num= Integer.toString(i);
-            this.setText(num);
-            this.setBackground(Color.WHITE);
-            this.setFont(new Font("Ariel", Font.BOLD, 18));
-            this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 6));
-        }
-        NumberButton(String special){
+        public String num;
+        NumberButton(int i, String special){
+            this.num =special;
             this.setText(special);
             this.setBackground(Color.WHITE);
             this.setFont(new Font("Ariel", Font.BOLD, 18));
-            this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 6));
+            this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         }
+
         public void switchToChars(){
             currentMode=-(currentMode);
             for (CharacterButton x : charButtons) {
@@ -257,11 +252,11 @@ public class WhereTo implements MenuState {
             currentButton=0;
             numButtons[currentButton].setBackground(Color.ORANGE);
         }
-        public int getNum(){
-            return this.Num;
+        public String getChar(){
+            return this.num;
         }
         public void numInput(){
-            txtf.setText(txtf.getText() +this.getNum());
+            txtf.setText(txtf.getText() +this.getChar());
         }
         public void backSpace(){
             String currentField=txtf.getText();
