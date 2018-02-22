@@ -20,7 +20,7 @@ import javax.swing.*;
 /*
  * MapState.
  *
- * David Wakeling 2018.
+ * Gabriel Mulcahy
  */
 public class MapState extends JPanel implements Observer, MenuState{
   private BufferedImage image;
@@ -76,10 +76,10 @@ public class MapState extends JPanel implements Observer, MenuState{
 
   @Override
   public void render(){
-    double radians = Math.toRadians( (double) rotation );
-    renderer.rotate( radians, image.getWidth() / 2, image.getHeight() / 2 );
+    //double radians = Math.toRadians( (double) rotation );
+    //renderer.rotate( radians, image.getWidth() / 2, image.getHeight() / 2 );
     renderer.drawImage( image, StateManager.SCREEN_X+8,StateManager.SCREEN_Y+32,screen.getWidth()-4,screen.getHeight()-4,screen);
-    renderer.drawImage( dot, 300, 300, screen );
+    renderer.drawImage( dot, StateManager.SCREEN_X+96, StateManager.SCREEN_Y+142, 10, 10, screen );
   }
 
   @Override
@@ -135,17 +135,6 @@ public class MapState extends JPanel implements Observer, MenuState{
   public void east(){
     rotation = 270;
   }
-
-  /*public void paintComponent( Graphics g ) {
-    super.paintComponent( g );
-    double radians = Math.toRadians( (double) rotation );
-    Graphics2D g2d = (Graphics2D) g;
-    g2d.clearRect( 0, 0, getWidth(), getHeight() );
-    g2d.rotate( radians, image.getWidth() / 2, image.getHeight() / 2 );
-    g2d.drawImage( image, 0, 0, this );
-    g2d.drawImage( dot, 300, 300, this );
-    
-  }*/
 
   public Dimension getPreferredSize() {
     return new Dimension( image.getWidth(), image.getHeight() );

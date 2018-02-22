@@ -4,6 +4,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/*
+ * Maps
+ *
+ * Gabriel Mulcahy
+ */
+
 public class Maps {
   final static String OUTPUT    = "src/map/output.png";  /* Ouput file        */
   String latitude;
@@ -33,6 +39,8 @@ public class Maps {
 
   /*
    * Write map data.
+   *
+   * David Wakeling 2018
    */
   static void writeData( String file, byte[] data) {
     try {
@@ -71,6 +79,8 @@ public class Maps {
   
   /*
    * Download map data.
+   *
+   * David Wakeling 2018
    */
   public void make() {
     final byte[] data = readData( latitude, longitude, zoom, SIZE ); 
