@@ -15,7 +15,8 @@ public class Maps {
   String latitude;
   String longitude;     
   String zoom      = "15";           /* 0 .. 21           */
-  final static String SIZE      = "191x241";     /* Size              */
+  //caps??
+  String SIZE      = "191x241";     /* Size              */
 
   static byte[] readData( String latitude
                         , String longitude
@@ -83,7 +84,17 @@ public class Maps {
    * David Wakeling 2018
    */
   public void make() {
-    final byte[] data = readData( latitude, longitude, zoom, SIZE ); 
+    final byte[] data = readData( latitude, longitude, zoom, SIZE );
     writeData( OUTPUT, data ); 
+  }
+
+  //creates an image to be rendered facing north/south
+  public void northSouth() {
+    SIZE = "191x241";
+  }
+
+  //creates an image to be rendered facign east/west
+  public void eastWest() {
+    SIZE = "241x191";
   }
 }
