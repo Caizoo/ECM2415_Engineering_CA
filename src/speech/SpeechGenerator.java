@@ -1,5 +1,5 @@
 package speech;
-import speechwake.HttpConnect;
+import map.HttpConnect;
 
 import java.io.File;
 import java.io.FileOutputStream;
