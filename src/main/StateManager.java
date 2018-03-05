@@ -9,9 +9,9 @@ import menu.MenuState;
 import menu.OnOffState;
 import satellite.AboutMode;
 import satellite.SatelliteMode;
-import speech.Speech;
 import whereTo.WhereTo;
 import map.MapState;
+import speech.SpeechMode; //Change by josh - renamed class
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -25,7 +25,6 @@ import java.io.File;
 import java.io.IOException;
 
 import static main.NavigationAction.MINUS;
-import static main.NavigationAction.POWER;
 
 public class StateManager extends JFrame implements ActionListener, MouseListener {
 
@@ -115,7 +114,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
         states[1] = new MainMenuState(this);
         states[WHERE_TO_STATE] = new WhereTo();
         states[MAP_STATE] = new MapState();
-        states[SPEECH_STATE] = new Speech();
+        states[SPEECH_STATE] = new SpeechMode(); //change by Josh - renamed class
         states[SATELLITE_STATE] = new SatelliteMode();
         states[ABOUT_STATE] = new AboutMode();
 
