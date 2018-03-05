@@ -14,13 +14,17 @@ import java.awt.event.ActionListener;
  *
  * RXTXcomm.jar should be added to the CLASSPATH and 
  * rxtxSerial.dll should be placed in current directory.
+ *
+ * @author Scott Woodward
  */
 public class SatelliteMode implements MenuState{
 
     private JFrame frame;
     private JPanel screen;
+    private JLabel latitude, longitude, error;
     private ActionListener listener;
     private Graphics2D renderer;
+    private Thread updateThread;
 
 
     @Override
@@ -36,45 +40,76 @@ public class SatelliteMode implements MenuState{
     public void start() {
 
         MockLocation loc = new MockLocation();
+        /*Location loc = new Location()*/ //Comment in with access to satellite connection
         loc.openPort("COM4");
-        String[] data;
         Thread t = new Thread(loc);
-        t.start();
-        for (int i=0; i<72; i++){
-            data = loc.getData();
-            System.out.printf("LAT: %s\n", data[0]);
-            System.out.printf("LONG: %s\n", data[1]);
-            System.out.printf("TIME: %s\n", data[2]);
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+
+        latitude = new JLabel("", SwingConstants.CENTER);
+        longitude = new JLabel("", SwingConstants.CENTER);
+        error = new JLabel("<html><div style='text-align: center;'>POSITION<br/>CANNOT<br/>BE<br/>DETERMINED</div></html>", SwingConstants.CENTER);
+
+        latitude.setVerticalAlignment(SwingConstants.BOTTOM);
+        longitude.setVerticalAlignment(SwingConstants.TOP);
 
 
-        /*Comment in when all machines work with GPS*/
-        /*Location loc = new Location();
-        loc.openPort("COM4");
-        String[] data;
-        Thread t = new Thread(loc);
+        latitude.setPreferredSize(new Dimension(180, (this.screen.getHeight()-10)/2));
+        longitude.setPreferredSize(new Dimension(180, (this.screen.getHeight()-10)/2));
+        error.setPreferredSize(new Dimension(180, this.screen.getHeight()-10));
+
+        latitude.setFont(new Font("Ariel", Font.BOLD, 30));
+        longitude.setFont(new Font("Ariel", Font.BOLD, 30));
+        error.setFont(new Font("Ariel", Font.BOLD, 25));
+
+        this.screen.add(latitude);
+        this.screen.add(longitude);
+        this.screen.add(error);
+
+        latitude.setVisible(false);
+        longitude.setVisible(false);
+        error.setVisible(true);
+
+        this.screen.setBackground(Color.WHITE);
+
+        updateThread = new Thread(){
+          public void run() {
+              while (true) {
+                  String[] data = loc.getData();
+                  if (data[0].equals("")){
+                      latitude.setVisible(false);
+                      longitude.setVisible(false);
+                      error.setVisible(true);
+                  }else{
+                      error.setVisible(false);
+                      latitude.setVisible(true);
+                      longitude.setVisible(true);
+                      String lat = data[0].charAt(0) == '-' ? data[0].substring(1) + " S": data[0] + " N" ;
+                      String lon = data[1].charAt(0) == '-' ? data[1].substring(1) + " W": data[1] + " E" ;
+                      latitude.setText(lat);
+                      longitude.setText(lon);
+                      System.out.printf("LAT: %s\n", data[0]);
+                      System.out.printf("LONG: %s\n", data[1]);
+                      System.out.printf("TIME: %s\n", data[2]);
+                  }
+                  try {
+                      sleep(3000);
+                  } catch (InterruptedException e) {
+                      break;
+                  }
+              }
+          }
+        };
+
+
+
+
         t.start();
-        for (int i = 0; i < 72; i++) {
-            data = loc.getData();
-            System.out.printf("LAT: %s\n", data[0]);
-            System.out.printf("LONG: %s\n", data[1]);
-            System.out.printf("TIME: %s\n", data[2]);
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }*/
+        updateThread.start();
     }
 
     @Override
     public void stop() {
-
+        updateThread.interrupt();
+        this.screen.setBackground(new Color(27,27,27,255));
     }
 
     @Override
@@ -84,7 +119,9 @@ public class SatelliteMode implements MenuState{
 
     @Override
     public void render() {
-
+        longitude.repaint();
+        latitude.repaint();
+        error.repaint();
     }
 
     @Override

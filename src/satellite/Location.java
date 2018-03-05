@@ -65,7 +65,7 @@ import java.io.InputStream;
 
             while ((n = in.read(buffer)) > -1) {
                 s = new String(buffer, 0, n);
-                if (s.startsWith("GLL", 3)) {
+                if (s.startsWith("$GPGLL")) {
                     String ss[] = s.split(",");
                     synchronized (lock) {
                         if (ss[1].equals("")) {
