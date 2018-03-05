@@ -1,8 +1,17 @@
+/**
+ * Author: Cai Davies
+ */
+
 package main;
 
 import menu.MainMenuState;
 import menu.MenuState;
 import menu.OnOffState;
+import satellite.AboutMode;
+import satellite.SatelliteMode;
+import whereTo.WhereTo;
+import map.MapState;
+import speech.SpeechMode; //Change by josh - renamed class
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -16,12 +25,11 @@ import java.io.File;
 import java.io.IOException;
 
 import static main.NavigationAction.MINUS;
-import static main.NavigationAction.POWER;
 
 public class StateManager extends JFrame implements ActionListener, MouseListener {
 
     // graphics
-    private MenuState states[] = new MenuState[6];
+    private MenuState states[] = new MenuState[8];
     private Graphics2D g2d = null;
     private JPanel screen = null;
 
@@ -29,14 +37,14 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
     private JButton power = null;
 
     //states
-    private static final int ON_OFF_STATE = 0;
-    private static final int MAIN_STATE = 1;
-    private static final int WHERE_TO_STATE = 2;
-    private static final int TRIP_COMPUTER_STATE = 3;
-    private static final int MAP_STATE = 4;
-    private static final int SPEECH_STATE = 5;
-    private static final int SATELLITE_STATE = 6;
-    private static final int ABOUT_STATE = 7;
+    public static final int ON_OFF_STATE = 0;
+    public static final int MAIN_STATE = 1;
+    public static final int WHERE_TO_STATE = 2;
+    public static final int TRIP_COMPUTER_STATE = 3;
+    public static final int MAP_STATE = 4;
+    public static final int SPEECH_STATE = 5;
+    public static final int SATELLITE_STATE = 6;
+    public static final int ABOUT_STATE = 7;
 
     private static int state = 0;
 
@@ -103,7 +111,13 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
 
         // create new state objects
         states[0] = new OnOffState();
-        states[1] = new MainMenuState();
+        states[1] = new MainMenuState(this);
+        states[WHERE_TO_STATE] = new WhereTo();
+        states[MAP_STATE] = new MapState();
+        states[SPEECH_STATE] = new SpeechMode(); //change by Josh - renamed class
+        states[SATELLITE_STATE] = new SatelliteMode();
+        states[ABOUT_STATE] = new AboutMode();
+
 
         // set rendering and listening objects to states
         for(MenuState state:states) {
@@ -134,23 +148,44 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
                     states[state].stop();
                     state = MAIN_STATE;
                     states[state].start();
-                }else if(state==MAIN_STATE) {
+                }else {
                     states[state].stop();
                     state = ON_OFF_STATE;
                     states[state].start();
+                    screen.removeAll();
+                    screen.repaint();
                 }
+                break;
             case MENU:
-                states[state].navigationButton(NavigationAction.MENU);
+                states[state].stop();
+                state = MAIN_STATE;
+                states[state].start();
+                states[state].render();
+                break;
             case SELECT:
                 states[state].navigationButton(NavigationAction.SELECT);
+                break;
             case PLUS:
                 states[state].navigationButton(NavigationAction.PLUS);
+                break;
             case MINUS:
                 states[state].navigationButton(NavigationAction.MINUS);
+                break;
         }
 
         paintScreen();
     }
+
+
+    public void goToState(int state) {
+        if(states[state]==null) return;
+        states[this.state].stop();
+        this.state = state;
+        states[this.state].start();
+        screen.revalidate();
+        states[this.state].render();
+    }
+
 
     /** paints everything including the device **/
     @Override
@@ -165,7 +200,9 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
     /** paints the screen and the power button **/
 
     public void paintScreen() {
-        super.repaint();
+        Graphics2D g2d = (Graphics2D) getGraphics();
+        g2d.setColor(new Color(27,27,27,255));
+        g2d.fillRect(SCREEN_X+8,SCREEN_Y+32,SCREEN_WIDTH,SCREEN_HEIGHT);
         screen.revalidate();
         if(states[state]!=null) states[state].render();
         power.repaint();

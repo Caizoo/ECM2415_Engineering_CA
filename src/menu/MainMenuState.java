@@ -1,6 +1,11 @@
+/**
+ * Author: Cai Davies
+ */
+
 package menu;
 
 import main.NavigationAction;
+import main.StateManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +15,8 @@ import java.util.ArrayList;
 
 public class MainMenuState implements MenuState {
 
+    private StateManager sm;
+
     private JFrame frame;
     private JPanel screen;
     private ActionListener listener;
@@ -17,8 +24,8 @@ public class MainMenuState implements MenuState {
 
     ArrayList<JButton> buttons = new ArrayList<>();
 
-    public MainMenuState() {
-
+    public MainMenuState(StateManager sm) {
+        this.sm = sm;
     }
 
     public void setRenderer(Graphics2D renderer) {
@@ -28,8 +35,8 @@ public class MainMenuState implements MenuState {
     public void setPanel(JPanel screen) { this.screen = screen; }
     public void setListener(ActionListener listener) { this.listener = listener; }
 
-    private void loadResources() {
-
+    public void start() {
+        // add all buttons to screen
         buttons.add(new JButton("Where To"));
         buttons.add(new JButton("Trip Computer"));
         buttons.add(new JButton("Map"));
@@ -42,27 +49,39 @@ public class MainMenuState implements MenuState {
             b.addActionListener(listener); // add the action listener from StateManager to listen to the buttons' events
             screen.add(b); // add button to JPanel screen
         }
-
-    }
-
-    public void start() {
-        loadResources();
     }
 
     public void stop() {
+        // remove all buttons from screen
         for(JButton b:buttons) {
             screen.remove(b);
         }
     }
 
     public void render() {
+        // render all buttons
         for(JButton b:buttons) {
             b.repaint();
         }
     }
 
     public void actionPerformed(ActionEvent e) {
-
+        // if a button has been clicked, redirect to the appropriate state
+        if(e.getSource().equals(buttons.get(0))) {
+            sm.goToState(StateManager.WHERE_TO_STATE);
+        }
+        if(e.getSource().equals(buttons.get(2))) {
+            sm.goToState(StateManager.MAP_STATE);
+        }
+        if(e.getSource().equals(buttons.get(3))) {
+            sm.goToState(StateManager.SPEECH_STATE);
+        }
+        if(e.getSource().equals(buttons.get(4))) {
+            sm.goToState(StateManager.SATELLITE_STATE);
+        }
+        if(e.getSource().equals(buttons.get(5))) {
+            sm.goToState(StateManager.ABOUT_STATE);
+        }
     }
 
     public void navigationButton(NavigationAction e) {
