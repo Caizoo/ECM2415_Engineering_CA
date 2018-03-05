@@ -1,10 +1,8 @@
 package speech;
-import speechwake.HttpConnect;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
 
 /*
  * Speech generation using Microsoft Cognitive Services
