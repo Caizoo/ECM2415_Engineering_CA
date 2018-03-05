@@ -53,19 +53,23 @@ public class SatelliteMode implements MenuState{
         }
 
 
-       /*Comment in when all machines work with GPS*/
-        /*Location l = new Location();
-        l.openPort("COM4");
-        String[] data = l.getData();
-        System.out.println(data[0]);
-        System.out.println(data[1]);
-        System.out.println(data[2]);
-        data = l.getData();
-        System.out.println(data[0]);
-        System.out.println(data[1]);
-        System.out.println(data[2]);*/
-
-
+        /*Comment in when all machines work with GPS*/
+        /*Location loc = new Location();
+        loc.openPort("COM4");
+        String[] data;
+        Thread t = new Thread(loc);
+        t.start();
+        for (int i = 0; i < 72; i++) {
+            data = loc.getData();
+            System.out.printf("LAT: %s\n", data[0]);
+            System.out.printf("LONG: %s\n", data[1]);
+            System.out.printf("TIME: %s\n", data[2]);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }*/
     }
 
     @Override
