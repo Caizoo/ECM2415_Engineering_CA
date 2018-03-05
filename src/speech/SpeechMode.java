@@ -13,8 +13,13 @@ import javax.swing.JPanel;
 import main.NavigationAction;
 import menu.MenuState;
 
+/*
+ * Code by Joshua Chalcraft
+ */
 
-public class Speech extends JFrame implements MenuState
+
+
+public class SpeechMode extends JFrame implements MenuState
 {
     //Attributes
     private JFrame frame;
@@ -22,11 +27,10 @@ public class Speech extends JFrame implements MenuState
     private ActionListener listener;
     private Graphics2D renderer;
     ArrayList<LanguageButton> buttons = new ArrayList<>();
-    static String lang;
     private int buttonIndex = -1;
 
     //Constructor
-    public Speech()
+    public SpeechMode()
     {
 
     }
@@ -48,12 +52,12 @@ public class Speech extends JFrame implements MenuState
     @Override
     public void start()
     {
-        buttons.add(new LanguageButton("Off", null));
-        buttons.add(new LanguageButton("English", "en-US"));
-        buttons.add(new LanguageButton("French", "fr-FR"));
-        buttons.add(new LanguageButton("German", "de-DE"));
-        buttons.add(new LanguageButton("Italian", "it-IT"));
-        buttons.add(new LanguageButton("Spanish", "es-ES"));
+        buttons.add(new LanguageButton("Off", null, null, null));
+        buttons.add(new LanguageButton("English", "en-US", "Apollo", "(en-GB, Susan, Apollo)"));
+        buttons.add(new LanguageButton("French", "fr-FR", "Apollo", "(fr-FR, Julie, Apollo)"));
+        buttons.add(new LanguageButton("German", "de-DE", "Hedda", "(de-DE, Hedda)"));
+        buttons.add(new LanguageButton("Italian", "it-IT", "Apollo", "(it-IT, Cosimo, Apollo)"));
+        buttons.add(new LanguageButton("Spanish", "es-ES", "Apollo", "(es-ES, Laura, Apollo)"));
 
         for (LanguageButton langButton : buttons)
         {
@@ -116,8 +120,12 @@ public class Speech extends JFrame implements MenuState
 
         if (e == NavigationAction.SELECT)
         {
-            Speech.lang = buttons.get(buttonIndex).languageCode;
-            System.out.println("Language is now set to: " + Speech.lang);
+            SpeechGenerator.setLanguage(buttons.get(buttonIndex).languageCode);
+            SpeechGenerator.setGender(buttons.get(buttonIndex).languageGender);
+            SpeechGenerator.setArtist(buttons.get(buttonIndex).languageArtist);
+            System.out.println("Language is now set to: " + SpeechGenerator.getLanguage());
+            System.out.println("Gender is now set to: " + SpeechGenerator.getGender());
+            System.out.println("Artist is now set to: " + SpeechGenerator.getArtist());
         }
     }
 
@@ -127,10 +135,14 @@ public class Speech extends JFrame implements MenuState
     {
         public String languageType;
         public String languageCode;
-        LanguageButton(String languageType, String languageCode)
+        public String languageGender;
+        public String languageArtist;
+        LanguageButton(String languageType, String languageCode, String languageGender, String languageArtist)
         {
             this.languageType = languageType;
             this.languageCode = languageCode;
+            this.languageGender = languageGender;
+            this.languageArtist = languageArtist;
             this.setText(languageType);
             this.setFont(new Font("Ariel", Font.BOLD, 24));
             this.setBackground(Color.WHITE);
