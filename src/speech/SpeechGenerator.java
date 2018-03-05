@@ -19,13 +19,11 @@ public class SpeechGenerator
     final static String KEY2 = "323492c25c324a59add26ae5267771ef";
 
     //These attributes are set through the buttons
+
     static String text  = null;
     static String lang   = null;
     static String gender = null;
     static String artist= null;
-
-
-
     final static String OUTPUT = "output.wav";
     final static String PATH   = "res/directions/"+OUTPUT;
     final static String FORMAT = "riff-16khz-16bit-mono-pcm";
@@ -115,11 +113,14 @@ public class SpeechGenerator
 
     public static String getArtist() {return artist;}
 
+    public static String getText() {return text;}
+
     public static void setLanguage(String newLang) {SpeechGenerator.lang = newLang;}
 
     public static void setGender(String newGender) {SpeechGenerator.gender = newGender;}
 
     public static void setArtist(String newArtist) {SpeechGenerator.artist = newArtist;}
 
+    public static void setText(String newText) {SpeechGenerator.text = newText;}
 
 }
