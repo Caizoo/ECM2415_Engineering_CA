@@ -1,6 +1,8 @@
 package map;
 
+
 import java.net.URLEncoder;
+
 
 /*
  * Directions using the Google Maps APIs.
@@ -9,11 +11,11 @@ import java.net.URLEncoder;
  *
  * David Wakeling, 2018.
  *
- * Modified by Gabriel
+ * Modified by Gabriel and Joshua.
  */
 public class Directions {
     final static String ORIGIN      = "The Forum, Exeter University";
-    static String DESTINATION = null;
+    static String DESTINATION       = "Cathedral Green, Exeter";
     final static String REGION      = "uk";
     final static String MODE        = "walking"; /* "driving" */
     /*
@@ -46,24 +48,14 @@ public class Directions {
     }
 
     /*
-     * Print directions.
+     * Turns byte array into string ready for JSON parsing.
+     *
+     * Method by Joshua Chalcraft
      */
-    static void printDirections( byte[] dirs ) {
-        for ( int i = 0; i < dirs.length; i++ ) {
-            System.out.print( (char) dirs[ i ] );
-        }
-    }
-
-
-
-
-
-    /*
-     * Find directions.
-     */
-    public static void main( String[] argv ) {
+    public static String sendToParser() {
 
         final byte[] ds = readDirections( ORIGIN, DESTINATION, REGION, MODE );
-        printDirections( ds );
+        String directions = new String(ds);
+        return directions;
     }
 }
