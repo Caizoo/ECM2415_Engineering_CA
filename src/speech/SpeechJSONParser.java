@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class SpeechJSONParser
 {
-    static String filePath = "res/directions/directions.json";
+    static String filePath = "res/directions/dir.txt";
     public static ArrayList<String> readJSONFile(String file, ArrayList<String> directions)
     {
         try

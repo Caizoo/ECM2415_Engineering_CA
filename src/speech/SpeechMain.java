@@ -9,11 +9,11 @@ import java.util.ArrayList;
 public class SpeechMain
 {
     private static ArrayList<String> directions = new ArrayList<>();
-    static String input = "directions.json";
-    static String pathInput = "res/directions/" + input;
+    //static String input = "directions.json";
+    //static String pathInput = "res/directions/" + input;
     public static void main(String[] args)
     {
-        //SpeechJSONParser.formDirections(directions);
+        SpeechJSONParser.formDirections(directions);
         SpeechGenerator.setLanguage("en-US");
         SpeechGenerator.setGender("Apollo");
         SpeechGenerator.setArtist("(en-GB, Susan, Apollo)");
