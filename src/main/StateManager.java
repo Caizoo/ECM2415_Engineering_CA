@@ -34,7 +34,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
     private JPanel screen = null;
 
     private static BufferedImage gpsImage = null;
-    private JButton power = null;
+    private JPowerButton power = null;
 
     //states
     public static final int ON_OFF_STATE = 0;
@@ -89,10 +89,10 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
         screen.setBounds(SCREEN_X,SCREEN_Y,SCREEN_WIDTH,SCREEN_HEIGHT);
 
         // power button which will be active across all states
-        power = new JButton("Power");
+        power = new JPowerButton(new File("res/powerButtonOn.png"),new File("res/powerButtonOff.png"),Color.BLACK);
         power.addActionListener(this);
-        power.setSize(80,40);
-        power.setLocation(690,195);
+        power.setSize(65,65);
+        power.setLocation(696,183);
         this.add(power);
 
         /**TODO:  change layout of screen to null when using absolute locations for buttons**/
@@ -218,6 +218,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(power)) {
             doAction(NavigationAction.POWER);
+            power.clickButton();
         }else{
             states[state].actionPerformed(e);
             screen.revalidate();
