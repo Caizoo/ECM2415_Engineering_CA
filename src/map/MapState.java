@@ -3,6 +3,7 @@ package map;
 import main.NavigationAction;
 import main.StateManager;
 import menu.MenuState;
+import satellite.MockLocation;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -31,6 +32,8 @@ public class MapState extends JPanel implements Observer, MenuState{
   private ActionListener listener;
   private Graphics2D renderer;
   private Maps map;
+  private String longitude;
+  private String latitude;
 
   @Override
   public void setRenderer(Graphics2D renderer){
@@ -55,8 +58,16 @@ public class MapState extends JPanel implements Observer, MenuState{
   @Override
   public void start(){
     try {
+      MockLocation loc = new MockLocation();
+      loc.openPort("COM4");
+      Thread t = new Thread(loc);
+      String[] data = loc.getData();
+
       map = new Maps();
+      map.setLat("50.1");
+      map.setLong(data[1]);
       map.make();
+
       image = ImageIO.read( new File( "src/map/output.png" ) );
       dot = ImageIO.read( new File( "src/map/red.png"));
     } catch ( Exception ex ) {

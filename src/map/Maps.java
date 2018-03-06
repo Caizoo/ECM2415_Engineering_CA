@@ -77,6 +77,8 @@ public class Maps {
     int iZoom = Integer.parseInt(zoom);
     return iZoom;
   }
+
+
   
   /*
    * Download map data.
