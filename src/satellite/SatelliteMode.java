@@ -100,8 +100,6 @@ public class SatelliteMode implements MenuState{
         };
 
 
-
-
         t.start();
         updateThread.start();
     }
@@ -110,6 +108,14 @@ public class SatelliteMode implements MenuState{
     public void stop() {
         updateThread.interrupt();
         this.screen.setBackground(new Color(27,27,27,255));
+        /*
+        This needs to remove all components you've added to screen
+         */
+
+        screen.remove(longitude);
+        screen.remove(latitude);
+        screen.remove(error);
+
     }
 
     @Override

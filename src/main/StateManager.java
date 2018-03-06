@@ -4,6 +4,7 @@
 
 package main;
 
+import menu.JPowerButton;
 import menu.MainMenuState;
 import menu.MenuState;
 import menu.OnOffState;
@@ -36,17 +37,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
     private static BufferedImage gpsImage = null;
     private JPowerButton power = null;
 
-    //states
-    public static final int ON_OFF_STATE = 0;
-    public static final int MAIN_STATE = 1;
-    public static final int WHERE_TO_STATE = 2;
-    public static final int TRIP_COMPUTER_STATE = 3;
-    public static final int MAP_STATE = 4;
-    public static final int SPEECH_STATE = 5;
-    public static final int SATELLITE_STATE = 6;
-    public static final int ABOUT_STATE = 7;
-
-    private static int state = 0;
+    private static MenuAction state = MenuAction.ON_OFF_STATE;
 
     // graphics constants
     public static final int GPS_WIDTH = 650;
@@ -112,11 +103,11 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
         // create new state objects
         states[0] = new OnOffState();
         states[1] = new MainMenuState(this);
-        states[WHERE_TO_STATE] = new WhereTo();
-        states[MAP_STATE] = new MapState();
-        states[SPEECH_STATE] = new SpeechMode(); //change by Josh - renamed class
-        states[SATELLITE_STATE] = new SatelliteMode();
-        states[ABOUT_STATE] = new AboutMode();
+        states[MenuAction.WHERE_TO_STATE.getVal()] = new WhereTo();
+        states[MenuAction.MAP_STATE.getVal()] = new MapState();
+        states[MenuAction.SPEECH_STATE.getVal()] = new SpeechMode(); //change by Josh - renamed class
+        states[MenuAction.SATELLITE_STATE.getVal()] = new SatelliteMode();
+        states[MenuAction.ABOUT_STATE.getVal()] = new AboutMode();
 
 
         // set rendering and listening objects to states
@@ -130,7 +121,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
         }
 
         // start the first state, and paint
-        states[state].start();
+        states[state.getVal()].start();
         super.repaint();
     }
 
@@ -144,32 +135,32 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
     public void doAction(NavigationAction action) {
         switch(action) {
             case POWER:
-                if(state==ON_OFF_STATE) {
-                    states[state].stop();
-                    state = MAIN_STATE;
-                    states[state].start();
+                if(state==MenuAction.ON_OFF_STATE) {
+                    states[state.getVal()].stop();
+                    state = MenuAction.MAIN_STATE;
+                    states[state.getVal()].start();
                 }else {
-                    states[state].stop();
-                    state = ON_OFF_STATE;
-                    states[state].start();
+                    states[state.getVal()].stop();
+                    state = MenuAction.ON_OFF_STATE;
+                    states[state.getVal()].start();
                     screen.removeAll();
                     screen.repaint();
                 }
                 break;
             case MENU:
-                states[state].stop();
-                state = MAIN_STATE;
-                states[state].start();
-                states[state].render();
+                states[state.getVal()].stop();
+                state = MenuAction.MAIN_STATE;
+                states[state.getVal()].start();
+                states[state.getVal()].render();
                 break;
             case SELECT:
-                states[state].navigationButton(NavigationAction.SELECT);
+                states[state.getVal()].navigationButton(NavigationAction.SELECT);
                 break;
             case PLUS:
-                states[state].navigationButton(NavigationAction.PLUS);
+                states[state.getVal()].navigationButton(NavigationAction.PLUS);
                 break;
             case MINUS:
-                states[state].navigationButton(NavigationAction.MINUS);
+                states[state.getVal()].navigationButton(NavigationAction.MINUS);
                 break;
         }
 
@@ -177,13 +168,13 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
     }
 
 
-    public void goToState(int state) {
-        if(states[state]==null) return;
-        states[this.state].stop();
+    public void goToState(MenuAction state) {
+        if(states[state.getVal()]==null) return;
+        states[this.state.getVal()].stop();
         this.state = state;
-        states[this.state].start();
+        states[this.state.getVal()].start();
         screen.revalidate();
-        states[this.state].render();
+        states[this.state.getVal()].render();
     }
 
 
@@ -193,7 +184,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
         Graphics2D g2d = (Graphics2D)g;
         g2d.clearRect(0,0,1280,720);
         g2d.drawImage(gpsImage,GPS_X,GPS_Y,GPS_WIDTH,GPS_HEIGHT,this);
-        if(states[state]!=null) states[state].render();
+        if(states[state.getVal()]!=null) states[state.getVal()].render();
         if(power!=null) power.repaint();
     }
 
@@ -204,7 +195,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
         g2d.setColor(new Color(27,27,27,255));
         g2d.fillRect(SCREEN_X+8,SCREEN_Y+32,SCREEN_WIDTH,SCREEN_HEIGHT);
         screen.revalidate();
-        if(states[state]!=null) states[state].render();
+        if(states[state.getVal()]!=null) states[state.getVal()].render();
         power.repaint();
     }
 
@@ -220,7 +211,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
             doAction(NavigationAction.POWER);
             power.clickButton();
         }else{
-            states[state].actionPerformed(e);
+            states[state.getVal()].actionPerformed(e);
             screen.revalidate();
         }
 
@@ -229,6 +220,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if(state==MenuAction.ON_OFF_STATE) return;
         Point mousePoint = e.getPoint();
         System.out.println(mousePoint);
         if(intersects(mousePoint,boundsSelectButton)) {
@@ -241,7 +233,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
             doAction(MINUS);
         }
         if(intersects(mousePoint,boundsMenuButton)) {
-            if(state!=ON_OFF_STATE) doAction(NavigationAction.MENU);
+            doAction(NavigationAction.MENU);
         }
 
     }

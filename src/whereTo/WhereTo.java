@@ -3,17 +3,17 @@ package whereTo;
 import main.NavigationAction;
 import menu.MenuState;
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class WhereTo implements MenuState {
-
     Graphics2D renderer;
     private JFrame frame;
     private JPanel screen;
     private ActionListener listener;
-    final TextField txtf = new TextField();
+    static final TextField txtf = new TextField();
     int currentButton;
     int currentMode;
 
@@ -29,7 +29,6 @@ public class WhereTo implements MenuState {
     @Override
     public void setFrame(JFrame frame) {
         this.frame=frame;
-
     }
 
     @Override
@@ -44,11 +43,8 @@ public class WhereTo implements MenuState {
 
     @Override
     public void start() {
-
         currentButton=0;
         currentMode=1;
-
-
         charButtons[0]= new CharacterButton("A",1);
         charButtons[1]= new CharacterButton("B",2);
         charButtons[2]= new CharacterButton("C",3);
@@ -227,7 +223,7 @@ public class WhereTo implements MenuState {
             stop();
         }
         else if (e == NavigationAction.MENU);
-        String directions = whereTo();
+        String directions = getDirections();
     }
 
     public class NumberButton extends JButton{
@@ -310,7 +306,7 @@ public class WhereTo implements MenuState {
     }
     public WhereTo(){
     }
-    public  String whereTo (){
+    static public  String getDirections (){
         String destination = txtf.getText();
         return destination;
     }
