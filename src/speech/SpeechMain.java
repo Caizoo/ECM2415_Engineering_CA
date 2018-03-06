@@ -13,7 +13,7 @@ public class SpeechMain
     static String pathInput = "res/directions/" + input;
     public static void main(String[] args)
     {
-        SpeechJSONParser.formDirections(directions);
+        //SpeechJSONParser.formDirections(directions);
         SpeechGenerator.setLanguage("en-US");
         SpeechGenerator.setGender("Apollo");
         SpeechGenerator.setArtist("(en-GB, Susan, Apollo)");

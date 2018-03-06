@@ -4,6 +4,7 @@
 
 package menu;
 
+import main.MenuAction;
 import main.NavigationAction;
 import main.StateManager;
 
@@ -22,7 +23,7 @@ public class MainMenuState implements MenuState {
     private ActionListener listener;
     private Graphics2D renderer;
 
-    ArrayList<JButton> buttons = new ArrayList<>();
+    ArrayList<JMenuButton> buttons = new ArrayList<>();
 
     public MainMenuState(StateManager sm) {
         this.sm = sm;
@@ -37,14 +38,14 @@ public class MainMenuState implements MenuState {
 
     public void start() {
         // add all buttons to screen
-        buttons.add(new JButton("Where To"));
-        buttons.add(new JButton("Trip Computer"));
-        buttons.add(new JButton("Map"));
-        buttons.add(new JButton("Speech"));
-        buttons.add(new JButton("Satellite"));
-        buttons.add(new JButton("About"));
+        buttons.add(new JMenuButton("Where To", MenuAction.WHERE_TO_STATE));
+        buttons.add(new JMenuButton("Trip Computer", MenuAction.TRIP_COMPUTER_STATE));
+        buttons.add(new JMenuButton("Map", MenuAction.MAP_STATE));
+        buttons.add(new JMenuButton("Speech", MenuAction.SPEECH_STATE));
+        buttons.add(new JMenuButton("Satellite", MenuAction.SATELLITE_STATE));
+        buttons.add(new JMenuButton("About", MenuAction.ABOUT_STATE));
 
-        for(JButton b:buttons) {
+        for(JMenuButton b:buttons) {
             b.setPreferredSize(new Dimension(90,75)); // set preferred dimensions of buttons for 2x3 display
             b.addActionListener(listener); // add the action listener from StateManager to listen to the buttons' events
             screen.add(b); // add button to JPanel screen
@@ -53,35 +54,21 @@ public class MainMenuState implements MenuState {
 
     public void stop() {
         // remove all buttons from screen
-        for(JButton b:buttons) {
+        for(JMenuButton b:buttons) {
             screen.remove(b);
         }
     }
 
     public void render() {
         // render all buttons
-        for(JButton b:buttons) {
+        for(JMenuButton b:buttons) {
             b.repaint();
         }
     }
 
     public void actionPerformed(ActionEvent e) {
         // if a button has been clicked, redirect to the appropriate state
-        if(e.getSource().equals(buttons.get(0))) {
-            sm.goToState(StateManager.WHERE_TO_STATE);
-        }
-        if(e.getSource().equals(buttons.get(2))) {
-            sm.goToState(StateManager.MAP_STATE);
-        }
-        if(e.getSource().equals(buttons.get(3))) {
-            sm.goToState(StateManager.SPEECH_STATE);
-        }
-        if(e.getSource().equals(buttons.get(4))) {
-            sm.goToState(StateManager.SATELLITE_STATE);
-        }
-        if(e.getSource().equals(buttons.get(5))) {
-            sm.goToState(StateManager.ABOUT_STATE);
-        }
+        sm.goToState(((JMenuButton)e.getSource()).menuAction);
     }
 
     public void navigationButton(NavigationAction e) {
