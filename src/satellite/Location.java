@@ -1,4 +1,4 @@
-/*
+
 package satellite;
 import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
@@ -10,7 +10,7 @@ import java.io.InputStream;
  * COMMENT IN WHEN ALL MACHINES CAN RUN THE GPS
  * Code modified, with permission, from David Wakeling
  */
-/*public class Location implements Runnable {
+public class Location implements Runnable {
     //private final String[] data; Changing from array of strings for concurrency
     private String latitude, longitude, time;
     private SerialPort serialPort;
