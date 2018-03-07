@@ -18,7 +18,7 @@ import javax.swing.border.LineBorder;
  *   - Utilises veritcal menus over buttons
  *   - LanguageMenu (known before as LanguageButton) now has more attributes regarding other text-to-speech parameters
  *
- * Conversion to a project-wide MVC planned for the third scrum
+ * Conversion to a project-wide MVC planned for the third scrum, as well as movement to a single directory
  */
 public class SpeechMode extends JFrame implements MenuState
 {
