@@ -17,7 +17,7 @@ import javax.swing.border.LineBorder;
  * Changes made since last scrum:
  *   - Changed the structure
  */
-public class abc extends JFrame implements MenuState
+public class SpeechMode extends JFrame implements MenuState
 {
     //Attributes
     private JFrame frame;
