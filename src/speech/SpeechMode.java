@@ -1,24 +1,22 @@
+
 package speech;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import main.NavigationAction;
 import menu.MenuState;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.border.LineBorder;
 
 /*
  * Code by Joshua Chalcraft
+ *
+ * Changes made since last scrum:
+ *   - Changed the structure
  */
-
-
-
 public class SpeechMode extends JFrame implements MenuState
 {
     //Attributes
@@ -26,15 +24,8 @@ public class SpeechMode extends JFrame implements MenuState
     private JPanel screen;
     private ActionListener listener;
     private Graphics2D renderer;
-    ArrayList<LanguageButton> buttons = new ArrayList<>();
-    private int buttonIndex = -1;
-
-    //Constructor
-    public SpeechMode()
-    {
-
-    }
-
+    private LanguageMenuBar menuBar = new LanguageMenuBar();
+    private int menuIndex = -1;
 
     //Methods
     @Override
@@ -50,94 +41,93 @@ public class SpeechMode extends JFrame implements MenuState
     public void setListener(ActionListener listener){this.listener = listener;}
 
     @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        {
+            if(e.getSource().equals(menuBar.getMenu(0)))
+            {
+                System.out.println("Off button clicked");
+            }
+        }
+    }
+
+    @Override
     public void start()
     {
-        buttons.add(new LanguageButton("Off", null, null, null));
-        buttons.add(new LanguageButton("English", "en-US", "Apollo", "(en-GB, Susan, Apollo)"));
-        buttons.add(new LanguageButton("French", "fr-FR", "Apollo", "(fr-FR, Julie, Apollo)"));
-        buttons.add(new LanguageButton("German", "de-DE", "Hedda", "(de-DE, Hedda)"));
-        buttons.add(new LanguageButton("Italian", "it-IT", "Apollo", "(it-IT, Cosimo, Apollo)"));
-        buttons.add(new LanguageButton("Spanish", "es-ES", "Apollo", "(es-ES, Laura, Apollo)"));
-
-        for (LanguageButton langButton : buttons)
-        {
-            langButton.setPreferredSize(new Dimension(191, 35));
-            langButton.addActionListener(listener);
-            screen.add(langButton);
-        }
-
+        menuBar.add(new LanguageMenu("Off", null, null, null));
+        menuBar.add(new LanguageMenu("English", "en-US", "Apollo", "(en-GB, Susan, Apollo)"));
+        menuBar.add(new LanguageMenu("French", "fr-FR", "Apollo", "(fr-FR, Julie, Apollo)"));
+        menuBar.add(new LanguageMenu("German", "de-DE", "Hedda", "(de-DE, Hedda)"));
+        menuBar.add(new LanguageMenu("Italian", "it-IT", "Apollo", "(it-IT, Cosimo, Apollo)"));
+        menuBar.add(new LanguageMenu("Spanish", "es-ES", "Apollo", "(es-ES, Laura, Apollo)"));
+        screen.add(menuBar);
     }
 
     @Override
     public void stop()
     {
-        for(LanguageButton langButton:buttons) screen.remove(langButton);
+        for (int i = 0; i < menuBar.getMenuCount(); i++) screen.remove(menuBar.getMenu(i));
     }
 
-    /** for when a button is pressed, use e.getSource() to return the button object **/
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-        if(e.getSource().equals(buttons.get(0)))
-        {
-            System.out.println("Off button clicked");
-        }
-    }
-
-
-    /** render only buttons and images, don't redraw panel or frame **/
     @Override
     public void render()
     {
-        for (LanguageButton langButton : buttons) langButton.repaint();
+       for (int i = 0; i < menuBar.getMenuCount(); i++) menuBar.getMenu(i).repaint();
     }
 
-
-    /** for when a navigation button has been pressed **/
     @Override
     public void navigationButton(NavigationAction e)
     {
-        if ((e == NavigationAction.PLUS) && (buttonIndex > 0)) //Go upwards
+        if ((e == NavigationAction.PLUS) && (menuIndex > 0)) //Go upwards
         {
-            buttonIndex--;
-            buttons.get(buttonIndex+1).setBackground(Color.WHITE);
-            buttons.get(buttonIndex).setBackground(Color.ORANGE);
+            menuIndex--;
+            menuBar.getMenu(menuIndex+1).setBackground(Color.WHITE);
+            menuBar.getMenu(menuIndex).setBackground(Color.ORANGE);
         }
 
-        if ((e == NavigationAction.MINUS) && (buttonIndex < (buttons.size()-1))) //Go downwards
+        if ((e == NavigationAction.MINUS) && (menuIndex < (menuBar.getMenuCount()-1))) //Go downwards
         {
-            buttonIndex++;
-            if (buttonIndex == 0)
+            menuIndex++;
+            if (menuIndex == 0)
             {
-                buttons.get(buttonIndex).setBackground(Color.ORANGE);
+                menuBar.getMenu(menuIndex).setBackground(Color.ORANGE);
             }
             else
             {
-                buttons.get(buttonIndex - 1).setBackground(Color.WHITE);
-                buttons.get(buttonIndex).setBackground(Color.ORANGE);
+                menuBar.getMenu(menuIndex - 1).setBackground(Color.WHITE);
+                menuBar.getMenu(menuIndex).setBackground(Color.ORANGE);
             }
         }
 
         if (e == NavigationAction.SELECT)
         {
-            SpeechGenerator.setLanguage(buttons.get(buttonIndex).languageCode);
-            SpeechGenerator.setGender(buttons.get(buttonIndex).languageGender);
-            SpeechGenerator.setArtist(buttons.get(buttonIndex).languageArtist);
-            System.out.println("Language is now set to: " + SpeechGenerator.getLanguage());
-            System.out.println("Gender is now set to: " + SpeechGenerator.getGender());
-            System.out.println("Artist is now set to: " + SpeechGenerator.getArtist());
+            LanguageMenu menu = (LanguageMenu) menuBar.getMenu(menuIndex);
+            SpeechGenerator.setLanguage(menu.languageCode);
+            SpeechGenerator.setGender(menu.languageGender);
+            SpeechGenerator.setArtist(menu.languageArtist);
+            //System.out.println("Language is now set to: " + SpeechGenerator.getLanguage());
+            //System.out.println("Gender is now set to: " + SpeechGenerator.getGender());
+            //System.out.println("Artist is now set to: " + SpeechGenerator.getArtist());
         }
     }
 
-//A Commit test from Intellij
-
-    public class LanguageButton extends JButton
+    //Used to make the menu vertical.
+    public class LanguageMenuBar extends JMenuBar
     {
-        public String languageType;
-        public String languageCode;
-        public String languageGender;
-        public String languageArtist;
-        LanguageButton(String languageType, String languageCode, String languageGender, String languageArtist)
+        private final LayoutManager grid = new GridLayout(0,1);
+        LanguageMenuBar()
+        {
+            setLayout(grid);
+        }
+    }
+
+    public class LanguageMenu extends JMenu
+    {
+        String languageType;
+        String languageCode;
+        String languageGender;
+        String languageArtist;
+        LanguageMenu(String languageType, String languageCode, String languageGender, String languageArtist)
         {
             this.languageType = languageType;
             this.languageCode = languageCode;
@@ -145,8 +135,12 @@ public class SpeechMode extends JFrame implements MenuState
             this.languageArtist = languageArtist;
             this.setText(languageType);
             this.setFont(new Font("Ariel", Font.BOLD, 24));
+            this.setBorder(new LineBorder(Color.BLACK, 3));
+            this.setPreferredSize((new Dimension(191, 40)));
+            this.setOpaque(true);
             this.setBackground(Color.WHITE);
-
+            this.addActionListener(listener);
         }
     }
 }
+
