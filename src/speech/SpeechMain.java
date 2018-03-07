@@ -4,7 +4,15 @@ import map.Directions;
 import java.util.ArrayList;
 
 /*
- * Code by Joshua Chalcraft
+ * Joshua Chalcraft
+ *
+ * Simulation class
+ * - JSON data being sent from Directions.java
+ * - JSONParser class handles the data and returns an ArrayList of the directions
+ * - SpeechGenerator sets the language, gender and artist
+ * - Go through each line of directions, convert text to speech and play the output
+ *
+ * By scrum 3, this behaviour should be exhibited through the GPS gui application (or behaviour similar)
  */
 public class SpeechMain
 {

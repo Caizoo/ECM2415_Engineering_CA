@@ -12,10 +12,13 @@ import javax.swing.JMenuBar;
 import javax.swing.border.LineBorder;
 
 /*
- * Code by Joshua Chalcraft
+ * Joshua Chalcraft
  *
  * Changes made since last scrum:
- *   - Changed the structure
+ *   - Utilises veritcal menus over buttons
+ *   - LanguageMenu (known before as LanguageButton) now has more attributes regarding other text-to-speech parameters
+ *
+ * Conversion to a project-wide MVC planned for the third scrum
  */
 public class SpeechMode extends JFrame implements MenuState
 {
@@ -105,13 +108,11 @@ public class SpeechMode extends JFrame implements MenuState
             SpeechGenerator.setLanguage(menu.languageCode);
             SpeechGenerator.setGender(menu.languageGender);
             SpeechGenerator.setArtist(menu.languageArtist);
-            //System.out.println("Language is now set to: " + SpeechGenerator.getLanguage());
-            //System.out.println("Gender is now set to: " + SpeechGenerator.getGender());
-            //System.out.println("Artist is now set to: " + SpeechGenerator.getArtist());
         }
     }
-
-    //Used to make the menu vertical.
+    /*
+    * Specialised JMenuBar to make the menu vertical.
+    */
     public class LanguageMenuBar extends JMenuBar
     {
         private final LayoutManager grid = new GridLayout(0,1);

@@ -6,9 +6,15 @@ import com.google.gson.JsonParser;
 import java.util.ArrayList;
 import java.util.Iterator;
 /*
- * Utilise JSON data stored via strings.
- *
  * Joshua Chalcraft
+ *
+ * Class takes in JSON data stored as a string and extracts directions, which are stored in an ArrayList
+ *
+ * Code is open for extension. Could be used later to extract lang and long info, as well as distance and other things
+ *
+ * Examples of this are given (commented out) in the parseJSON method
+ *
+ * Code requires gson-2.2.2.jar to run, which is stored in the lib folder
  */
 
 public class JSONParser

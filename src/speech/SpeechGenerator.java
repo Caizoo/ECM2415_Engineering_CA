@@ -7,11 +7,11 @@ import java.io.DataOutputStream;
 /*
  * Speech generation using Microsoft Cognitive Services
  *
- * See http://www.microsoft.com/cognitive-services/en-us/speech-api
- *
  * Original code by David Wakeling
  *
  * Modified by Joshua Chalcraft
+ *  - Changed some attributes to non-final as they could be changed via the SpeechMode class
+ *  - Added set and get methods for these attributes
  */
 public class SpeechGenerator
 {
@@ -28,9 +28,6 @@ public class SpeechGenerator
     final static String PATH   = "res/directions/"+OUTPUT;
     final static String FORMAT = "riff-16khz-16bit-mono-pcm";
 
-    /*
-    * Renew an access token --- they expire after 10 minutes.
-    */
     static String renewAccessToken(String key1)
     {
         final String method = "POST";

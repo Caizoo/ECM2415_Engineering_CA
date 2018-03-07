@@ -12,10 +12,12 @@ import javax.sound.sampled.SourceDataLine;
  * Original code by David Wakeling
  *
  * Modified by Joshua Chalcraft
+ *  - FILENAME now has an additional "res/directions" added at the start of the string as output is stored there
+ *  - Main method now replaced by a "play" method
  */
 public class SoundPlayer
 {
-    private final static String FILENAME = "res/directions/output.wav";
+    private final static String FILENAME = "res/directions/sound_output.wav";
 
     /*
     * Set up stream.
