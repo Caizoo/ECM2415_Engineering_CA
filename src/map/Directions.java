@@ -14,10 +14,10 @@ import java.net.URLEncoder;
  * Modified by Gabriel and Joshua.
  */
 public class Directions {
-    final static String ORIGIN      = "The Forum, Exeter University";
+    static String ORIGIN      = "The Forum, Exeter University";
     static String DESTINATION       = "Cathedral Green, Exeter";
-    final static String REGION      = "uk";
-    final static String MODE        = "walking"; /* "driving" */
+    static String REGION      = "uk";
+    static String MODE        = "walking"; /* "driving" */
     /*
      * Read directions.
      */
@@ -57,5 +57,17 @@ public class Directions {
         final byte[] ds = readDirections( ORIGIN, DESTINATION, REGION, MODE );
         String directions = new String(ds);
         return directions;
+    }
+
+    public void setOrigin(String origin){
+        this.ORIGIN = origin;
+    }
+
+    public void setDestination(String destination){
+        this.DESTINATION = destination;
+    }
+
+    public void setRegion(String region) {
+        this.REGION = region;
     }
 }
