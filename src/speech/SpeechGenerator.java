@@ -11,24 +11,21 @@ import java.io.DataOutputStream;
  *
  * Modified by Joshua Chalcraft
  *  - Changed some attributes to non-final as they could be changed via the SpeechMode class
- *  - Added set and get methods for these attributes
+ *  - Added set and (currently unused) get methods for these attributes
+ *  - Changed access modifiers of attributes and provided methods
  */
 public class SpeechGenerator
 {
-    final static String KEY1 = "e9488f2304204a599d806da749983124";
-    final static String KEY2 = "323492c25c324a59add26ae5267771ef";
+    private final static String KEY = "e9488f2304204a599d806da749983124";
+    private static String text  = null;
+    private static String lang   = null;
+    private static String gender = null;
+    private static String artist = null;
+    private final static String OUTPUT = "sound_output.wav";
+    private final static String PATH   = "res/directions/"+OUTPUT;
+    private final static String FORMAT = "riff-16khz-16bit-mono-pcm";
 
-    //These attributes are set through the buttons
-
-    static String text  = null;
-    static String lang   = null;
-    static String gender = null;
-    static String artist= null;
-    final static String OUTPUT = "output.wav";
-    final static String PATH   = "res/directions/"+OUTPUT;
-    final static String FORMAT = "riff-16khz-16bit-mono-pcm";
-
-    static String renewAccessToken(String key1)
+    private static String renewAccessToken(String key1)
     {
         final String method = "POST";
         final String url = "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";
@@ -41,7 +38,7 @@ public class SpeechGenerator
     /*
     * Synthesize speech.
     */
-    static byte[] generateSpeech( String token, String text, String lang, String gender, String artist, String format)
+    private static byte[] generateSpeech( String token, String text, String lang, String gender, String artist, String format)
     {
         try
         {
@@ -73,7 +70,7 @@ public class SpeechGenerator
     /*
     * Write data to file.
     */
-    static void writeData(byte[] buffer, String name)
+    private static void writeData(byte[] buffer, String name)
     {
         try
         {
@@ -88,7 +85,6 @@ public class SpeechGenerator
         {
             System.out.println(e);
             System.exit(1);
-            return;
         }
     }
 
@@ -97,7 +93,7 @@ public class SpeechGenerator
     */
     public static void generate()
     {
-        final String token = renewAccessToken(KEY1);
+        final String token = renewAccessToken(KEY);
         final byte[] speech = generateSpeech(token, text, lang, gender, artist, FORMAT);
         writeData(speech, PATH);
     }

@@ -14,6 +14,7 @@ import javax.sound.sampled.SourceDataLine;
  * Modified by Joshua Chalcraft
  *  - FILENAME now has an additional "res/directions" added at the start of the string as output is stored there
  *  - Main method now replaced by a "play" method
+ *  - Changed access modifiers of provided methods
  */
 public class SoundPlayer
 {
@@ -22,7 +23,7 @@ public class SoundPlayer
     /*
     * Set up stream.
     */
-    static AudioInputStream setupStream(String name)
+    private static AudioInputStream setupStream(String name)
     {
         try
         {
@@ -42,7 +43,7 @@ public class SoundPlayer
     /*
     * Read stream.
     */
-    static ByteArrayOutputStream readStream(AudioInputStream stm)
+    private static ByteArrayOutputStream readStream(AudioInputStream stm)
     {
         try
         {
@@ -77,7 +78,7 @@ public class SoundPlayer
     /*
     * Play stream.
     */
-    static void playStream( AudioInputStream stm, ByteArrayOutputStream bos )
+    private static void playStream( AudioInputStream stm, ByteArrayOutputStream bos )
     {
         try
         {
@@ -92,7 +93,7 @@ public class SoundPlayer
         }
         catch (Exception e)
         {
-            System.out.println( e);
+            System.out.println(e);
             System.exit(1);
         }
     }

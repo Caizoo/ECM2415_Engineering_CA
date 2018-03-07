@@ -21,7 +21,7 @@ public class SpeechMain
     public static void main(String[] args)
     {
         String data = Directions.sendToParser();
-        JSONParser.formDirections(data, directions);
+        JSONParser.getDirections(data, directions);
         SpeechGenerator.setLanguage("en-US");
         SpeechGenerator.setGender("Apollo");
         SpeechGenerator.setArtist("(en-GB, Susan, Apollo)");

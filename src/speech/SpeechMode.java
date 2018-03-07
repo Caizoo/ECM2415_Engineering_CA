@@ -108,10 +108,13 @@ public class SpeechMode extends JFrame implements MenuState
             SpeechGenerator.setLanguage(menu.languageCode);
             SpeechGenerator.setGender(menu.languageGender);
             SpeechGenerator.setArtist(menu.languageArtist);
+            //System.out.println("language code is " + SpeechGenerator.getLanguage());
+            //System.out.println("gender is " + SpeechGenerator.getGender());
+            //System.out.println("artist is " + SpeechGenerator.getArtist());
         }
     }
     /*
-    * Specialised JMenuBar to make the menu vertical.
+    * Custom JMenuBar that is vertical.
     */
     public class LanguageMenuBar extends JMenuBar
     {
