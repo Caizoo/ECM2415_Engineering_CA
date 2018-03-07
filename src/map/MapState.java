@@ -23,7 +23,7 @@ import javax.swing.*;
  *
  * Gabriel Mulcahy
  */
-public class MapState extends JPanel implements Observer, MenuState{
+public class MapState extends JPanel implements Observer, MenuState, Runnable{
   private BufferedImage image;
   private BufferedImage dot;
   private int rotation;
@@ -34,6 +34,32 @@ public class MapState extends JPanel implements Observer, MenuState{
   private Maps map;
   private String longitude;
   private String latitude;
+
+  @Override
+  public void run(){
+    MockLocation loc = new MockLocation();
+    loc.openPort("COM4");
+    Thread t = new Thread(loc);
+    t.start();
+
+    while (true) {
+      try {
+        Thread.sleep(7000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+      String[] data = loc.getData();
+      map.setLat(data[0]);
+      map.setLong(data[1]);
+      map.make();
+      try {
+        image = ImageIO.read( new File( "src/map/output.png" ) );
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      render();
+    }
+  }
 
   @Override
   public void setRenderer(Graphics2D renderer){
@@ -57,22 +83,38 @@ public class MapState extends JPanel implements Observer, MenuState{
 
   @Override
   public void start(){
+    map = new Maps();
+
     try {
-      MockLocation loc = new MockLocation();
-      loc.openPort("COM4");
-      Thread t = new Thread(loc);
-      String[] data = loc.getData();
-
-      map = new Maps();
-      map.setLat("50.1");
-      map.setLong(data[1]);
-      map.make();
-
-      image = ImageIO.read( new File( "src/map/output.png" ) );
-      dot = ImageIO.read( new File( "src/map/red.png"));
-    } catch ( Exception ex ) {
-      System.out.println( ex ); System.exit( 1 );
+      dot = ImageIO.read(new File("src/map/red.png"));
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+
+    run();
+
+
+/*
+    MockLocation loc = new MockLocation();
+    loc.openPort("COM4");
+    Thread t = new Thread(loc);
+    t.start();
+
+      while (true) {
+        String[] data = loc.getData();
+        map = new Maps();
+        map.setLat(data[0]);
+        map.setLong(data[1]);
+        map.make();
+        try {
+          image = ImageIO.read(new File("src/map/output.png"));
+
+        } catch (Exception ex) {
+          System.out.println(ex);
+          System.exit(1);
+        }
+        render();
+      } */
   }
 
   @Override
@@ -87,8 +129,8 @@ public class MapState extends JPanel implements Observer, MenuState{
 
   @Override
   public void render(){
-    //double radians = Math.toRadians( (double) rotation );
-    //renderer.rotate( radians, image.getWidth() / 2, image.getHeight() / 2 );
+    double radians = Math.toRadians( (double) rotation );
+    renderer.rotate( radians, image.getWidth() / 2, image.getHeight() / 2 );
     renderer.drawImage( image, StateManager.SCREEN_X+8,StateManager.SCREEN_Y+32,screen.getWidth()-4,screen.getHeight()-4,screen);
     renderer.drawImage( dot, StateManager.SCREEN_X+96, StateManager.SCREEN_Y+142, 10, 10, screen );
   }
