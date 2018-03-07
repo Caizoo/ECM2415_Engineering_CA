@@ -120,8 +120,6 @@ public class MapState extends JPanel implements Observer, MenuState /*Runnable*/
   @Override
   public void navigationButton(NavigationAction e){
     data = loc.getData();
-    map.setLat(data[0]);
-    map.setLong(data[1]);
     if(e== NavigationAction.PLUS){
       map.zoomIn();
       map.make();
@@ -141,6 +139,8 @@ public class MapState extends JPanel implements Observer, MenuState /*Runnable*/
       }
       render();
     } else if(e== NavigationAction.SELECT) {
+      map.setLat(data[0]);
+      map.setLong(data[1]);
       map.make();
         try {
           image = ImageIO.read( new File( "src/map/output.png" ) );
