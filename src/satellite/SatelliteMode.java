@@ -40,7 +40,7 @@ public class SatelliteMode implements MenuState{
     public void start() {
 
         MockLocation loc = new MockLocation();
-        /*Location loc = new Location()*/ //Comment in with access to satellite connection
+        //Location loc = new Location(); //Comment in with access to satellite connection
         loc.openPort("COM4");
         Thread t = new Thread(loc);
 
@@ -56,9 +56,11 @@ public class SatelliteMode implements MenuState{
         longitude.setPreferredSize(new Dimension(180, (this.screen.getHeight()-10)/2));
         error.setPreferredSize(new Dimension(180, this.screen.getHeight()-10));
 
-        latitude.setFont(new Font("Ariel", Font.BOLD, 30));
-        longitude.setFont(new Font("Ariel", Font.BOLD, 30));
-        error.setFont(new Font("Ariel", Font.BOLD, 25));
+
+        Font f = new Font("Ariel", Font.BOLD, 25);
+        latitude.setFont(f);
+        longitude.setFont(f);
+        error.setFont(f);
 
         this.screen.add(latitude);
         this.screen.add(longitude);
@@ -67,8 +69,6 @@ public class SatelliteMode implements MenuState{
         latitude.setVisible(false);
         longitude.setVisible(false);
         error.setVisible(true);
-
-        this.screen.setBackground(Color.WHITE);
 
         updateThread = new Thread(){
           public void run() {
@@ -86,9 +86,6 @@ public class SatelliteMode implements MenuState{
                       String lon = data[1].charAt(0) == '-' ? data[1].substring(1) + " W": data[1] + " E" ;
                       latitude.setText(lat);
                       longitude.setText(lon);
-                      System.out.printf("LAT: %s\n", data[0]);
-                      System.out.printf("LONG: %s\n", data[1]);
-                      System.out.printf("TIME: %s\n", data[2]);
                   }
                   try {
                       sleep(3000);
@@ -108,10 +105,6 @@ public class SatelliteMode implements MenuState{
     public void stop() {
         updateThread.interrupt();
         this.screen.setBackground(new Color(27,27,27,255));
-        /*
-        This needs to remove all components you've added to screen
-         */
-
         screen.remove(longitude);
         screen.remove(latitude);
         screen.remove(error);
@@ -128,6 +121,7 @@ public class SatelliteMode implements MenuState{
         longitude.repaint();
         latitude.repaint();
         error.repaint();
+        this.screen.setBackground(Color.WHITE);
     }
 
     @Override

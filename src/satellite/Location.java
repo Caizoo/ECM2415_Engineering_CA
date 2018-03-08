@@ -14,7 +14,7 @@ import java.io.InputStream;
  * @author Scott Woodward
  */
 public class Location implements Runnable {
-    //private final String[] data; Changing from array of strings for concurrency
+
     private String latitude, longitude, time;
     private SerialPort serialPort;
     private final Object lock = new Object();
@@ -49,7 +49,8 @@ public class Location implements Runnable {
 
                 this.serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN);
                 serialPort.setRTS(true);
-
+                //Prevents the error messages appearing in the console
+                System.err.close();
             } else {
                 System.out.println("not a serial port");
             }
@@ -68,6 +69,7 @@ public class Location implements Runnable {
 
             while ((n = in.read(buffer)) > -1) {
                 s = new String(buffer, 0, n);
+                //Can guarantee that the GPGLL message will have the same format with or without connection to the satellites
                 if (s.startsWith("$GPGLL")) {
                     String ss[] = s.split(",");
                     synchronized (lock) {
