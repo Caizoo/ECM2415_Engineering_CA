@@ -6,9 +6,15 @@ import com.google.gson.JsonParser;
 import java.util.ArrayList;
 import java.util.Iterator;
 /*
- * Utilise JSON data stored via strings.
- *
  * Joshua Chalcraft
+ *
+ * Class takes in JSON data stored as a string and extracts directions, which are stored in an ArrayList
+ *
+ * Code is open for extension. Could be used later to extract lang and long info, as well as distance and other things
+ *
+ * Examples of this are given (commented out) in the parseJSON method
+ *
+ * Code requires gson-2.2.2.jar to run, which is stored in the lib folder
  */
 
 public class JSONParser
@@ -16,7 +22,7 @@ public class JSONParser
     /*
      * Traverse through JSON data and extract useful information. Commented code to be extended for another sprint.
      */
-    public static void parseJSON(String data, ArrayList<String> directions)
+    private static void parseJSON(String data, ArrayList<String> directions)
     {
         //Moving to the 'steps' JsonArray, which is where the data we want is stored.
         JsonObject obj1 = new JsonParser().parse(data).getAsJsonObject(); //Parse string from Directions.
@@ -51,26 +57,24 @@ public class JSONParser
     /*
      * Removes the HTML tags from the direction strings. Used before generating speech.
      */
-    public static ArrayList<String> tagRemover(ArrayList<String> directions)
+    private static ArrayList<String> tagRemover(ArrayList<String> directions)
     {
         for (String line : directions)
         {
-            line = line.replaceAll("\\<.*?\\>", " ");
+            line = line.replaceAll("<.*?>", " ");
             System.out.println(line);
         }
         return directions;
     }
 
 
-    public static ArrayList<String> formDirections(String data, ArrayList<String> directions)
+    /*
+     * Returns the directions.
+     */
+    public static ArrayList<String> getDirections(String data, ArrayList<String> directions)
     {
         JSONParser.parseJSON(data, directions);
         directions = JSONParser.tagRemover(directions);
-        return directions;
-    }
-
-    public static ArrayList<String> getDirections(ArrayList<String> directions)
-    {
         return directions;
     }
 }

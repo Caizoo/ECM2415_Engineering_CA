@@ -10,6 +10,7 @@ import menu.MenuState;
 import menu.OnOffState;
 import satellite.AboutMode;
 import satellite.SatelliteMode;
+import whereTo.TripComputer;
 import whereTo.WhereTo;
 import map.MapState;
 import speech.SpeechMode; //Change by josh - renamed class
@@ -83,7 +84,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
         power = new JPowerButton(new File("res/powerButtonOn.png"),new File("res/powerButtonOff.png"),Color.BLACK);
         power.addActionListener(this);
         power.setSize(65,65);
-        power.setLocation(696,183);
+        power.setLocation(696,182);
         this.add(power);
 
         /**TODO:  change layout of screen to null when using absolute locations for buttons**/
@@ -103,12 +104,12 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
         // create new state objects
         states[0] = new OnOffState();
         states[1] = new MainMenuState(this);
+        states[MenuAction.TRIP_COMPUTER_STATE.getVal()] = new TripComputer();
         states[MenuAction.WHERE_TO_STATE.getVal()] = new WhereTo();
         states[MenuAction.MAP_STATE.getVal()] = new MapState();
         states[MenuAction.SPEECH_STATE.getVal()] = new SpeechMode(); //change by Josh - renamed class
         states[MenuAction.SATELLITE_STATE.getVal()] = new SatelliteMode();
         states[MenuAction.ABOUT_STATE.getVal()] = new AboutMode();
-
 
         // set rendering and listening objects to states
         for(MenuState state:states) {
@@ -148,10 +149,12 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
                 }
                 break;
             case MENU:
+                if(state==MenuAction.MAIN_STATE) return;
                 states[state.getVal()].stop();
                 state = MenuAction.MAIN_STATE;
+                states[state.getVal()].stop();
                 states[state.getVal()].start();
-                states[state.getVal()].render();
+                //states[state.getVal()].render();
                 break;
             case SELECT:
                 states[state.getVal()].navigationButton(NavigationAction.SELECT);

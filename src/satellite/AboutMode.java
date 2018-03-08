@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 
 public class AboutMode implements MenuState {
 
@@ -20,7 +21,7 @@ public class AboutMode implements MenuState {
     private JLabel info1, info2, info3;
     private ActionListener listener;
     private Graphics2D renderer;
-    private BufferedImage logo;
+
 
 
     @Override
@@ -34,38 +35,40 @@ public class AboutMode implements MenuState {
 
     @Override
     public void start() {
-       // info1 = new JLabel("<html><div style='text-align: left;'>XTrek</div><div style='text-align: right;'>7.01a</div></html>");
-        info1 = new JLabel("XTrek");
-        info2 = new JLabel("7.01a");
+        info1 = new JLabel("<html><div style='text-align: left;'>XTrek</div></html>");
+        info2 = new JLabel("<html><div style='text-align: right;'>7.01a</div></html>");
         info3 = new JLabel("<html><div style='text-align: center;'>(C) 2018<br/>Dinosoft</div></html>");
 
-        info1.setPreferredSize(new Dimension(50, 2*(this.screen.getHeight()-10)/3));
-        info2.setPreferredSize(new Dimension(50, 2*(this.screen.getHeight()-10)/3));
-        info3.setPreferredSize(new Dimension(this.screen.getWidth()-10, (this.screen.getHeight()-10)/3));
 
-        //info1.setHorizontalAlignment(SwingConstants.LEFT);
-        //info2.setHorizontalAlignment(SwingConstants.RIGHT);
+        info1.setPreferredSize(new Dimension((this.screen.getWidth()-10)/2, (this.screen.getHeight()-10)/2));
+        info2.setPreferredSize(new Dimension((this.screen.getWidth()-10)/2, (this.screen.getHeight()-10)/2));
+        info3.setPreferredSize(new Dimension(this.screen.getWidth()-10, (this.screen.getHeight()-10)/2));
+
+
+        info1.setHorizontalAlignment(SwingConstants.LEFT);
+        info2.setHorizontalAlignment(SwingConstants.RIGHT);
         info3.setHorizontalAlignment(SwingConstants.CENTER);
+
         info1.setVerticalAlignment(SwingConstants.CENTER);
         info2.setVerticalAlignment(SwingConstants.CENTER);
         info3.setVerticalAlignment(SwingConstants.BOTTOM);
-
 
         Font f = new Font("Ariel", Font.BOLD, 20);
         info1.setFont(f);
         info2.setFont(f);
         info3.setFont(f);
 
+
         this.screen.add(info1);
         this.screen.add(info2);
         this.screen.add(info3);
 
-        this.screen.setBackground(Color.WHITE);
     }
 
     @Override
     public void stop() {
         this.screen.setBackground(new Color(27,27,27,255));
+        screen.removeAll();
     }
 
     @Override
@@ -78,6 +81,8 @@ public class AboutMode implements MenuState {
         info1.repaint();
         info2.repaint();
         info3.repaint();
+        this.screen.setBackground(Color.WHITE);
+
     }
 
     @Override

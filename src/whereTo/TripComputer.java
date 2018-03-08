@@ -64,6 +64,7 @@ public class TripComputer implements MenuState, Runnable  {
 
     @Override
     public void stop() {
+        screen.removeAll();
     }
 
     @Override

@@ -23,7 +23,7 @@ import javax.swing.*;
  *
  * Gabriel Mulcahy
  */
-public class MapState extends JPanel implements Observer, MenuState, Runnable{
+public class MapState extends JPanel implements Observer, MenuState /*Runnable*/{
   private BufferedImage image;
   private BufferedImage dot;
   private int rotation;
@@ -34,8 +34,11 @@ public class MapState extends JPanel implements Observer, MenuState, Runnable{
   private Maps map;
   private String longitude;
   private String latitude;
+  private String[] data;
 
-  @Override
+  MockLocation loc;
+
+/*  @Override
   public void run(){
     MockLocation loc = new MockLocation();
     loc.openPort("COM4");
@@ -43,11 +46,6 @@ public class MapState extends JPanel implements Observer, MenuState, Runnable{
     t.start();
 
     while (true) {
-      try {
-        Thread.sleep(7000);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
       String[] data = loc.getData();
       map.setLat(data[0]);
       map.setLong(data[1]);
@@ -58,8 +56,9 @@ public class MapState extends JPanel implements Observer, MenuState, Runnable{
         e.printStackTrace();
       }
       render();
+      Thread.yield();
     }
-  }
+  } */
 
   @Override
   public void setRenderer(Graphics2D renderer){
@@ -84,42 +83,25 @@ public class MapState extends JPanel implements Observer, MenuState, Runnable{
   @Override
   public void start(){
     map = new Maps();
+    //
 
     try {
-      dot = ImageIO.read(new File("src/map/red.png"));
+      dot = ImageIO.read(new File("res/red.png"));
     } catch (IOException e) {
       e.printStackTrace();
     }
 
-    run();
-
-
-/*
-    MockLocation loc = new MockLocation();
+    loc = new MockLocation();
     loc.openPort("COM4");
     Thread t = new Thread(loc);
     t.start();
+    data = loc.getData();
 
-      while (true) {
-        String[] data = loc.getData();
-        map = new Maps();
-        map.setLat(data[0]);
-        map.setLong(data[1]);
-        map.make();
-        try {
-          image = ImageIO.read(new File("src/map/output.png"));
-
-        } catch (Exception ex) {
-          System.out.println(ex);
-          System.exit(1);
-        }
-        render();
-      } */
   }
 
   @Override
   public void stop(){
-
+    screen.removeAll();
   }
 
   @Override
@@ -129,6 +111,7 @@ public class MapState extends JPanel implements Observer, MenuState, Runnable{
 
   @Override
   public void render(){
+    if(image==null) return;
     double radians = Math.toRadians( (double) rotation );
     renderer.rotate( radians, image.getWidth() / 2, image.getHeight() / 2 );
     renderer.drawImage( image, StateManager.SCREEN_X+8,StateManager.SCREEN_Y+32,screen.getWidth()-4,screen.getHeight()-4,screen);
@@ -137,6 +120,7 @@ public class MapState extends JPanel implements Observer, MenuState, Runnable{
 
   @Override
   public void navigationButton(NavigationAction e){
+    data = loc.getData();
     if(e== NavigationAction.PLUS){
       map.zoomIn();
       map.make();
@@ -152,6 +136,16 @@ public class MapState extends JPanel implements Observer, MenuState, Runnable{
       try {
           image = ImageIO.read(new File("src/map/output.png"));
       } catch (IOException e1) {
+          e1.printStackTrace();
+      }
+      render();
+    } else if(e== NavigationAction.SELECT) {
+      map.setLat(data[0]);
+      map.setLong(data[1]);
+      map.make();
+        try {
+          image = ImageIO.read( new File( "src/map/output.png" ) );
+        } catch (IOException e1) {
           e1.printStackTrace();
       }
       render();

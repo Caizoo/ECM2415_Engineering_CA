@@ -11,10 +11,11 @@ import java.io.OutputStream;
  */
 
 public class Maps {
+  final static String KEY = "AIzaSyDG6dG2-8tBFAe6g3Y3TERhwmKWMAtRoCA";
   final static String OUTPUT    = "src/map/output.png";  /* Ouput file        */
   String latitude;
   String longitude;     
-  String zoom      = "15";           /* 0 .. 21           */
+  String zoom      = "18";           /* 0 .. 21           */
   //caps??
   String SIZE      = "191x241";     /* Size              */
 
@@ -29,6 +30,7 @@ public class Maps {
         + "?" + "center" + "=" + latitude + "," + longitude
         + "&" + "zoom"   + "=" + zoom
         + "&" + "size"   + "=" + size
+        //+ "&" + "key"    + "=" + KEY
         );
     final byte[] body
         = {};

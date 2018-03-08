@@ -11,20 +11,22 @@ import java.net.URLEncoder;
  *
  * David Wakeling, 2018.
  *
- * Modified by Gabriel and Joshua.
+ * Modified by Gabriel Mulcahy and Joshua Chalcraft
  */
 public class Directions {
-    final static String ORIGIN      = "The Forum, Exeter University";
-    static String DESTINATION       = "Cathedral Green, Exeter";
-    final static String REGION      = "uk";
-    final static String MODE        = "walking"; /* "driving" */
+    static String origin      = "The Forum, Exeter University";
+    static String destination = "Cathedral Green, Exeter";
+    static String region      = "uk";
+    static String mode        = "walking"; /* "driving" */
+    static String language    = "en-GB";
     /*
      * Read directions.
      */
-    static byte[] readDirections( String origin
+    private static byte[] readDirections( String origin
             , String destination
             , String region
-            , String mode ) {
+            , String mode
+            , String language) {
         try {
             final String encOrigin      = URLEncoder.encode( origin,      "UTF-8" );
             final String encDestination = URLEncoder.encode( destination, "UTF-8" );
@@ -35,6 +37,7 @@ public class Directions {
                     + "&" + "destination" + "=" + encDestination
                     + "&" + "region"      + "=" + region
                     + "&" + "mode"        + "=" + mode
+                    + "&" + "langauage"   + "=" + language
             );
             final byte[] body
                     = {};
@@ -48,14 +51,31 @@ public class Directions {
     }
 
     /*
-     * Turns byte array into string ready for JSON parsing.
-     *
-     * Method by Joshua Chalcraft
+     * Turns byte array into string ready for JSON parsing - Joshua Chalcraft
      */
     public static String sendToParser() {
-
-        final byte[] ds = readDirections( ORIGIN, DESTINATION, REGION, MODE );
+        final byte[] ds = readDirections( origin, destination, region, mode, language );
         String directions = new String(ds);
         return directions;
+    }
+
+    public void setOrigin(String origin){
+        this.origin = origin;
+    }
+
+    public void setDestination(String destination){
+        this.destination = destination;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getLanguage() {
+        return language;
     }
 }
