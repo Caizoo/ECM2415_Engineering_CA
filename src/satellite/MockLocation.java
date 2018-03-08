@@ -24,8 +24,9 @@ public class MockLocation implements Runnable{
     @Override
     public void run(){
         //Simulates a 6 minute journey walking 0.3km
+        //NOTE: Data might not be currently be fully realistic, the purpose is to only simulate real data in a way that will replicate the full location object
         try {
-            Thread.sleep(1000);
+            //Thread.sleep(1000); //Will add in in further sprint to simulate waiting to connect
             double lat = 50.729694; //50.733372
             double lon = -3.549088; //-3.524982
             double time = 120000.00;
