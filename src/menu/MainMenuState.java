@@ -25,6 +25,7 @@ public class MainMenuState implements MenuState {
     private Graphics2D renderer;
 
     ArrayList<JMenuButton> buttons = new ArrayList<>();
+    int selectedIndex = 0;
 
     public MainMenuState(StateManager sm) {
         this.sm = sm;
@@ -52,6 +53,9 @@ public class MainMenuState implements MenuState {
             b.addActionListener(listener); // add the action listener from StateManager to listen to the buttons' events
             screen.add(b); // add button to JPanel screen
         }
+
+        buttons.get(selectedIndex).select();
+
     }
 
     public void stop() {
@@ -66,12 +70,26 @@ public class MainMenuState implements MenuState {
     }
 
     public void actionPerformed(ActionEvent e) {
-        // if a button has been clicked, redirect to the appropriate state
-        sm.goToState(((JMenuButton)e.getSource()).menuAction);
+
     }
 
     public void navigationButton(NavigationAction e) {
+        if(e==NavigationAction.PLUS) {
+            buttons.get(selectedIndex).unselect();
+            selectedIndex+=1;
+            selectedIndex%=(buttons.size());
+            buttons.get(selectedIndex).select();
+        }else if(e==NavigationAction.MINUS) {
+            buttons.get(selectedIndex).unselect();
+            selectedIndex-=1;
+            if(selectedIndex<0) selectedIndex = buttons.size()-1;
+            buttons.get(selectedIndex).select();
+        }else if(e==NavigationAction.SELECT) {
+            buttons.get(selectedIndex).unselect();
+            sm.goToState((buttons.get(selectedIndex)).menuAction);
+        }
 
+        render();
     }
 
 }
