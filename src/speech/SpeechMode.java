@@ -18,7 +18,8 @@ import javax.swing.border.LineBorder;
  *   - Utilises vertical menus over buttons
  *   - LanguageMenu (known before as LanguageButton) now has more attributes regarding other text-to-speech parameters
  *
- * Conversion to a project-wide MVC planned for the third scrum, as well as movement to a single directory
+ * Conversion to a project-wide MVC planned for the third scrum as shown by 'Software Eng CA.jpg' in res folder
+ * Third scrum also includes moving all classes into a project-wide directory
  */
 public class SpeechMode extends JFrame implements MenuState
 {
@@ -113,6 +114,7 @@ public class SpeechMode extends JFrame implements MenuState
             //System.out.println("artist is " + SpeechGenerator.getArtist());
         }
     }
+
     /*
     * Custom JMenuBar that is vertical.
     */
@@ -125,6 +127,11 @@ public class SpeechMode extends JFrame implements MenuState
         }
     }
 
+
+    /*
+     * LanguageMenu contains extra attributes that will set the SpeechGenerator's attributes
+     * once that menu has been selected through the SELECT navigation action.
+     */
     public class LanguageMenu extends JMenu
     {
         String languageType;

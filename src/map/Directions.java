@@ -21,7 +21,7 @@ public class Directions {
     /*
      * Read directions.
      */
-    static byte[] readDirections( String origin
+    private static byte[] readDirections( String origin
             , String destination
             , String region
             , String mode ) {
