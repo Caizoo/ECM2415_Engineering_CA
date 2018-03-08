@@ -6,9 +6,12 @@ import gnu.io.SerialPort;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
+/*
+ *
  * COMMENT IN WHEN ALL MACHINES CAN RUN THE GPS
  * Code modified, with permission, from David Wakeling
+ *
+ * @author Scott Woodward
  */
 public class Location implements Runnable {
     //private final String[] data; Changing from array of strings for concurrency
