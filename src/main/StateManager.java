@@ -83,7 +83,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
         power = new JPowerButton(new File("res/powerButtonOn.png"),new File("res/powerButtonOff.png"),Color.BLACK);
         power.addActionListener(this);
         power.setSize(65,65);
-        power.setLocation(696,183);
+        power.setLocation(696,182);
         this.add(power);
 
         /**TODO:  change layout of screen to null when using absolute locations for buttons**/
@@ -108,7 +108,6 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
         states[MenuAction.SPEECH_STATE.getVal()] = new SpeechMode(); //change by Josh - renamed class
         states[MenuAction.SATELLITE_STATE.getVal()] = new SatelliteMode();
         states[MenuAction.ABOUT_STATE.getVal()] = new AboutMode();
-
 
         // set rendering and listening objects to states
         for(MenuState state:states) {
