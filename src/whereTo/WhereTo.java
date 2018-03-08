@@ -7,19 +7,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.RoundRectangle2D;
 
 public class WhereTo implements MenuState {
     Graphics2D renderer;
     private JFrame frame;
     private JPanel screen;
     private ActionListener listener;
-    static final TextField txtf = new TextField();
+    final JTextField txtf = new RoundJTextField(30);
     int currentButton;
     int currentMode;
 
     CharacterButton[] charButtons = new CharacterButton[28];
     NumberButton[] numButtons = new NumberButton[12];
-
 
     @Override
     public void setRenderer(Graphics2D renderer) {
@@ -33,6 +33,10 @@ public class WhereTo implements MenuState {
 
     @Override
     public void setPanel(JPanel panel) {
+
+        FlowLayout keyboardLayout = new FlowLayout(FlowLayout.LEFT, 0, 0);
+        keyboardLayout.setAlignOnBaseline(true);
+        panel.setLayout(keyboardLayout);
         this.screen=panel;
     }
 
@@ -70,7 +74,7 @@ public class WhereTo implements MenuState {
         charButtons[22]= new CharacterButton("W",23);
         charButtons[23]= new CharacterButton("X",24);
         charButtons[24]= new CharacterButton("Y",25);
-        charButtons[25]= new CharacterButton("X",26);
+        charButtons[25]= new CharacterButton("Z",26);
         charButtons[26]= new CharacterButton("  ",27);
         charButtons[27] = new CharacterButton(28);
 
@@ -90,37 +94,44 @@ public class WhereTo implements MenuState {
 
 
 
-        txtf.setPreferredSize(new Dimension(170, 30));
-        txtf.setFont(new Font("Ariel", Font.BOLD, 18));
+        txtf.setPreferredSize(new Dimension(100, 30));
         screen.add(txtf);
+        txtf.setFont(new Font("Ariel", Font.BOLD, 18));
+
         for(CharacterButton x: charButtons){
             if(x.getChar()=="A"){
-                x.setPreferredSize(new Dimension(42, 25));
+                x.setPreferredSize(new Dimension(46, 30));
                 screen.add(x);
                 x.setBackground(Color.ORANGE);
             }
-            x.setPreferredSize(new Dimension(42, 25));
-            screen.add(x);
+            else {
+                x.setBackground(Color.WHITE);
+                x.setPreferredSize(new Dimension(46, 30));
+                screen.add(x);
+            }
         }
-        for (NumberButton x: numButtons){
-            if(x.getChar()=="1"){
-                x.setPreferredSize(new Dimension(45, 45));
+        for (NumberButton x: numButtons) {
+            if (x.getChar() == "1") {
+                x.setPreferredSize(new Dimension(60, 40));
 
                 x.setVisible(false);
                 x.setBackground(Color.ORANGE);
                 screen.add(x);
-            }
-
-                x.setPreferredSize(new Dimension(45, 45));
+            } else if (x.getChar().equals("DEL")) {
+                x.setPreferredSize(new Dimension(120, 80));
+                x.setVisible(false);
+                screen.add(x);
+            } else {
+                x.setPreferredSize(new Dimension(60, 40));
                 x.setVisible(false);
                 screen.add(x);
             }
+        }
         }
 
 
     @Override
     public void stop() {
-        System.out.println("STOP");
         for(CharacterButton x: charButtons){
             screen.remove(x);
         }
@@ -142,6 +153,7 @@ public class WhereTo implements MenuState {
         for(NumberButton x: numButtons){
             if(x!=null) x.repaint();
         }
+        txtf.repaint();
     }
     @Override
     public void navigationButton(NavigationAction e) {
@@ -228,11 +240,14 @@ public class WhereTo implements MenuState {
 
     public class NumberButton extends JButton{
         public String num;
+        Font font = new Font("Verdana",Font.BOLD,12);
         NumberButton(int i, String special){
+            this.setVerticalAlignment(JLabel.TOP);
+            this.setFont(font);
             this.num =special;
             this.setText(special);
             this.setBackground(Color.WHITE);
-            this.setFont(new Font("Ariel", Font.BOLD, 18));
+            this.setFont(new Font("Verdana", Font.BOLD, 13));
             this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         }
 
@@ -260,27 +275,31 @@ public class WhereTo implements MenuState {
             txtf.setText(currentField);
         }
     }
-    public class CharacterButton extends JButton {
+    public class CharacterButton extends JLabel {
         public int alphaNum;
         public String s;
         CharacterButton(String s, int i) {
+
             this.alphaNum =i;
+            this.setOpaque(true);
             this.s=s;
             this.setBackground(Color.WHITE);
-            this.setFont(new Font("Ariel", Font.BOLD, 18));
-            this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
-            if (s == " "){
-                this.setText("Space");
+            this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+            if (s == "  "){
+                this.setText("|____|");
+                this.setFont(new Font("Verdana", Font.BOLD, 9));
             }
             else {
                 this.setText(s);
+                this.setFont(new Font("Verdana", Font.BOLD, 13));
             }
         }
         CharacterButton(int i){
             this.setText("=>");
             this.setBackground(Color.WHITE);
-            this.setFont(new Font("Ariel", Font.BOLD, 18));
-            this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+            this.setOpaque(true);
+            this.setFont(new Font("Verdana", Font.BOLD, 13));
+            this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
         }
         public void textInput(){
@@ -303,10 +322,33 @@ public class WhereTo implements MenuState {
             currentButton=0;
             charButtons[currentButton].setBackground(Color.ORANGE);
         }
+
+    }
+    public class RoundJTextField extends JTextField {
+        private Shape shape;
+        public RoundJTextField(int size) {
+            super(size);
+            setOpaque(false); // As suggested by @AVD in comment.
+        }
+        protected void paintComponent(Graphics g) {
+            g.setColor(getBackground());
+            g.fillRoundRect(5, 0, 175, 30, 20, 20);
+            super.paintComponent(g);
+        }
+        protected void paintBorder(Graphics g) {
+            g.setColor(getForeground());
+            g.drawRoundRect(5, 0, 175, 30, 20, 20);
+        }
+        public boolean contains(int x, int y) {
+            if (shape == null || !shape.getBounds().equals(getBounds())) {
+                shape = new RoundRectangle2D.Float(5, 0, 175, 30, 20, 20);
+            }
+            return shape.contains(x, y);
+        }
     }
     public WhereTo(){
     }
-    static public  String getDirections (){
+    public  String getDirections (){
         String destination = txtf.getText();
         return destination;
     }
