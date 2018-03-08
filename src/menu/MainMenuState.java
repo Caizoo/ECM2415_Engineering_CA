@@ -55,10 +55,7 @@ public class MainMenuState implements MenuState {
     }
 
     public void stop() {
-        // remove all buttons from screen
-        for(JMenuButton b:buttons) {
-            screen.remove(b);
-        }
+        screen.removeAll();
     }
 
     public void render() {
