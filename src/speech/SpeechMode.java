@@ -70,7 +70,7 @@ public class SpeechMode extends JFrame implements MenuState
     @Override
     public void stop()
     {
-        for (int i = 0; i < menuBar.getMenuCount(); i++) screen.remove(menuBar.getMenu(i));
+        screen.removeAll();
     }
 
     @Override
