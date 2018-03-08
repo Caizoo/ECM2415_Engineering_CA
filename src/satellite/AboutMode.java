@@ -40,7 +40,7 @@ public class AboutMode implements MenuState {
         info3 = new JLabel("<html><div style='text-align: center;'>(C) 2018<br/>Dinosoft</div></html>");
 
         try {
-           image = ImageIO.read(new File("src/satellite/dino.gif"));
+           image = ImageIO.read(new File("src/satellite/dino.png"));
            //logo = new JLabel(new ImageIcon(image));
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,11 +90,11 @@ public class AboutMode implements MenuState {
 
     @Override
     public void render() {
+        renderer.drawImage( image, 632, 338, image.getWidth(), image.getHeight(), screen );
         info1.repaint();
         info2.repaint();
         info3.repaint();
         //logo.repaint();
-        renderer.drawImage( image, 632, 338, image.getWidth(), image.getHeight(), screen );
     }
 
     @Override
