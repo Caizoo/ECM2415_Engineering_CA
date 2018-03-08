@@ -14,7 +14,7 @@ import java.util.ArrayList;
  *
  * By scrum 3, this behaviour should be exhibited through the GPS gui application (or behaviour similar)
  */
-public class SpeechMain
+public class MockSpeechGeneration
 {
     private static ArrayList<String> directions = new ArrayList<>();
 

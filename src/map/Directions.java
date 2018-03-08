@@ -11,17 +11,17 @@ import java.net.URLEncoder;
  *
  * David Wakeling, 2018.
  *
- * Modified by Gabriel and Joshua.
+ * Modified by Gabriel Mulcahy and Joshua Chalcraft
  */
 public class Directions {
     static String ORIGIN      = "The Forum, Exeter University";
-    static String DESTINATION       = "Cathedral Green, Exeter";
+    static String DESTINATION = "Cathedral Green, Exeter";
     static String REGION      = "uk";
     static String MODE        = "walking"; /* "driving" */
     /*
      * Read directions.
      */
-    static byte[] readDirections( String origin
+    private static byte[] readDirections( String origin
             , String destination
             , String region
             , String mode ) {
@@ -48,12 +48,9 @@ public class Directions {
     }
 
     /*
-     * Turns byte array into string ready for JSON parsing.
-     *
-     * Method by Joshua Chalcraft
+     * Turns byte array into string ready for JSON parsing - Joshua Chalcraft
      */
     public static String sendToParser() {
-
         final byte[] ds = readDirections( ORIGIN, DESTINATION, REGION, MODE );
         String directions = new String(ds);
         return directions;
