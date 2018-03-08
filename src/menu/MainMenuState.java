@@ -60,6 +60,7 @@ public class MainMenuState implements MenuState {
 
     public void stop() {
         screen.removeAll();
+        buttons.clear();
     }
 
     public void render() {

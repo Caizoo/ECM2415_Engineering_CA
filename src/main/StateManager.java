@@ -147,8 +147,10 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
                 }
                 break;
             case MENU:
+                if(state==MenuAction.MAIN_STATE) return;
                 states[state.getVal()].stop();
                 state = MenuAction.MAIN_STATE;
+                states[state.getVal()].stop();
                 states[state.getVal()].start();
                 //states[state.getVal()].render();
                 break;
