@@ -11,7 +11,7 @@ import java.io.OutputStream;
  */
 
 public class Maps {
-  final static String KEY = "AIzaSyDG6dG2-8tBFAe6g3Y3TERhwmKWMAtRoCA";
+  final static String KEY = "AIzaSyDC6wHj2s9ZTXqtre3DbYNhQsvu-kH8d1w";
   final static String OUTPUT    = "src/map/output.png";  /* Ouput file        */
   String latitude;
   String longitude;     
@@ -30,7 +30,7 @@ public class Maps {
         + "?" + "center" + "=" + latitude + "," + longitude
         + "&" + "zoom"   + "=" + zoom
         + "&" + "size"   + "=" + size
-        //+ "&" + "key"    + "=" + KEY
+        + "&" + "key"    + "=" + KEY
         );
     final byte[] body
         = {};

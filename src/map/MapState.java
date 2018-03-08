@@ -23,7 +23,7 @@ import javax.swing.*;
  *
  * Gabriel Mulcahy
  */
-public class MapState extends JPanel implements Observer, MenuState /*Runnable*/{
+public class MapState extends JPanel implements Observer, MenuState {
   private BufferedImage image;
   private BufferedImage dot;
   private int rotation;
@@ -35,30 +35,8 @@ public class MapState extends JPanel implements Observer, MenuState /*Runnable*/
   private String longitude;
   private String latitude;
   private String[] data;
-
   MockLocation loc;
 
-/*  @Override
-  public void run(){
-    MockLocation loc = new MockLocation();
-    loc.openPort("COM4");
-    Thread t = new Thread(loc);
-    t.start();
-
-    while (true) {
-      String[] data = loc.getData();
-      map.setLat(data[0]);
-      map.setLong(data[1]);
-      map.make();
-      try {
-        image = ImageIO.read( new File( "src/map/output.png" ) );
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-      render();
-      Thread.yield();
-    }
-  } */
 
   @Override
   public void setRenderer(Graphics2D renderer){
@@ -83,7 +61,6 @@ public class MapState extends JPanel implements Observer, MenuState /*Runnable*/
   @Override
   public void start(){
     map = new Maps();
-    //
 
     try {
       dot = ImageIO.read(new File("res/red.png"));
