@@ -18,10 +18,10 @@ public class AboutMode implements MenuState {
 
     private JFrame frame;
     private JPanel screen;
-    private JLabel info1, info2, info3, logo;
+    private JLabel info1, info2, info3;
     private ActionListener listener;
     private Graphics2D renderer;
-    private BufferedImage image;
+
 
 
     @Override
@@ -39,29 +39,19 @@ public class AboutMode implements MenuState {
         info2 = new JLabel("<html><div style='text-align: right;'>7.01a</div></html>");
         info3 = new JLabel("<html><div style='text-align: center;'>(C) 2018<br/>Dinosoft</div></html>");
 
-        try {
-           image = ImageIO.read(new File("src/satellite/dino.png"));
-           //logo = new JLabel(new ImageIcon(image));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         info1.setPreferredSize(new Dimension((this.screen.getWidth()-10)/2, (this.screen.getHeight()-10)/2));
         info2.setPreferredSize(new Dimension((this.screen.getWidth()-10)/2, (this.screen.getHeight()-10)/2));
         info3.setPreferredSize(new Dimension(this.screen.getWidth()-10, (this.screen.getHeight()-10)/2));
-        //logo.setPreferredSize(new Dimension((this.screen.getWidth()-10)/3, 3*this.screen.getHeight()/4));
+
 
         info1.setHorizontalAlignment(SwingConstants.LEFT);
         info2.setHorizontalAlignment(SwingConstants.RIGHT);
         info3.setHorizontalAlignment(SwingConstants.CENTER);
-        //logo.setHorizontalAlignment(SwingConstants.CENTER);
-        //logo.setVerticalAlignment(SwingConstants.CENTER);
+
         info1.setVerticalAlignment(SwingConstants.CENTER);
         info2.setVerticalAlignment(SwingConstants.CENTER);
         info3.setVerticalAlignment(SwingConstants.BOTTOM);
-
-
-        //632, 338
 
         Font f = new Font("Ariel", Font.BOLD, 20);
         info1.setFont(f);
@@ -71,11 +61,8 @@ public class AboutMode implements MenuState {
 
         this.screen.add(info1);
         this.screen.add(info2);
-        //this.screen.add(logo);
         this.screen.add(info3);
 
-
-        this.screen.setBackground(Color.WHITE);
     }
 
     @Override
@@ -91,11 +78,11 @@ public class AboutMode implements MenuState {
 
     @Override
     public void render() {
-        renderer.drawImage( image, 632, 338, image.getWidth(), image.getHeight(), screen );
         info1.repaint();
         info2.repaint();
         info3.repaint();
-        //logo.repaint();
+        this.screen.setBackground(Color.WHITE);
+
     }
 
     @Override
