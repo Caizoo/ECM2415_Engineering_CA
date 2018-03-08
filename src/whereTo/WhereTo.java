@@ -121,13 +121,7 @@ public class WhereTo implements MenuState {
     @Override
     public void stop() {
         System.out.println("STOP");
-        for(CharacterButton x: charButtons){
-            screen.remove(x);
-        }
-        for(NumberButton x: numButtons){
-            screen.remove(x);
-        }
-        screen.remove(txtf);
+        screen.removeAll();
     }
 
     @Override

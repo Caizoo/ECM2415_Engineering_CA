@@ -81,6 +81,7 @@ public class AboutMode implements MenuState {
     @Override
     public void stop() {
         this.screen.setBackground(new Color(27,27,27,255));
+        screen.removeAll();
     }
 
     @Override

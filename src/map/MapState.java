@@ -101,7 +101,7 @@ public class MapState extends JPanel implements Observer, MenuState /*Runnable*/
 
   @Override
   public void stop(){
-
+    screen.removeAll();
   }
 
   @Override
