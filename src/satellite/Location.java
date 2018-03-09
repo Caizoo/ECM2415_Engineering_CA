@@ -77,8 +77,11 @@ public class Location implements Runnable {
                             this.latitude = "";
                             this.longitude = "";
                         } else {
-                            this.latitude = (ss[2].equals("N")) ? ss[1] : "-" + ss[1];
-                            this.longitude = (ss[4].equals("E")) ? ss[3] : "-" + ss[3];
+                            //Converts to correct formatting for APIs
+                            String lat = String.valueOf(Integer.valueOf(ss[1].substring(0,2)) + Float.valueOf(ss[1].substring(2))/60);
+                            String lon = String.valueOf(Integer.valueOf(ss[3].substring(0,3)) + Float.valueOf(ss[3].substring(3))/60);
+                            this.latitude = (ss[2].equals("N")) ? lat : "-" + lat;
+                            this.longitude = (ss[4].equals("E")) ? lon : "-" + lon;
                         }
                         this.time = ss[5];
                     }
