@@ -11,7 +11,7 @@ import java.io.OutputStream;
  */
 
 public class Maps {
-  final static String KEY = "AIzaSyDG6dG2-8tBFAe6g3Y3TERhwmKWMAtRoCA";
+  final static String KEY = "AIzaSyDC6wHj2s9ZTXqtre3DbYNhQsvu-kH8d1w";
   final static String OUTPUT    = "src/map/output.png";  /* Ouput file        */
   String latitude;
   String longitude;     
@@ -30,7 +30,7 @@ public class Maps {
         + "?" + "center" + "=" + latitude + "," + longitude
         + "&" + "zoom"   + "=" + zoom
         + "&" + "size"   + "=" + size
-        //+ "&" + "key"    + "=" + KEY
+        + "&" + "key"    + "=" + KEY
         );
     final byte[] body
         = {};
@@ -64,8 +64,8 @@ public class Maps {
   }
   
   void zoomIn(){
-    int iZoom = Integer.parseInt(zoom);
-    if (iZoom < 21) iZoom++;
+    int iZoom = Integer.parseInt(zoom); //create an integer form of zoom that can be incremented
+    if (iZoom < 21) iZoom++;            //check that the max zoom has not been reached
     zoom = Integer.toString(iZoom);
   }
   
@@ -74,13 +74,6 @@ public class Maps {
     if (iZoom > 0) iZoom--;
     zoom = Integer.toString(iZoom);
   }
-  
-  int getZoom(){
-    int iZoom = Integer.parseInt(zoom);
-    return iZoom;
-  }
-
-
   
   /*
    * Download map data.
@@ -97,7 +90,7 @@ public class Maps {
     SIZE = "191x241";
   }
 
-  //creates an image to be rendered facign east/west
+  //creates an image to be rendered facing east/west
   public void eastWest() {
     SIZE = "241x191";
   }
