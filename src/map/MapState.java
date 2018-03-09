@@ -6,7 +6,6 @@ import menu.MenuState;
 import satellite.MockLocation;
 
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,14 +25,13 @@ import javax.swing.*;
 public class MapState extends JPanel implements Observer, MenuState {
   private BufferedImage image;
   private BufferedImage dot;
+  private BufferedImage finding;
   private int rotation;
   private JFrame frame;
   private JPanel screen;
   private ActionListener listener;
   private Graphics2D renderer;
   private Maps map;
-  private String longitude;
-  private String latitude;
   private String[] data;
   MockLocation loc;
 
@@ -137,10 +135,6 @@ public class MapState extends JPanel implements Observer, MenuState {
   public void update( Observable obs, Object obj ) {
     rotation = (int) obj;
     repaint();
-  }
-  
-  public void setRotation(int rotation){
-    this.rotation = rotation;
   }
   
   
