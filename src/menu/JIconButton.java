@@ -1,3 +1,7 @@
+/**
+ * Author: Cai Davies
+ */
+
 package menu;
 
 import javax.imageio.ImageIO;
