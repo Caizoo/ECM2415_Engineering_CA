@@ -24,8 +24,10 @@ public class MockSpeechGeneration
         SpeechGenerator.setLanguage("en-US");
         SpeechGenerator.setGender("Apollo");
         SpeechGenerator.setArtist("(en-GB, Susan, Apollo)");
+        //System.out.print("Entering for each");
         for (String line : directions)
         {
+            //System.out.println(line);
             SpeechGenerator.setText(line);
             SpeechGenerator.generate();
             SoundPlayer.play();

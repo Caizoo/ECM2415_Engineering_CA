@@ -59,10 +59,10 @@ public class JSONParser
      */
     private static ArrayList<String> tagRemover(ArrayList<String> directions)
     {
-        for (String line : directions)
+        for (int i =0; i<directions.size(); i++)
         {
-            line = line.replaceAll("<.*?>", " ");
-            System.out.println(line);
+            directions.set(i, directions.get(i).replaceAll("<.*?>", " "));
+            //System.out.println(line);
         }
         return directions;
     }
