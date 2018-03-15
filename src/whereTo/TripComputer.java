@@ -1,3 +1,6 @@
+/*
+Author-Rob Wells
+ */
 package whereTo;
 import main.NavigationAction;
 import menu.MenuState;
