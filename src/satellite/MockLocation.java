@@ -2,18 +2,20 @@ package satellite;
 
 public class MockLocation implements Runnable{
 
-    private String latitude, longitude, time;
+    private String latitude, longitude, time, velocity, direction;
     private final Object lock = new Object();
 
     public MockLocation() {
         this.latitude = "";
         this.longitude = "";
         this.time = "0";
+        this.velocity = "";
+        this.direction = "";
     }
 
     public String[] getData() {
         synchronized (lock) {
-            return new String[]{this.latitude, this.longitude, this.time};
+            return new String[]{this.latitude, this.longitude, this.direction, this.velocity, this.time};
         }
     }
 

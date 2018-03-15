@@ -39,8 +39,8 @@ public class SatelliteMode implements MenuState{
     @Override
     public void start() {
 
-        MockLocation loc = new MockLocation();
-        //Location loc = new Location(); //Comment in with access to satellite connection
+       // MockLocation loc = new MockLocation();
+        Location loc = new Location(); //Comment in with access to satellite connection
         loc.openPort("COM4");
         Thread t = new Thread(loc);
 

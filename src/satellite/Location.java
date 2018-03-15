@@ -15,7 +15,7 @@ import java.io.InputStream;
  */
 public class Location implements Runnable {
 
-    private String latitude, longitude, time;
+    private String latitude, longitude, time, velocity, direction;
     private SerialPort serialPort;
     private final Object lock = new Object();
     final static int BAUD_RATE = 9600;
@@ -30,7 +30,7 @@ public class Location implements Runnable {
 
     public String[] getData() {
         synchronized (lock) {
-            return new String[]{this.latitude, this.longitude, this.time};
+            return new String[]{this.latitude, this.longitude, this.direction, this.velocity, this.time};
         }
     }
 
@@ -69,17 +69,28 @@ public class Location implements Runnable {
 
             while ((n = in.read(buffer)) > -1) {
                 s = new String(buffer, 0, n);
+                String ss[] = s.split(",");
+                if (s.startsWith("$GPVTG")){
+                    synchronized (lock){
+                        this.direction = ss[1];
+                        this.velocity = ss[7];
+                        System.out.println("DIRECTION: "+ss[1]);
+                        System.out.println("VELOCITY: "+ss[7]);
+                    }
+                }
                 //Can guarantee that the GPGLL message will have the same format with or without connection to the satellites
-                if (s.startsWith("$GPGLL")) {
-                    String ss[] = s.split(",");
+                else if (s.startsWith("$GPGLL")) {
+                    //String ss[] = s.split(",");
                     synchronized (lock) {
                         if (ss[1].equals("")) {
                             this.latitude = "";
                             this.longitude = "";
                         } else {
                             //Converts to correct formatting for APIs
-                            String lat = String.valueOf(Integer.valueOf(ss[1].substring(0,2)) + Float.valueOf(ss[1].substring(2))/60);
-                            String lon = String.valueOf(Integer.valueOf(ss[3].substring(0,3)) + Float.valueOf(ss[3].substring(3))/60);
+                            //String lat = String.valueOf(Integer.valueOf(ss[1].substring(0,2)) + Float.valueOf(ss[1].substring(2))/60);
+                            //String lon = String.valueOf(Integer.valueOf(ss[3].substring(0,3)) + Float.valueOf(ss[3].substring(3))/60);
+                            String lat = String.format("%.6f", Integer.valueOf(ss[1].substring(0,2)) + Float.valueOf(ss[1].substring(2))/60);
+                            String lon = String.format("%.6f", Integer.valueOf(ss[3].substring(0,3)) + Float.valueOf(ss[3].substring(3))/60);
                             this.latitude = (ss[2].equals("N")) ? lat : "-" + lat;
                             this.longitude = (ss[4].equals("E")) ? lon : "-" + lon;
                         }
