@@ -25,7 +25,6 @@ import javax.swing.*;
 public class MapState extends JPanel implements Observer, MenuState {
   private BufferedImage image;
   private BufferedImage dot;
-  private BufferedImage finding;
   private int rotation;
   private JFrame frame;
   private JPanel screen;
@@ -59,7 +58,6 @@ public class MapState extends JPanel implements Observer, MenuState {
   @Override
   public void start(){
     map = new Maps();
-
     try {
       dot = ImageIO.read(new File("res/red.png"));
     } catch (IOException e) {
@@ -71,7 +69,6 @@ public class MapState extends JPanel implements Observer, MenuState {
     Thread t = new Thread(loc);
     t.start();
     data = loc.getData();
-
   }
 
   @Override
@@ -87,8 +84,10 @@ public class MapState extends JPanel implements Observer, MenuState {
   @Override
   public void render(){
     if(image==null) return;
+    /*
     double radians = Math.toRadians( (double) rotation );
     renderer.rotate( radians, image.getWidth() / 2, image.getHeight() / 2 );
+    */
     renderer.drawImage( image, StateManager.SCREEN_X+8,StateManager.SCREEN_Y+32,screen.getWidth()-4,screen.getHeight()-4,screen);
     renderer.drawImage( dot, StateManager.SCREEN_X+96, StateManager.SCREEN_Y+142, 10, 10, screen );
   }
@@ -123,6 +122,7 @@ public class MapState extends JPanel implements Observer, MenuState {
         } catch (IOException e1) {
           e1.printStackTrace();
       }
+      setDirection(10); //PRESSING SELECT WILL ROTATE NOT AROUND CENTRE EVERY TIME
       render();
     }
   }
@@ -137,21 +137,10 @@ public class MapState extends JPanel implements Observer, MenuState {
     repaint();
   }
   
-  
-  public void north(){
-    rotation = 0;
-  }
-  
-  public void west(){
-    rotation = 90;
-  }
-  
-  public void south(){
-    rotation = 180;
-  }
-  
-  public void east(){
-    rotation = 270;
+  public void setDirection(int angle){
+    rotation = angle - rotation;
+    double radians = Math.toRadians( (double) rotation );
+    renderer.rotate( radians, StateManager.SCREEN_X+96, StateManager.SCREEN_Y+121);
   }
 
   public Dimension getPreferredSize() {
