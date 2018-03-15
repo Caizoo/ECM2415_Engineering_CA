@@ -95,6 +95,7 @@ public class Location implements Runnable {
                             this.longitude = (ss[4].equals("E")) ? lon : "-" + lon;
                         }
                         this.time = ss[5];
+                        //this.time = String.format("%f", Integer.valueOf(ss[5].substring(0,2))*3600 + Integer.valueOf(ss[5].substring(2,4))*60 + Float.valueOf(ss[5].substring(4)));
                     }
                     Thread.sleep(2000);
                 }
