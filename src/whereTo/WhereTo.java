@@ -1,7 +1,5 @@
-/*
-Author-Rob Wells
- */
 package whereTo;
+
 import main.NavigationAction;
 import menu.MenuState;
 
@@ -10,6 +8,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+
 
 public class WhereTo implements MenuState {
     Graphics2D renderer;
@@ -77,8 +79,8 @@ public class WhereTo implements MenuState {
         charButtons[23] = new CharacterButton("X", 24);
         charButtons[24] = new CharacterButton("Y", 25);
         charButtons[25] = new CharacterButton("Z", 26);
-        charButtons[26] = new CharacterButton("  ", 27);
-        charButtons[27] = new CharacterButton(28);
+        charButtons[26] = new CharacterButton("\u2423", 27);
+        charButtons[27] = new CharacterButton("\u21d2",28);
 
 
         numButtons[0] = new NumberButton(1, "1");
@@ -92,7 +94,7 @@ public class WhereTo implements MenuState {
         numButtons[8] = new NumberButton(9, "9");
         numButtons[9] = new NumberButton(0, "0");
         numButtons[10] = new NumberButton(-1, "DEL");
-        numButtons[11] = new NumberButton(-1, "<=");
+        numButtons[11] = new NumberButton(-1, "\u21d0");
 
 
         txtf.setPreferredSize(new Dimension(100, 30));
@@ -238,6 +240,10 @@ public class WhereTo implements MenuState {
                 this.setBackground(Color.WHITE);
                 this.setFont(new Font("Verdana", Font.BOLD, 13));
                 this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+                if (special == "\u21d0"){
+                    this.setText(String.valueOf('\u21d0'));
+                    this.setFont(new Font("Verdana", Font.BOLD, 20));
+                }
             }
 
             public void switchToChars() {
@@ -267,34 +273,34 @@ public class WhereTo implements MenuState {
                 txtf.setText(currentField);
             }
         }
-        public class CharacterButton extends JLabel {
+        public class CharacterButton extends JTextPane {
             public int alphaNum;
             public String s;
 
             CharacterButton(String s, int i) {
-
+                StyledDocument doc = this.getStyledDocument();
+                SimpleAttributeSet center = new SimpleAttributeSet();
+                StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+                doc.setParagraphAttributes(0, doc.getLength(), center, false);
                 this.alphaNum = i;
                 this.setOpaque(true);
                 this.s = s;
                 this.setBackground(Color.WHITE);
                 this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-                if (s == "  ") {
-                    this.setText("|____|");
-                    this.setFont(new Font("Verdana", Font.BOLD, 9));
-                } else {
+                if (s == "\u2423" ) {
+                    this.setText(String.valueOf('\u2423'));
+                    this.setFont(new Font("Verdana", Font.BOLD, 20));
+                }
+                else if (s== "\u21d2"){
+                    this.setText(String.valueOf('\u21d2'));
+                    this.setFont(new Font("Verdana", Font.BOLD, 20));
+                }
+                else {
                     this.setText(s);
                     this.setFont(new Font("Verdana", Font.BOLD, 13));
                 }
             }
 
-            CharacterButton(int i) {
-                this.setText("=>");
-                this.setBackground(Color.WHITE);
-                this.setOpaque(true);
-                this.setFont(new Font("Verdana", Font.BOLD, 13));
-                this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-
-            }
 
             public void textInput() {
                 txtf.setText(txtf.getText() + this.getChar());
