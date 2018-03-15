@@ -14,7 +14,7 @@ import java.net.URLEncoder;
  * Modified by Gabriel Mulcahy and Joshua Chalcraft
  */
 public class Directions {
-    static String origin      = "The Forum, Exeter University";
+    static String origin      = "Sidwell St";//"The Forum, Exeter University";
     static String destination = "Cathedral Green, Exeter";
     static String region      = "uk";
     static String mode        = "walking"; /* "driving" */
@@ -37,7 +37,7 @@ public class Directions {
                     + "&" + "destination" + "=" + encDestination
                     + "&" + "region"      + "=" + region
                     + "&" + "mode"        + "=" + mode
-                    + "&" + "langauage"   + "=" + language
+                    + "&" + "language"   + "=" + language
             );
             final byte[] body
                     = {};
