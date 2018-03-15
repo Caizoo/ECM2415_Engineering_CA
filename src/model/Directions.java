@@ -37,7 +37,7 @@ public class Directions {
                     + "&" + "destination" + "=" + encDestination
                     + "&" + "region"      + "=" + region
                     + "&" + "mode"        + "=" + mode
-                    + "&" + "langauage"   + "=" + language
+                    + "&" + "language"   + "=" + language
             );
             final byte[] body
                     = {};
