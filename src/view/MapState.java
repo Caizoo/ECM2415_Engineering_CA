@@ -32,7 +32,7 @@ public class MapState extends JPanel implements MenuState {
   private Maps map;
   private String[] data;
   private Rectangle clip;
-  MockLocation loc;
+  //MockLocation loc;
 
 
   @Override
@@ -65,12 +65,12 @@ public class MapState extends JPanel implements MenuState {
     } catch (IOException e) {
       e.printStackTrace();
     }
-
-    loc = new MockLocation();
+    //Removed thread -Scott
+    /*loc = new MockLocation();
     loc.openPort("COM4");
     Thread t = new Thread(loc);
     t.start();
-    data = loc.getData();
+    data = loc.getData();*/
   }
 
   @Override
@@ -92,12 +92,13 @@ public class MapState extends JPanel implements MenuState {
     renderer.drawImage( image, UserController.SCREEN_X+8,UserController.SCREEN_Y+32,screen);
     */
     renderer.drawImage( image, UserController.SCREEN_X-51, UserController.SCREEN_Y-2,/*screen.getWidth()-4,screen.getHeight()-4,*/screen);
+    System.out.println("Update");
     renderer.drawImage( dot, UserController.SCREEN_X+101, UserController.SCREEN_Y+147, 10, 10, screen ); //centre the red dot to the screen
   }
 
   @Override
   public void navigationButton(NavigationAction e){
-    data = loc.getData();
+    //data = loc.getData();
     if(e== NavigationAction.PLUS){
       map.zoomIn();
       map.make();
@@ -116,7 +117,8 @@ public class MapState extends JPanel implements MenuState {
           e1.printStackTrace();
       }
       render();
-    } else if(e== NavigationAction.SELECT) {
+    } //Removed forced update -Scott
+    /*else if(e== NavigationAction.SELECT) {
       map.setLat(data[0]);
       map.setLong(data[1]);
       map.make();
@@ -127,7 +129,7 @@ public class MapState extends JPanel implements MenuState {
       }
       setDirection(10); //PRESSING SELECT WILL ROTATE NOT AROUND CENTRE EVERY TIME
       render();
-    }
+    }*/
   }
 
 
@@ -139,6 +141,12 @@ public class MapState extends JPanel implements MenuState {
     map.setLat(latitude);
     map.setLong(longitude);
     map.make();
+    //Needed to change image each time -Scott
+    try {
+      image = ImageIO.read(new File("res/output.png"));
+    } catch (IOException e1) {
+      e1.printStackTrace();
+    }
     if (direction.equals("")) {
         setDirection(rotation);
       }else{

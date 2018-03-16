@@ -61,6 +61,8 @@ public class ModelManager {
         if(currentView==MenuAction.ON_OFF_STATE) return;
         if(currentView==MenuAction.SATELLITE_STATE) {
             ((SatelliteMode)views[currentView.getVal()]).update(x[0],x[1]);
+        }else if(currentView==MenuAction.MAP_STATE){ //Added basic map state -Scott
+            ((MapState)views[currentView.getVal()]).update(x[0], x[1], x[2]);
         }
     }
 
