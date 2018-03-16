@@ -141,7 +141,7 @@ public class MapState extends JPanel implements Observer, MenuState {
   }
   
   public void setDirection(int angle){
-    rotation = angle - rotation;
+    rotation = angle - rotation; //this currently results in rotation every second click
     double radians = Math.toRadians( (double) rotation );
     renderer.rotate( radians, StateManager.SCREEN_X+104, StateManager.SCREEN_Y+153);
     //  renderer.rotate( radians, StateManager.SCREEN_X+96, StateManager.SCREEN_Y+121);
