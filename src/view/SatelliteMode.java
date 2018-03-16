@@ -1,6 +1,7 @@
 package view;
 
 import controller.Location;
+import controller.MockLocation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +18,7 @@ import java.awt.event.ActionListener;
  * @author Scott Woodward
  */
 public class SatelliteMode implements MenuState{
+
 
     private JFrame frame;
     private JPanel screen;
@@ -38,28 +40,33 @@ public class SatelliteMode implements MenuState{
     @Override
     public void start() {
 
-       // MockLocation loc = new MockLocation();
-        Location loc = new Location(); //Comment in with access to satellite connection
+        MockLocation loc = new MockLocation();
+       // Location loc = new Location(); //Comment in with access to satellite connection
         loc.openPort("COM4");
         Thread t = new Thread(loc);
 
         latitude = new JLabel("", SwingConstants.CENTER);
         longitude = new JLabel("", SwingConstants.CENTER);
-        error = new JLabel("<html><div style='text-align: center;'>POSITION<br/>CANNOT<br/>BE<br/>DETERMINED</div></html>", SwingConstants.CENTER);
+        //error = new JLabel("<html><div style='text-align: center;'>POSITION<br/>CANNOT<br/>BE<br/>DETERMINED</div></html>", SwingConstants.CENTER);
+        error = new JLabel();
+        ImageIcon icon = new ImageIcon("res/NoSat.png");
+        Image display = icon.getImage().getScaledInstance(this.screen.getWidth()-10, this.screen.getWidth()-10, Image.SCALE_SMOOTH);
+        error.setIcon(new ImageIcon(display));
 
         latitude.setVerticalAlignment(SwingConstants.BOTTOM);
         longitude.setVerticalAlignment(SwingConstants.TOP);
+        error.setHorizontalAlignment(SwingConstants.CENTER);
 
 
         latitude.setPreferredSize(new Dimension(180, (this.screen.getHeight()-10)/2));
         longitude.setPreferredSize(new Dimension(180, (this.screen.getHeight()-10)/2));
-        error.setPreferredSize(new Dimension(180, this.screen.getHeight()-10));
+        error.setPreferredSize(new Dimension(this.screen.getWidth()-10, this.screen.getHeight()-10));
 
 
         Font f = new Font("Ariel", Font.BOLD, 25);
         latitude.setFont(f);
         longitude.setFont(f);
-        error.setFont(f);
+        //error.setFont(f);
 
         this.screen.add(latitude);
         this.screen.add(longitude);
@@ -73,19 +80,7 @@ public class SatelliteMode implements MenuState{
           public void run() {
               while (true) {
                   String[] data = loc.getData();
-                  if (data[0].equals("")){
-                      latitude.setVisible(false);
-                      longitude.setVisible(false);
-                      error.setVisible(true);
-                  }else{
-                      error.setVisible(false);
-                      latitude.setVisible(true);
-                      longitude.setVisible(true);
-                      String lat = data[0].charAt(0) == '-' ? data[0].substring(1) + " S": data[0] + " N" ;
-                      String lon = data[1].charAt(0) == '-' ? data[1].substring(1) + " W": data[1] + " E" ;
-                      latitude.setText(lat);
-                      longitude.setText(lon);
-                  }
+                  update(data[0], data[1]);
                   try {
                       sleep(3000);
                   } catch (InterruptedException e) {
@@ -98,6 +93,22 @@ public class SatelliteMode implements MenuState{
 
         t.start();
         updateThread.start();
+    }
+
+    public void update(String latitude, String longitude){
+        if (latitude.equals("") || longitude.equals("")){
+            this.latitude.setVisible(false);
+            this.longitude.setVisible(false);
+            this.error.setVisible(true);
+        }else{
+            this.error.setVisible(false);
+            this.latitude.setVisible(true);
+            this.longitude.setVisible(true);
+            String lat = latitude.charAt(0) == '-' ? latitude.substring(1) + " S": latitude + " N" ;
+            String lon = longitude.charAt(0) == '-' ? longitude.substring(1) + " W": longitude + " E" ;
+            this.latitude.setText(lat);
+            this.longitude.setText(lon);
+        }
     }
 
     @Override
