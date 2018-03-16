@@ -11,25 +11,28 @@ import java.io.OutputStream;
  */
 
 public class Maps {
-  final static String KEY = "AIzaSyDC6wHj2s9ZTXqtre3DbYNhQsvu-kH8d1w";
-  final static String OUTPUT    = "res/output.png";  /* Ouput file        */
+  final static String KEY       = "AIzaSyDC6wHj2s9ZTXqtre3DbYNhQsvu-kH8d1w";
+  final static String OUTPUT    = "res/output.png";                           /* Ouput file        */
   String latitude;
   String longitude;     
-  String zoom      = "18";           /* 0 .. 21           */
-  String size      = "191x241";     /* Size              */
+  String zoom                   = "18";                                      /* 0 .. 21           */
+  String size                   = "308x308";                                 /* Size              */
+  String language;
 
   static byte[] readData( String latitude
                         , String longitude
                         , String zoom
                         , String size
+                        , String language
                         ) {
     final String method = "GET";
     final String url
       = ( "https://maps.googleapis.com/maps/api/staticmap"
-        + "?" + "center" + "=" + latitude + "," + longitude
-        + "&" + "zoom"   + "=" + zoom
-        + "&" + "size"   + "=" + size
-        + "&" + "key"    + "=" + KEY
+        + "?" + "center"   + "=" + latitude + "," + longitude
+        + "&" + "zoom"     + "=" + zoom
+        + "&" + "size"     + "=" + size
+        + "&" + "key"      + "=" + KEY
+        + "&" + "language" + "=" + language
         );
     final byte[] body
         = {};
@@ -61,6 +64,10 @@ public class Maps {
   public void setLat(String latitude){
     this.latitude = latitude;
   }
+
+  public void setLanguage(String language){
+    this.language = language;
+  }
   
   public void zoomIn(){
     int iZoom = Integer.parseInt(zoom); //create an integer form of zoom that can be incremented
@@ -80,7 +87,7 @@ public class Maps {
    * David Wakeling 2018
    */
   public void make() {
-    final byte[] data = readData( latitude, longitude, zoom, size );
+    final byte[] data = readData( latitude, longitude, zoom, size, language );
     writeData( OUTPUT, data ); 
   }
 
