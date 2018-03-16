@@ -24,47 +24,74 @@ public class JSONParser
      */
     private static void parseJSON(String data, ArrayList<String> directions)
     {
-        //Moving to the 'steps' JsonArray, which is where the data we want is stored.
-        JsonObject obj1 = new JsonParser().parse(data).getAsJsonObject(); //Parse string from Directions.
-        JsonArray routes = obj1.getAsJsonArray("routes");
-        JsonObject obj2 = routes.get(0).getAsJsonObject();
-        JsonArray legs = obj2.getAsJsonArray("legs");
-        JsonObject obj3 = legs.get(0).getAsJsonObject();
-        JsonArray steps = obj3.getAsJsonArray("steps");
-
-        //Go through the 'steps' and pick out the data required.
-        Iterator<JsonElement> it = steps.iterator();
-        while (it.hasNext())
+        try
         {
-            JsonObject names = it.next().getAsJsonObject();
-            String direction = names.get("html_instructions").toString();
-            directions.add(direction);
+            if (data == null) throw new NullPointerException("JSON-parser: No directions have been set");
+            //Moving to the 'steps' JsonArray, which is where the data we want is stored.
+            JsonObject obj1 = new JsonParser().parse(data).getAsJsonObject(); //Parse string from Directions.
+            JsonArray routes = obj1.getAsJsonArray("routes");
+            JsonObject obj2 = routes.get(0).getAsJsonObject();
+            JsonArray legs = obj2.getAsJsonArray("legs");
+            JsonObject obj3 = legs.get(0).getAsJsonObject();
+            JsonArray steps = obj3.getAsJsonArray("steps");
 
-            //JsonObject distance = names.getAsJsonObject("distance");
-            //String text = distance.get("text").toString();
-            //Double value = distance.get("value").getAsDouble();
+            //Go through the 'steps' and pick out the data required.
+            Iterator<JsonElement> it = steps.iterator();
+            while (it.hasNext())
+            {
+                JsonObject names = it.next().getAsJsonObject();
+                String direction = names.get("html_instructions").toString();
+                directions.add(direction);
 
-            //JsonObject startLocation = names.getAsJsonObject("start_location");
-            //Double sLat = startLocation.get("lat").getAsDouble();
-            //Double sLng = startLocation.get("lng").getAsDouble();
+                //JsonObject distance = names.getAsJsonObject("distance");
+                //String text = distance.get("text").toString();
+                //Double value = distance.get("value").getAsDouble();
 
-            //JsonObject endLocation = names.getAsJsonObject("end_location");
-            //Double eLat = endLocation.get("lat").getAsDouble();
-            //Double eLng = endLocation.get("lng").getAsDouble();
+                //JsonObject startLocation = names.getAsJsonObject("start_location");
+                //Double sLat = startLocation.get("lat").getAsDouble();
+                //Double sLng = startLocation.get("lng").getAsDouble();
+
+                //JsonObject endLocation = names.getAsJsonObject("end_location");
+                //Double eLat = endLocation.get("lat").getAsDouble();
+                //Double eLng = endLocation.get("lng").getAsDouble();
+            }
+        }
+        catch (NullPointerException ex)
+        {
+            System.out.println(ex);
         }
     }
 
+
     /*
-     * Removes the HTML tags from the direction strings. Used before generating speech.
+     * Removes the HTML tags from the direction strings and elongates abbreviated terms. Used before generating speech.
      */
-    private static ArrayList<String> tagRemover(ArrayList<String> directions)
+    private static ArrayList<String> filter(ArrayList<String> directions)
     {
         for (int i =0; i<directions.size(); i++)
         {
             directions.set(i, directions.get(i).replaceAll("<.*?>", " "));
-            //System.out.println(line);
+            directions.set(i, enlongator(directions.get(i)));
         }
         return directions;
+    }
+
+    private static String enlongator(String line)
+    {
+        String[] words = line.split(" ");
+        for (int i = 0; i < words.length; i++)
+        {
+            switch (words[i])
+            {
+                case "Rd": words[i] = "Road"; break;
+                case "Ln": words[i] = "Lane"; break;
+                case "Dr": words[i] = "Drive"; break;
+                case "Av": words[i] = "Avenue"; break;
+                case "St": words[i] = "Street"; break;
+                default: break;
+            }
+        }
+        return line.join(" ", words);
     }
 
 
@@ -74,7 +101,7 @@ public class JSONParser
     public static ArrayList<String> getDirections(String data, ArrayList<String> directions)
     {
         JSONParser.parseJSON(data, directions);
-        directions = JSONParser.tagRemover(directions);
+        directions = JSONParser.filter(directions);
         return directions;
     }
 }
