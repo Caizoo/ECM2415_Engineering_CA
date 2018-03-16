@@ -5,8 +5,7 @@ import controller.MockLocation;
 
 import model.Maps;
 
-import java.awt.Dimension;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -32,6 +31,7 @@ public class MapState extends JPanel implements Observer, MenuState {
   private Graphics2D renderer;
   private Maps map;
   private String[] data;
+  private Rectangle clip;
   MockLocation loc;
 
 
@@ -58,6 +58,8 @@ public class MapState extends JPanel implements Observer, MenuState {
   @Override
   public void start(){
     map = new Maps();
+    clip = new Rectangle(StateManager.SCREEN_X+8, StateManager.SCREEN_Y+32, 191, 241); //only draw the part of the image that fits the screen
+    renderer.clip(clip);
     try {
       dot = ImageIO.read(new File("res/red.png"));
     } catch (IOException e) {
@@ -87,8 +89,9 @@ public class MapState extends JPanel implements Observer, MenuState {
     /*
     double radians = Math.toRadians( (double) rotation );
     renderer.rotate( radians, image.getWidth() / 2, image.getHeight() / 2 );
+    renderer.drawImage( image, StateManager.SCREEN_X+8,StateManager.SCREEN_Y+32,screen);
     */
-    renderer.drawImage( image, StateManager.SCREEN_X+8,StateManager.SCREEN_Y+32,screen.getWidth()-4,screen.getHeight()-4,screen);
+    renderer.drawImage( image, StateManager.SCREEN_X-51,StateManager.SCREEN_Y-2,/*screen.getWidth()-4,screen.getHeight()-4,*/screen);
     renderer.drawImage( dot, StateManager.SCREEN_X+96, StateManager.SCREEN_Y+142, 10, 10, screen );
   }
 
@@ -138,12 +141,14 @@ public class MapState extends JPanel implements Observer, MenuState {
   }
   
   public void setDirection(int angle){
-    rotation = angle - rotation;
+    rotation = angle - rotation; //this currently results in rotation every second click
     double radians = Math.toRadians( (double) rotation );
-    renderer.rotate( radians, StateManager.SCREEN_X+96, StateManager.SCREEN_Y+121);
+    renderer.rotate( radians, StateManager.SCREEN_X+104, StateManager.SCREEN_Y+153);
+    //  renderer.rotate( radians, StateManager.SCREEN_X+96, StateManager.SCREEN_Y+121);
   }
 
-  public Dimension getPreferredSize() {
+
+ /* public Dimension getPreferredSize() {
     return new Dimension( image.getWidth(), image.getHeight() );
-  }
+  }*/
 }
