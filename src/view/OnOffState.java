@@ -4,8 +4,6 @@
 
 package view;
 
-import controller.StateManager;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,7 +12,7 @@ import java.awt.event.ActionListener;
 /**
  *
  * Empty class of type MenuState which displays nothing,
- * but comforms with state switching in StateManager for on/off
+ * but comforms with state switching in UserController for on/off
  * to menu and from any state to on/off
  *
  */

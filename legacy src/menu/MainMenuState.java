@@ -50,7 +50,7 @@ public class MainMenuState implements MenuState {
         for(JMenuButton b:buttons) {
             b.setPreferredSize(new Dimension(90,75)); // set preferred dimensions of buttons for 2x3 display
             b.setPreferredIconSize(new Dimension(40,40));
-            b.addActionListener(listener); // add the action listener from StateManager to listen to the buttons' events
+            b.addActionListener(listener); // add the action listener from UserController to listen to the buttons' events
             screen.add(b); // add button to JPanel screen
         }
 

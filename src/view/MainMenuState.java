@@ -5,7 +5,7 @@
 package view;
 
 import controller.MenuAction;
-import controller.StateManager;
+import model.ModelManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class MainMenuState implements MenuState {
 
-    private StateManager sm;
+    private ModelManager mm;
 
     private JFrame frame;
     private JPanel screen;
@@ -26,8 +26,8 @@ public class MainMenuState implements MenuState {
     ArrayList<JMenuButton> buttons = new ArrayList<>();
     int selectedIndex = 0;
 
-    public MainMenuState(StateManager sm) {
-        this.sm = sm;
+    public MainMenuState(ModelManager mm) {
+        this.mm = mm;
     }
 
     public void setRenderer(Graphics2D renderer) {
@@ -49,7 +49,7 @@ public class MainMenuState implements MenuState {
         for(JMenuButton b:buttons) {
             b.setPreferredSize(new Dimension(90,75)); // set preferred dimensions of buttons for 2x3 display
             b.setPreferredIconSize(new Dimension(40,40));
-            b.addActionListener(listener); // add the action listener from StateManager to listen to the buttons' events
+            b.addActionListener(listener); // add the action listener from UserController to listen to the buttons' events
             screen.add(b); // add button to JPanel screen
         }
 
@@ -86,7 +86,7 @@ public class MainMenuState implements MenuState {
             buttons.get(selectedIndex).select();
         }else if(e==NavigationAction.SELECT) {
             buttons.get(selectedIndex).unselect();
-            sm.goToState((buttons.get(selectedIndex)).menuAction);
+            mm.goToState((buttons.get(selectedIndex)).menuAction);
         }
 
         render();
