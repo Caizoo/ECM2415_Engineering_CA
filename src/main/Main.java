@@ -11,12 +11,11 @@ public class Main {
         StateManager sm = new StateManager();
         sm.setVisible(true);
         sm.start();
-        ModelManager m = new ModelManager();
+        ModelManager m = new ModelManager(sm);
+        sm.setModelManager(m);
 
         while(true) {
-            if(StateManager.isOn()) {
-                m.update();
-            }
+            m.update();
             Thread.sleep(1000);
         }
 
