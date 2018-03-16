@@ -17,17 +17,29 @@ public class MockSpeechGeneration
 {
     private static ArrayList<String> directions = new ArrayList<>();
 
+    public static void play()
+    {
+        String data = Directions.sendToParser();
+        JSONParser.getDirections(data, directions);
+        for (String line : directions)
+        {
+            SpeechGenerator.setText(line);
+            SpeechGenerator.generate();
+            SoundPlayer.play();
+        }
+    }
+
     public static void main(String[] args)
     {
+        Directions.setLanguage("en-GB");
         String data = Directions.sendToParser();
         JSONParser.getDirections(data, directions);
         SpeechGenerator.setLanguage("en-US");
         SpeechGenerator.setGender("Apollo");
         SpeechGenerator.setArtist("(en-GB, Susan, Apollo)");
-        //System.out.print("Entering for each");
         for (String line : directions)
         {
-            //System.out.println(line);
+            System.out.println(line);
             SpeechGenerator.setText(line);
             SpeechGenerator.generate();
             SoundPlayer.play();

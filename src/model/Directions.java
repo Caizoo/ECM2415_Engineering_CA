@@ -14,11 +14,11 @@ import java.net.URLEncoder;
  * Modified by Gabriel Mulcahy and Joshua Chalcraft
  */
 public class Directions {
-    static String origin      = "Sidwell St";//"The Forum, Exeter University";
-    static String destination = "Cathedral Green, Exeter";
-    static String region      = "uk";
-    static String mode        = "walking"; /* "driving" */
-    static String language    = "en-GB";
+    private static String origin      = "The Forum, Exeter University";//"The Forum, Exeter University";
+    private static String destination = "Cathedral Green, Exeter";
+    private static String region      = "uk";
+    private static String mode        = "walking"; /* "driving" */
+    private static String language    = "en-GB";
     /*
      * Read directions.
      */
@@ -46,7 +46,7 @@ public class Directions {
             byte[] response = HttpConnect.httpConnect( method, url, headers, body );
             return response;
         } catch ( Exception ex ) {
-            System.out.println( ex ); System.exit( 1 ); return null;
+            System.out.println("Sat-nav has failed to obtain directions. Please try again."); return null; //Edited exception - Josh
         }
     }
 
@@ -59,20 +59,20 @@ public class Directions {
         return directions;
     }
 
-    public void setOrigin(String origin){
-        this.origin = origin;
+    public static void setOrigin(String newOrigin){
+        Directions.origin = newOrigin;
     }
 
-    public void setDestination(String destination){
-        this.destination = destination;
+    public static void setDestination(String newDestination){
+        Directions.destination = newDestination;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
+    public static void setRegion(String newRegion) {
+        Directions.region = newRegion;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
+    public static void setLanguage(String newLanguage) {
+        Directions.language = newLanguage;
     }
 
     public String getLanguage() {

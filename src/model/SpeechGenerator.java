@@ -17,7 +17,7 @@ import java.io.DataOutputStream;
 public class SpeechGenerator
 {
     private final static String KEY = "e9488f2304204a599d806da749983124";
-    private static String text  = null;
+    private static String text   = null;
     private static String lang   = null;
     private static String gender = null;
     private static String artist = null;
@@ -63,6 +63,12 @@ public class SpeechGenerator
         catch (NullPointerException e)
         {
             System.out.println(e);
+            return null;
+        }
+
+        catch (Exception ex)
+        {
+            System.out.println("Microsoft text-to-speech api has failed. Please try again");
             return null;
         }
     }
