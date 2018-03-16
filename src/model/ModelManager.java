@@ -71,12 +71,13 @@ public class ModelManager {
 
     }
 
-    /**TODO: BRING STATEMANAGER MODEL METHODS TO HERE*/
-
     public void update() {
+
+        String[] x = location.getData();
+
         if(currentView==MenuAction.ON_OFF_STATE) return;
         if(currentView==MenuAction.SATELLITE_STATE) {
-
+            ((SatelliteMode)views[currentView.getVal()]).update(x[0],x[1]);
         }
     }
 

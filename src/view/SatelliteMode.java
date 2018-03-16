@@ -40,11 +40,6 @@ public class SatelliteMode implements MenuState{
     @Override
     public void start() {
 
-        MockLocation loc = new MockLocation();
-       // Location loc = new Location(); //Comment in with access to satellite connection
-        loc.openPort("COM4");
-        Thread t = new Thread(loc);
-
         latitude = new JLabel("", SwingConstants.CENTER);
         longitude = new JLabel("", SwingConstants.CENTER);
         //error = new JLabel("<html><div style='text-align: center;'>POSITION<br/>CANNOT<br/>BE<br/>DETERMINED</div></html>", SwingConstants.CENTER);
@@ -75,24 +70,6 @@ public class SatelliteMode implements MenuState{
         latitude.setVisible(false);
         longitude.setVisible(false);
         error.setVisible(true);
-
-        updateThread = new Thread(){
-          public void run() {
-              while (true) {
-                  String[] data = loc.getData();
-                  update(data[0], data[1]);
-                  try {
-                      sleep(3000);
-                  } catch (InterruptedException e) {
-                      break;
-                  }
-              }
-          }
-        };
-
-
-        t.start();
-        updateThread.start();
     }
 
     public void update(String latitude, String longitude){
