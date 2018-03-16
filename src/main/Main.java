@@ -3,7 +3,11 @@ package main;
 import controller.*;
 import model.ModelManager;
 
+import java.awt.event.WindowEvent;
+
 public class Main {
+
+    public static boolean running = true;
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -13,10 +17,14 @@ public class Main {
         ModelManager m = new ModelManager(uc);
         uc.setModelManager(m);
 
-        while(true) {
+        while(running) {
             m.update();
             Thread.sleep(1000);
         }
+
+        // resource cleanup if necessary
+
+        uc.dispose();
 
     }
 

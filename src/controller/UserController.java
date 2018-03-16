@@ -17,6 +17,7 @@ import view.MapState;
 import view.SpeechMode; //Change by josh - renamed class
 */
 
+import main.Main;
 import model.ModelManager;
 import view.*;
 
@@ -65,8 +66,17 @@ public class UserController extends JFrame implements ActionListener, MouseListe
         setTitle("GPS");
         setSize(1280,720);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLayout(null);
+
+        WindowListener exitListener = new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                Main.running = false;
+            }
+        };
+        addWindowListener(exitListener);
     }
 
     public void setModelManager(ModelManager mm) {

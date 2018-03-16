@@ -90,7 +90,6 @@ public class SatelliteMode implements MenuState{
 
     @Override
     public void stop() {
-        updateThread.interrupt();
         this.screen.setBackground(new Color(27,27,27,255));
         screen.remove(longitude);
         screen.remove(latitude);

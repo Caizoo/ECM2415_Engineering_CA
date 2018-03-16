@@ -27,9 +27,9 @@ public class ModelManager {
     private MenuState views[] = new MenuState[8];
 
 
-    public ModelManager(UserController sm) {
+    public ModelManager(UserController uc) {
 
-        this.uc = sm;
+        this.uc = uc;
 
         location = new MockLocation();
         mapGenerator = new Maps();
@@ -43,28 +43,11 @@ public class ModelManager {
         time = "0";
 
         // create new state objects
-        views[0] = new OnOffState();
-        views[1] = new MainMenuState(this);
-        views[MenuAction.TRIP_COMPUTER_STATE.getVal()] = new TripComputer();
-        views[MenuAction.WHERE_TO_STATE.getVal()] = new WhereTo();
-        views[MenuAction.MAP_STATE.getVal()] = new MapState();
-        views[MenuAction.SPEECH_STATE.getVal()] = new SpeechMode(); //change by Josh - renamed class
-        views[MenuAction.SATELLITE_STATE.getVal()] = new SatelliteMode();
-        views[MenuAction.ABOUT_STATE.getVal()] = new AboutMode();
-
-        // set rendering and listening objects to states
-        for(MenuState view:views) {
-            if(view!=null) {
-                view.setRenderer((Graphics2D)(sm.getGraphics()));
-                view.setFrame(sm);
-                view.setListener(sm);
-                view.setPanel(sm.getScreen());
-            }
-        }
+        hardReset();
 
         // start the first state, and paint
         views[currentView.getVal()].start();
-        sm.repaint();
+        uc.repaint();
 
         Thread thread = new Thread(location);
         thread.start();
@@ -92,8 +75,9 @@ public class ModelManager {
                     views[currentView.getVal()].stop();
                     currentView = MenuAction.ON_OFF_STATE;
                     views[currentView.getVal()].start();
-                    uc.removeAll();
-                    uc.repaint();
+                    uc.getScreen().removeAll();
+                    uc.getScreen().repaint();
+                    hardReset();
                 }
                 break;
             case MENU:
@@ -135,6 +119,27 @@ public class ModelManager {
 
     public void paintScreen(Graphics2D g2d) {
         if(views[currentView.getVal()]!=null) views[currentView.getVal()].render();
+    }
+
+    public void hardReset() {
+        views[MenuAction.ON_OFF_STATE.getVal()] = new OnOffState();
+        views[MenuAction.MAIN_STATE.getVal()] = new MainMenuState(this);
+        views[MenuAction.TRIP_COMPUTER_STATE.getVal()] = new TripComputer();
+        views[MenuAction.WHERE_TO_STATE.getVal()] = new WhereTo();
+        views[MenuAction.MAP_STATE.getVal()] = new MapState();
+        views[MenuAction.SPEECH_STATE.getVal()] = new SpeechMode(); //change by Josh - renamed class
+        views[MenuAction.SATELLITE_STATE.getVal()] = new SatelliteMode();
+        views[MenuAction.ABOUT_STATE.getVal()] = new AboutMode();
+
+        for(MenuState view:views) {
+            if(view!=null) {
+                view.setRenderer((Graphics2D)(uc.getGraphics()));
+                view.setFrame(uc);
+                view.setListener(uc);
+                view.setPanel(uc.getScreen());
+            }
+        }
+
     }
 
     public boolean isOff() { return currentView==MenuAction.ON_OFF_STATE; }
