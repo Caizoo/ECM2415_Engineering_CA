@@ -58,6 +58,8 @@ public class MapState extends JPanel implements Observer, MenuState {
   @Override
   public void start(){
     map = new Maps();
+    clip = new Rectangle(StateManager.SCREEN_X+8, StateManager.SCREEN_Y+32, 191, 241); //only draw the part of the image that fits the screen
+    renderer.clip(clip);
     try {
       dot = ImageIO.read(new File("res/red.png"));
     } catch (IOException e) {
