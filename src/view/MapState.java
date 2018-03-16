@@ -21,10 +21,10 @@ import javax.swing.*;
  *
  * Gabriel Mulcahy
  */
-public class MapState extends JPanel implements Observer, MenuState {
+public class MapState extends JPanel implements MenuState {
   private BufferedImage image;
   private BufferedImage dot;
-  private int rotation;
+  private double rotation;
   private JFrame frame;
   private JPanel screen;
   private ActionListener listener;
@@ -92,7 +92,7 @@ public class MapState extends JPanel implements Observer, MenuState {
     renderer.drawImage( image, UserController.SCREEN_X+8,UserController.SCREEN_Y+32,screen);
     */
     renderer.drawImage( image, UserController.SCREEN_X-51, UserController.SCREEN_Y-2,/*screen.getWidth()-4,screen.getHeight()-4,*/screen);
-    renderer.drawImage( dot, UserController.SCREEN_X+96, UserController.SCREEN_Y+142, 10, 10, screen );
+    renderer.drawImage( dot, UserController.SCREEN_X+101, UserController.SCREEN_Y+147, 10, 10, screen ); //centre the red dot to the screen
   }
 
   @Override
@@ -135,14 +135,22 @@ public class MapState extends JPanel implements Observer, MenuState {
 
   }
 
-  public void update( Observable obs, Object obj ) {
-    rotation = (int) obj;
-    repaint();
+  public void update( String latitude, String longitude, String direction ) {
+    map.setLat(latitude);
+    map.setLong(longitude);
+    map.make();
+    if (direction.equals("")) {
+        setDirection(rotation);
+      }else{
+        setDirection(Double.parseDouble(direction));
+    }
+
+    render();
   }
   
-  public void setDirection(int angle){
+  public void setDirection(double angle){
     rotation = angle - rotation; //this currently results in rotation every second click
-    double radians = Math.toRadians( (double) rotation );
+    double radians = Math.toRadians( rotation );
     renderer.rotate( radians, UserController.SCREEN_X+104, UserController.SCREEN_Y+153);
     //  renderer.rotate( radians, UserController.SCREEN_X+96, UserController.SCREEN_Y+121);
   }
