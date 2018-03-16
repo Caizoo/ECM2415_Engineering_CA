@@ -30,7 +30,7 @@ import java.io.IOException;
 
 import static view.NavigationAction.MINUS;
 
-public class StateManager extends JFrame implements ActionListener, MouseListener {
+public class UserController extends JFrame implements ActionListener, MouseListener {
 
     ModelManager mm;
 
@@ -61,7 +61,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
 
 
 
-    public StateManager() {
+    public UserController() {
         setTitle("GPS");
         setSize(1280,720);
         setLocationRelativeTo(null);
@@ -130,7 +130,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
         Graphics2D g2d = (Graphics2D)g;
         g2d.clearRect(0,0,1280,720);
         g2d.drawImage(gpsImage,GPS_X,GPS_Y,GPS_WIDTH,GPS_HEIGHT,this);
-        mm.paint(g2d);
+        if(mm!=null) mm.paint(g2d);
         if(power!=null) power.repaint();
     }
 
@@ -146,7 +146,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
     }
 
     /**
-     * Called when a JButton which has had an instance of StateManager added as it's action listener
+     * Called when a JButton which has had an instance of UserController added as it's action listener
      * is pressed, can then send event object to appropriate state
      *
      * @param e event object

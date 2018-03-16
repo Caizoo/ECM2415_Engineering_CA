@@ -203,7 +203,7 @@ public class StateManager extends JFrame implements ActionListener, MouseListene
     }
 
     /**
-     * Called when a JButton which has had an instance of StateManager added as it's action listener
+     * Called when a JButton which has had an instance of UserController added as it's action listener
      * is pressed, can then send event object to appropriate state
      *
      * @param e event object

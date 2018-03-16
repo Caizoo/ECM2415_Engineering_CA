@@ -2,7 +2,7 @@ package model;
 
 import controller.MenuAction;
 import controller.MockLocation;
-import controller.StateManager;
+import controller.UserController;
 import view.*;
 
 import java.awt.*;
@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 
 public class ModelManager {
 
-    StateManager sm;
+    UserController uc;
 
     MockLocation location;
     Maps mapGenerator;
@@ -27,9 +27,9 @@ public class ModelManager {
     private MenuState views[] = new MenuState[8];
 
 
-    public ModelManager(StateManager sm) {
+    public ModelManager(UserController sm) {
 
-        this.sm = sm;
+        this.uc = sm;
 
         location = new MockLocation();
         mapGenerator = new Maps();
@@ -92,8 +92,8 @@ public class ModelManager {
                     views[currentView.getVal()].stop();
                     currentView = MenuAction.ON_OFF_STATE;
                     views[currentView.getVal()].start();
-                    sm.removeAll();
-                    sm.repaint();
+                    uc.removeAll();
+                    uc.repaint();
                 }
                 break;
             case MENU:
@@ -125,7 +125,7 @@ public class ModelManager {
         views[currentView.getVal()].stop();
         currentView = state;
         views[currentView.getVal()].start();
-        sm.revalidate();
+        uc.revalidate();
         views[currentView.getVal()].render();
     }
 
