@@ -25,6 +25,7 @@ public class Main {
         // resource cleanup if necessary
 
         uc.dispose();
+        System.exit(0);
 
     }
 
