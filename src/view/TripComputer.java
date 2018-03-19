@@ -72,8 +72,9 @@ public class TripComputer implements MenuState, Runnable  {
         if (e== NavigationAction.POWER){
             stop();
         }
-        else if (e == NavigationAction.MENU);
-            stop();
+        else if (e == NavigationAction.MENU){
+            stop();}
+        else if (e == NavigationAction.SELECT);
     }
 
     @Override
@@ -124,21 +125,24 @@ public class TripComputer implements MenuState, Runnable  {
     }
 
 
-    public void updateTripComputer(String speed, String latitude, String longitude,String time){
-        if(latitude=="" || longitude=="" ){
-            resetTripComputer(time,"Signal lost",null);
-        }
-        else {
-            double distance = getDistanceFromLatLonInKm(currentLat, currentLong, Double.parseDouble(latitude), Double.parseDouble(longitude));
-            totalDistace += distance;
-            resetTripComputer(time, speed,Double.toString(totalDistace));
-            setCoords(latitude, longitude);
-        }
+    public void updateTripSpeedAndTime(String speed,String time){
+            resetTripComputer(time, speed,null);
     }
 
     public void resetTripComputer(String time, String speed,String distance){
         if( distance != null){textLabels[0].resetValues(distance);}
-        textLabels[1].resetValues(speed);
-        textLabels[2].resetValues(time);
+        if(speed != null){textLabels[1].resetValues(speed);}
+        if(time != null ){textLabels[2].resetValues(time);}
+    }
+    public void updateTripDistance(String latitude,String longitude){
+        if (latitude.equals("")|| longitude.equals("")){
+        }
+        else {
+            double distance = getDistanceFromLatLonInKm(currentLat, currentLong, Double.parseDouble(latitude), Double.parseDouble(longitude));
+            totalDistace += distance;
+            resetTripComputer(null, null, Double.toString(totalDistace));
+            setCoords(latitude, longitude);
+        }
+
     }
 }
