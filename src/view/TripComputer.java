@@ -17,10 +17,10 @@ public class TripComputer implements MenuState, Runnable  {
     private JPanel screen;
     private ActionListener listener;
     MyText[] textLabels = new MyText[3];
-    private static double currentLat;
-    private static double currentLong;
+    private  double currentLat= 360.00;//impossible value to tell its the inital latitiude
+    private  double currentLong= 360.00;//impossible value to tell its the inital longitiude
     private static double currentTime;
-    private double totalDistace;
+    private double totalDistace=0;
     @Override
     public void setRenderer(Graphics2D renderer) {
         this.renderer = renderer;
@@ -137,8 +137,12 @@ public class TripComputer implements MenuState, Runnable  {
     }
     public void updateTripDistance(String latitude,String longitude){
         if (latitude.equals("")|| longitude.equals("")){
+
         }
         else {
+            if(currentLat == 360.00 ||currentLong==360.00){
+                setCoords(latitude,longitude);
+            }
             double distance = getDistanceFromLatLonInKm(currentLat, currentLong, Double.parseDouble(latitude), Double.parseDouble(longitude));
             totalDistace += distance;
             textLabels[0].resetValues(Double.toString(totalDistace));
