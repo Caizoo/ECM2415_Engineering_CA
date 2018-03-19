@@ -2,7 +2,9 @@
 @Author-Rob Wells
  */
 package view;
-
+/*
+    Have calculation functions in a model class so they can be calculating in the background
+ */
 import java.lang.Math;
 import java.awt.*;
 import java.awt.event.*;
@@ -20,7 +22,7 @@ public class TripComputer implements MenuState, Runnable  {
     private  double currentLat= 360.00;//impossible value to tell its the inital latitiude
     private  double currentLong= 360.00;//impossible value to tell its the inital longitiude
     private static double currentTime;
-    private double totalDistace=0;
+    private double totalDistance=0;
     @Override
     public void setRenderer(Graphics2D renderer) {
         this.renderer = renderer;
@@ -144,8 +146,8 @@ public class TripComputer implements MenuState, Runnable  {
                 setCoords(latitude,longitude);
             }
             double distance = getDistanceFromLatLonInKm(currentLat, currentLong, Double.parseDouble(latitude), Double.parseDouble(longitude));
-            totalDistace += distance;
-            textLabels[0].resetValues(Double.toString(totalDistace));
+            totalDistance += distance;
+            textLabels[0].resetValues(Double.toString(totalDistance));
             setCoords(latitude, longitude);
         }
 
