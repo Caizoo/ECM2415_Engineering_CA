@@ -30,9 +30,7 @@ public class MapState extends JPanel implements MenuState {
   private ActionListener listener;
   private Graphics2D renderer;
   private Maps map;
-  private String[] data;
   private Rectangle clip;
-  //MockLocation loc;
 
 
   @Override
@@ -65,12 +63,6 @@ public class MapState extends JPanel implements MenuState {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    //Removed thread -Scott
-    /*loc = new MockLocation();
-    loc.openPort("COM4");
-    Thread t = new Thread(loc);
-    t.start();
-    data = loc.getData();*/
   }
 
   @Override
@@ -86,11 +78,6 @@ public class MapState extends JPanel implements MenuState {
   @Override
   public void render(){
     if(image==null) return;
-    /*
-    double radians = Math.toRadians( (double) rotation );
-    renderer.rotate( radians, image.getWidth() / 2, image.getHeight() / 2 );
-    renderer.drawImage( image, UserController.SCREEN_X+8,UserController.SCREEN_Y+32,screen);
-    */
     renderer.drawImage( image, UserController.SCREEN_X-51, UserController.SCREEN_Y-2,/*screen.getWidth()-4,screen.getHeight()-4,*/screen);
     System.out.println("Update");
     renderer.drawImage( dot, UserController.SCREEN_X+101, UserController.SCREEN_Y+147, 10, 10, screen ); //centre the red dot to the screen
@@ -98,7 +85,6 @@ public class MapState extends JPanel implements MenuState {
 
   @Override
   public void navigationButton(NavigationAction e){
-    //data = loc.getData();
     if(e== NavigationAction.PLUS){
       map.zoomIn();
       map.make();
@@ -117,19 +103,7 @@ public class MapState extends JPanel implements MenuState {
           e1.printStackTrace();
       }
       render();
-    } //Removed forced update -Scott
-    /*else if(e== NavigationAction.SELECT) {
-      map.setLat(data[0]);
-      map.setLong(data[1]);
-      map.make();
-        try {
-          image = ImageIO.read( new File( "res/output.png" ) );
-        } catch (IOException e1) {
-          e1.printStackTrace();
-      }
-      setDirection(10); //PRESSING SELECT WILL ROTATE NOT AROUND CENTRE EVERY TIME
-      render();
-    }*/
+    }
   }
 
 
@@ -147,24 +121,24 @@ public class MapState extends JPanel implements MenuState {
     } catch (IOException e1) {
       e1.printStackTrace();
     }
-    if (direction.equals("")) {
-        setDirection(rotation);
-      }else{
+    if (!direction.equals("")) {
+        resetDirection();
         setDirection(Double.parseDouble(direction));
+        System.out.println("NEW DIRECTION!!!");
+      }else{
+        System.out.println("No new direction");
     }
-
     render();
   }
   
-  public void setDirection(double angle){
-    rotation = angle - rotation; //this currently results in rotation every second click
-    double radians = Math.toRadians( rotation );
+  private void setDirection(double angle){
+    rotation = angle;
+    double radians = Math.toRadians( angle );
     renderer.rotate( radians, UserController.SCREEN_X+104, UserController.SCREEN_Y+153);
-    //  renderer.rotate( radians, UserController.SCREEN_X+96, UserController.SCREEN_Y+121);
   }
 
-
- /* public Dimension getPreferredSize() {
-    return new Dimension( image.getWidth(), image.getHeight() );
-  }*/
+  private void resetDirection(){
+    double radians = Math.toRadians(-rotation);
+    renderer.rotate( radians, UserController.SCREEN_X+104, UserController.SCREEN_Y+153);
+  }
 }
