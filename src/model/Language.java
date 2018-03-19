@@ -81,32 +81,32 @@ public class Language
 
     public enum LanguageType
     {
-        OFF(new HashMap<>() {{
+        OFF(new HashMap<String, String>() {{
             put(null, null);
             put(null, null);
             put(null, null);
         }}),
-        ENGLISH(new HashMap<>() {{
+        ENGLISH(new HashMap<String, String>() {{
             put("Code", "en-US");
             put("Gender", "Apollo");
             put("Artist", "(en-GB,Susan,Apollo)");
         }}),
-        FRENCH(new HashMap<>() {{
+        FRENCH(new HashMap<String, String>() {{
             put("Code", "fr-FR");
             put("Gender", "Apollo");
             put("Artist", "(fr-FR,Julie,Apollo)");
         }}),
-        GERMAN(new HashMap<>() {{
+        GERMAN(new HashMap<String, String>() {{
             put("Code", "de-DE");
             put("Gender", "Hedda");
             put("Artist", "(de-DE,Hedda)");
         }}),
-        ITALIAN(new HashMap<>() {{
+        ITALIAN(new HashMap<String, String>() {{
             put("Code", "it-IT");
             put("Gender", "Apollo");
             put("Artist", "(fr-FR,Cosimo,Apollo)");
         }}),
-        SPANISH(new HashMap<>() {{
+        SPANISH(new HashMap<String, String>() {{
             put("Code", "es-ES");
             put("Gender", "Apollo");
             put("Artist", "(fr-FR,Laura,Apollo)");
