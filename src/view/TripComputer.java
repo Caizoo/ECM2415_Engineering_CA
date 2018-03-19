@@ -43,7 +43,7 @@ public class TripComputer implements MenuState, Runnable  {
 
     @Override
     public void start() {
-        textLabels[0]= new MyText("Trip odem", "0.86 KM");
+        textLabels[0]= new MyText("Trip odem", "0.0 KM");
         textLabels[1] = new MyText("Speed", "7 KM/H");
         textLabels[2]= new MyText("Moving time", "27min 8 sec");
         for (MyText x: textLabels){
@@ -126,7 +126,8 @@ public class TripComputer implements MenuState, Runnable  {
 
 
     public void updateTripSpeedAndTime(String speed,String time){
-            resetTripComputer(time, speed,null);
+        textLabels[1].resetValues(speed);
+        textLabels[2].resetValues(time);
     }
 
     public void resetTripComputer(String time, String speed,String distance){
@@ -140,7 +141,7 @@ public class TripComputer implements MenuState, Runnable  {
         else {
             double distance = getDistanceFromLatLonInKm(currentLat, currentLong, Double.parseDouble(latitude), Double.parseDouble(longitude));
             totalDistace += distance;
-            resetTripComputer(null, null, Double.toString(totalDistace));
+            textLabels[0].resetValues(Double.toString(totalDistace));
             setCoords(latitude, longitude);
         }
 
