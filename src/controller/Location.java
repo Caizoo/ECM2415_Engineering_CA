@@ -8,7 +8,6 @@ import java.io.InputStream;
 
 /*
  *
- * COMMENT IN WHEN ALL MACHINES CAN RUN THE GPS
  * Code modified, with permission, from David Wakeling
  *
  * @author Scott Woodward
@@ -18,14 +17,16 @@ public class Location implements Runnable {
     private String latitude, longitude, time, velocity, direction;
     private SerialPort serialPort;
     private final Object lock = new Object();
-    final static int BAUD_RATE = 9600;
-    final static int TIMEOUT = 2000;
-    final static int BUFF_SIZE = 1024;
+    private final static int BAUD_RATE = 9600;
+    private final static int TIMEOUT = 2000;
+    private final static int BUFF_SIZE = 1024;
 
     public Location() {
         this.latitude = "";
         this.longitude = "";
         this.time = "0";
+        this.direction="";
+        this.velocity="0";
     }
 
     public String[] getData() {
@@ -86,9 +87,7 @@ public class Location implements Runnable {
                             this.latitude = "";
                             this.longitude = "";
                         } else {
-                            //Converts to correct formatting for APIs
-                            //String lat = String.valueOf(Integer.valueOf(ss[1].substring(0,2)) + Float.valueOf(ss[1].substring(2))/60);
-                            //String lon = String.valueOf(Integer.valueOf(ss[3].substring(0,3)) + Float.valueOf(ss[3].substring(3))/60);
+                            //Converts to correct formatting for API
                             String lat = String.format("%.6f", Integer.valueOf(ss[1].substring(0,2)) + Float.valueOf(ss[1].substring(2))/60);
                             String lon = String.format("%.6f", Integer.valueOf(ss[3].substring(0,3)) + Float.valueOf(ss[3].substring(3))/60);
                             this.latitude = (ss[2].equals("N")) ? lat : "-" + lat;
@@ -97,7 +96,7 @@ public class Location implements Runnable {
                         //this.time = ss[5];
                         this.time = String.format("%f", Integer.valueOf(ss[5].substring(0,2))*3600 + Integer.valueOf(ss[5].substring(2,4))*60 + Float.valueOf(ss[5].substring(4)));
                     }
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 }
 
             }

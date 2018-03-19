@@ -49,6 +49,7 @@ public class ModelManager {
         views[currentView.getVal()].start();
         uc.repaint();
 
+        location.openPort("COM4");
         Thread thread = new Thread(location);
         thread.start();
 
@@ -58,11 +59,19 @@ public class ModelManager {
 
         String[] x = location.getData();
 
+        //Around +- 0.00002 roughly 2m radius
+
         if(currentView==MenuAction.ON_OFF_STATE) return;
         if(currentView==MenuAction.SATELLITE_STATE) {
             ((SatelliteMode)views[currentView.getVal()]).update(x[0],x[1]);
         }else if(currentView==MenuAction.MAP_STATE){ //Added basic map state -Scott
+            //Only update if:
+            //      - A certain amount of time has elapsed (Say 10-15 seconds)
+            //      - The rotation needs to be changed
+            //Need to consider loss of signal and what to display
             ((MapState)views[currentView.getVal()]).update(x[0], x[1], x[2]);
+        }else if(currentView==MenuAction.TRIP_COMPUTER_STATE){
+            //Update with lat, long and velocity with no restrictions
         }
     }
 
