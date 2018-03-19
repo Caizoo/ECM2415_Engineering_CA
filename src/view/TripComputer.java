@@ -1,5 +1,5 @@
 /*
-Author-Rob Wells
+@Author-Rob Wells
  */
 package view;
 
@@ -12,24 +12,15 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 public class TripComputer implements MenuState, Runnable  {
-
-
     Graphics2D renderer;
     private JFrame frame;
     private JPanel screen;
     private ActionListener listener;
     MyText[] textLabels = new MyText[3];
-    private static double prevLat;
-    private static double prevnLong;
     private static double currentLat;
     private static double currentLong;
-    private static double prevTime;
     private static double currentTime;
     private double totalDistace;
-
-
-
-
     @Override
     public void setRenderer(Graphics2D renderer) {
         this.renderer = renderer;
@@ -60,7 +51,6 @@ public class TripComputer implements MenuState, Runnable  {
             screen.add(x);
         }
     }
-
 
     @Override
     public void stop() {
@@ -110,31 +100,17 @@ public class TripComputer implements MenuState, Runnable  {
             setText(infoHeader+"\n"+newValue);
         }
     }
-    public double square(double n ){
-        return java.lang.Math.pow(n,2);
+
+
+    public Double deg2rad(Double deg) {
+        return deg * (Math.PI/180);
     }
-    public double sqaureRoot(double n){
-        return java.lang.Math.pow(n,2);
-    }
-    public int getTimeDifference(int prevTime, int currentTime){
-        return currentTime-prevTime;
-    }
-    public double getCurrentSpeed(double prevLat,double prevnLong, double currentLat,double currentLong,int prevTime, int currentTime){
-        double distance = getDistanceFromLatLonInKm( prevLat,prevnLong,currentLat,currentLong);
-        double time = getTimeDifference(prevTime, currentTime);
-        double speed = distance/time/1000;
-        return speed;
-    }
-    public void setCoords(String latitude, String longitude, String time) {
-        if (latitude != "" && longitude != " ") {
-            prevLat = currentLat;
-            prevnLong = currentLong;
-            prevTime = currentTime;
+
+    public void setCoords(String latitude, String longitude) {
             currentLat = Double.parseDouble(latitude);
             currentLong = Double.parseDouble(longitude);
-            currentTime = Double.parseDouble(time);
-        }
     }
+
     public double getDistanceFromLatLonInKm(Double lat1,Double lon1,Double lat2, Double lon2) {
         int R = 6371; // Radius of the earth in km
         double dLat = deg2rad(lat2-lat1);  // deg2rad below
@@ -147,7 +123,22 @@ public class TripComputer implements MenuState, Runnable  {
         return d;
     }
 
-    public Double deg2rad(Double deg) {
-        return deg * (Math.PI/180);
+
+    public void updateTripComputer(String speed, String latitude, String longitude,String time){
+        if(latitude=="" || longitude=="" ){
+            resetTripComputer(time,"Signal lost",null);
+        }
+        else {
+            double distance = getDistanceFromLatLonInKm(currentLat, currentLong, Double.parseDouble(latitude), Double.parseDouble(longitude));
+            totalDistace += distance;
+            resetTripComputer(time, speed,Double.toString(totalDistace));
+            setCoords(latitude, longitude);
+        }
+    }
+
+    public void resetTripComputer(String time, String speed,String distance){
+        if( distance != null){textLabels[0].resetValues(distance);}
+        textLabels[1].resetValues(speed);
+        textLabels[2].resetValues(time);
     }
 }
