@@ -1,49 +1,10 @@
 /**
  * @author Joshua Chalcraft
  */
-
 package model;
+
+
 /*
-public enum Language {
-
-    ENGLISH(new String[] {"en-US","Apollo","(en-GB,Susan,Apollo)"}),
-    FRENCH(new String[] {"fr-FR","Apollo","(fr-FR, Julie, Apollo)"}),
-    GERMAN(new String[] {"de-DE","Hedda","(de-DE, Hedda)"}),
-    ITALIAN(new String[] {"it-IT","Apollo","(it-IT, Cosimo, Apollo)"}),
-    SPANISH(new String[] {"es-ES","Apollo","(es-ES, Laura, Apollo)"})
-    ;
-    private String[] data;
-    Language(String[] data) { this.data = data; }
-    public String[] getData() { return data; }
-
-}
-
-public enum Language
-{
-    OFF(new HashMap<>(){{put(null,null);put(null,null);put(null,null);}}),
-    ENGLISH(new HashMap<>(){{put("Code","en-US");put("Gender","Apollo");put("Artist", "(en-GB,Susan,Apollo)");}}),
-    FRENCH(new HashMap<>(){{put("Code","fr-FR");put("Gender","Apollo");put("Artist", "(fr-FR,Julie,Apollo)");}}),
-    GERMAN(new HashMap<>(){{put("Code","de-DE");put("Gender","Hedda");put("Artist", "(de-DE,Hedda)");}}),
-    ITALIAN(new HashMap<>(){{put("Code","it-IT");put("Gender","Apollo");put("Artist", "(fr-FR,Cosimo,Apollo)");}}),
-    SPANISH(new HashMap<>(){{put("Code","es-ES");put("Gender","Apollo");put("Artist", "(fr-FR,Laura,Apollo)");}}),
-    ;
-
-
-
-    private HashMap<String,String> data;
-
-    Language(HashMap<String,String> data)
-    {
-        this.data = data;
-    }
-    public HashMap<String,String> getdata()
-    {
-        return data;
-    }
-}
-*/
-
-
 import java.util.HashMap;
 
 public class Language
@@ -55,7 +16,6 @@ public class Language
         this.language = l;
     }
 
-
     public LanguageType getLanguage()
     {
         return language;
@@ -63,18 +23,17 @@ public class Language
 
     public String getCode()
     {
-        return language.getdata().get("Code");
+        return language.getData().get("Code");
     }
 
     public String getGender()
     {
-        return language.getdata().get("Gender");
+        return language.getData().get("Gender");
     }
-
 
     public String getArtist()
     {
-        return language.getdata().get("Artist");
+        return language.getData().get("Artist");
     }
 
     public Language()
@@ -123,7 +82,7 @@ public class Language
             this.data = data;
         }
 
-        public HashMap<String,String> getdata()
+        public HashMap<String,String> getData()
         {
             return data;
         }
@@ -140,38 +99,38 @@ public class Language
         System.out.println(code + " " + gender + " " + artist);
     }
 }
+*/
 
-/*
 import java.util.HashMap;
 
 public enum Language
 {
-    OFF(new HashMap<>() {{
+    OFF(new HashMap<String, String>() {{
         put(null, null);
         put(null, null);
         put(null, null);
     }}),
-    ENGLISH(new HashMap<>() {{
+    ENGLISH(new HashMap<String, String>() {{
         put("Code", "en-US");
         put("Gender", "Apollo");
         put("Artist", "(en-GB,Susan,Apollo)");
     }}),
-    FRENCH(new HashMap<>() {{
+    FRENCH(new HashMap<String, String>() {{
         put("Code", "fr-FR");
         put("Gender", "Apollo");
         put("Artist", "(fr-FR,Julie,Apollo)");
     }}),
-    GERMAN(new HashMap<>() {{
+    GERMAN(new HashMap<String, String>() {{
         put("Code", "de-DE");
         put("Gender", "Hedda");
         put("Artist", "(de-DE,Hedda)");
     }}),
-    ITALIAN(new HashMap<>() {{
+    ITALIAN(new HashMap<String, String>() {{
         put("Code", "it-IT");
         put("Gender", "Apollo");
         put("Artist", "(fr-FR,Cosimo,Apollo)");
     }}),
-    SPANISH(new HashMap<>() {{
+    SPANISH(new HashMap<String, String>() {{
         put("Code", "es-ES");
         put("Gender", "Apollo");
         put("Artist", "(fr-FR,Laura,Apollo)");
@@ -180,29 +139,14 @@ public enum Language
 
     private HashMap<String, String> data;
 
-    Language(HashMap<String, String> data)
-    {
+    Language(HashMap<String, String> data) {
         this.data = data;
     }
 
-
-    public String getCode()
+    public HashMap<String,String> getData()
     {
-        return Language
+        return data;
     }
 
-
-    public void setLanguage(Language l)
-    {
-        this.language = l;
-    }
-
-
-    public static void main(String[] args)
-    {
-        Language language = Language.OFF; //default
-
-    }
 }
-*/
 
