@@ -31,8 +31,7 @@ public class MapState extends JPanel implements MenuState {
   private Graphics2D renderer;
   private Maps map;
   private Rectangle clip;
-  private double prevLat = 0;
-  private double prevLong = 0;
+
 
 
   @Override
@@ -83,7 +82,7 @@ public class MapState extends JPanel implements MenuState {
   @Override
   public void render(){
     if(image==null) return;
-    renderer.drawImage( image, UserController.SCREEN_X-51, UserController.SCREEN_Y-2,/*screen.getWidth()-4,screen.getHeight()-4,*/screen);
+    renderer.drawImage( image, UserController.SCREEN_X-51, UserController.SCREEN_Y-2, screen);
     System.out.println("Update");
     renderer.drawImage( dot, UserController.SCREEN_X+101, UserController.SCREEN_Y+147, 10, 10, screen ); //centre the red dot to the screen
   }
@@ -140,29 +139,25 @@ public class MapState extends JPanel implements MenuState {
         System.out.println("No new direction");
     }
     if (latitude.equals("")){
+        resetDirection();
         renderError();
+        //setDirection(Double.parseDouble(direction));
         System.out.println("NO COORDINATES");
     }else{
         render();
     }
-    //render();
-    //renderError();
   }
   
-  private void setDirection(double angle/*, double lat, double lng*/){
-
-    //double radians = Math.toRadians(getDirection(prevLat, prevLong, lat, lng)); //use of previous points to find directions
-    //rotation = Math.toDegrees(radians);
+  private void setDirection(double angle){
     rotation = -angle; //negative as a turn to the left requires a rotation anti-clockwise
     double radians = Math.toRadians( -angle );
     renderer.rotate( radians, UserController.SCREEN_X+104, UserController.SCREEN_Y+153);
-    //prevLat = lat;
-    //prevLong = lng;
   }
 
   private void resetDirection(){
     double radians = Math.toRadians(-rotation);
     renderer.rotate( radians, UserController.SCREEN_X+104, UserController.SCREEN_Y+153);
+    rotation = 0; //stops more rotations occurring in case this method is called twice before a new direction is given
   }
 
   private double getDirection(double lat1, double lng1, double lat2, double lng2) {
