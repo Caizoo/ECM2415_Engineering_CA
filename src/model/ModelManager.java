@@ -70,8 +70,10 @@ public class ModelManager {
 
         if(currentView==MenuAction.ON_OFF_STATE) return;
 
-        if(!x[0].equals("")) distance += ModelTripComputer.getDistance(Double.parseDouble(latitude),Double.parseDouble(longitude),
-                                                  Double.parseDouble(x[0]),Double.parseDouble(x[1]));
+        if(x[0]!=("") && latitude!=("")) {
+            distance += ModelTripComputer.getDistance(Double.parseDouble(latitude),Double.parseDouble(longitude),
+                    Double.parseDouble(x[0]),Double.parseDouble(x[1]));
+        }
 
         latitude = x[0];
         longitude = x[1];
