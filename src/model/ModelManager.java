@@ -25,6 +25,8 @@ public class ModelManager {
     double distance;
     int startTime;
 
+    String destination;
+
     public static String longitude,latitude,direction, timeSinceUpdate;
 
 
@@ -43,12 +45,12 @@ public class ModelManager {
         speech = new SpeechGenerator();
         currentLanguage = Language.OFF;
         currentView = MenuAction.ON_OFF_STATE;
-        longitude = "";
+        /*longitude = "";
         latitude = "";
         direction = "0";
         timeSinceUpdate = "0";
         distance = 0;
-        startTime = 0;
+        startTime = 0;*/ //Called in hardReset()
 
         // create new state objects
         hardReset();
@@ -87,8 +89,8 @@ public class ModelManager {
             ((SatelliteMode)views[currentView.getVal()]).update(latitude,longitude);
         }else if(currentView==MenuAction.MAP_STATE){ //Added basic map state -Scott
 
-            //Need to consider loss of signal and what to display
-            if (Float.valueOf(timeSinceUpdate) + 10 < Float.valueOf(x[4]) || !direction.equals("")){
+
+            if (Integer.valueOf(timeSinceUpdate) + 10 < Integer.valueOf(x[4]) || !direction.equals("")){
                 ((MapState)views[currentView.getVal()]).update(latitude, longitude, direction, currentLanguage.getCode());
                 timeSinceUpdate = x[4];
                 if (!direction.equals("")) System.out.println(direction);
@@ -166,6 +168,13 @@ public class ModelManager {
         views[MenuAction.SATELLITE_STATE.getVal()] = new SatelliteMode();
         views[MenuAction.ABOUT_STATE.getVal()] = new AboutMode();
 
+        longitude = "";
+        latitude = "";
+        direction = "0";
+        timeSinceUpdate = "0";
+        distance = 0;
+        startTime = 0;
+
         for(MenuState view:views) {
             if(view!=null) {
                 view.setRenderer((Graphics2D)(uc.getGraphics()));
@@ -184,5 +193,13 @@ public class ModelManager {
     public Language getLanguage() { return this.currentLanguage; }
     public MenuAction getView() { return this.currentView; }
     public static MenuAction getViewState() { return currentView; }
+
+    public void setDestination(String destination){
+        if (!destination.equals(this.destination)){
+            this.destination = destination;
+            //STart new trip
+        }
+    }
+    public String getDestination(){return this.destination;} //Not sure if needed
 
 }
