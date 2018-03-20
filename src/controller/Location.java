@@ -67,39 +67,47 @@ public class Location implements Runnable {
             byte[] buffer = new byte[BUFF_SIZE];
             String s;
             int n;
+            String d, v;
+
 
             while ((n = in.read(buffer)) > -1) {
                 s = new String(buffer, 0, n);
-                String ss[] = s.split(",");
-                if (s.startsWith("$GPVTG")){
-                    synchronized (lock){
-                        this.direction = ss[1];
-                        this.velocity = ss[7];
-                        System.out.println("DIRECTION: "+ss[1]);
-                        System.out.println("VELOCITY: "+ss[7]);
-                    }
+
+                while (!s.startsWith("$GPVTG")){
+                    n = in.read(buffer);
+                    s = new String(buffer,0,n);
                 }
+                String ss[] = s.split(",");
+                d = ss[1];
+                v = ss[7];
+                n = in.read(buffer);
+                s = new String(buffer,0,n);
                 //Can guarantee that the GPGLL message will have the same format with or without connection to the satellites
-                else if (s.startsWith("$GPGLL")) {
+                while (!s.startsWith("$GPGLL")) {
                     //String ss[] = s.split(",");
-                    synchronized (lock) {
-                        if (ss[1].equals("")) {
-                            this.latitude = "";
-                            this.longitude = "";
-                        } else {
-                            //Converts to correct formatting for API
-                            String lat = String.format("%.6f", Integer.valueOf(ss[1].substring(0,2)) + Float.valueOf(ss[1].substring(2))/60);
-                            String lon = String.format("%.6f", Integer.valueOf(ss[3].substring(0,3)) + Float.valueOf(ss[3].substring(3))/60);
-                            this.latitude = (ss[2].equals("N")) ? lat : "-" + lat;
-                            this.longitude = (ss[4].equals("E")) ? lon : "-" + lon;
-                        }
+                    n = in.read(buffer);
+                    s = new String(buffer, 0, n);
+                }
+                ss = s.split(",");
+                synchronized (lock) {
+                    if (ss[1].equals("")) {
+                        this.latitude = "";
+                        this.longitude = "";
+                    } else {
+                        //Converts to correct formatting for API
+                        String lat = String.format("%.6f", Integer.valueOf(ss[1].substring(0,2)) + Float.valueOf(ss[1].substring(2))/60);
+                        String lon = String.format("%.6f", Integer.valueOf(ss[3].substring(0,3)) + Float.valueOf(ss[3].substring(3))/60);
+                        this.latitude = (ss[2].equals("N")) ? lat : "-" + lat;
+                        this.longitude = (ss[4].equals("E")) ? lon : "-" + lon;
+                    }
                         //this.time = ss[5];
                         this.time = String.format("%d", Integer.valueOf(ss[5].substring(0,2))*3600 + Integer.valueOf(ss[5].substring(2,4))*60 + Integer.valueOf(ss[5].substring(4,6)));
+                        this.direction = d;
+                        this.velocity = v;
                     }
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 }
 
-            }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
