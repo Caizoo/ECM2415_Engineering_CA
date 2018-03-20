@@ -4,6 +4,7 @@
 
 package model;
 
+import controller.Location;
 import controller.MenuAction;
 import controller.MockLocation;
 import controller.UserController;
@@ -17,6 +18,7 @@ public class ModelManager {
     UserController uc;
 
     MockLocation location;
+    //Location location;
     Maps mapGenerator;
     Directions directions;
     SpeechGenerator speech;
@@ -40,6 +42,7 @@ public class ModelManager {
         this.uc = uc;
 
         location = new MockLocation();
+        //location = new Location();
         mapGenerator = new Maps();
         directions = new Directions();
         speech = new SpeechGenerator();
@@ -93,7 +96,7 @@ public class ModelManager {
             if (Integer.valueOf(timeSinceUpdate) + 10 < Integer.valueOf(x[4]) || !direction.equals("")){
                 ((MapState)views[currentView.getVal()]).update(latitude, longitude, direction, currentLanguage.getCode());
                 timeSinceUpdate = x[4];
-                if (!direction.equals("")) System.out.println(direction);
+                //if (!direction.equals("")) System.out.println(direction);
             }
 
         }else if(currentView==MenuAction.TRIP_COMPUTER_STATE){
