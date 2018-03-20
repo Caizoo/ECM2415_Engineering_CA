@@ -6,6 +6,7 @@ package view;
     Have calculation functions in a model class so they can be calculating in the background
  */
 
+import model.ModelManager;
 import model.ModelTripComputer;
 
 import java.lang.Math;
@@ -26,7 +27,7 @@ public class TripComputer implements MenuState, Runnable {
     private double currentLong = 360.00;//impossible value to tell its the inital longitiude
     private static double currentTime;
     private double totalDistance = 0;
-
+    public ModelManager model;
     @Override
     public void setRenderer(Graphics2D renderer) {
         this.renderer = renderer;
@@ -79,7 +80,9 @@ public class TripComputer implements MenuState, Runnable {
         if (e == NavigationAction.POWER) {
             stop();
         } else if (e == NavigationAction.MENU) {
-        } else if (e == NavigationAction.SELECT) ;
+
+        }
+        else if (e == NavigationAction.SELECT) ;
     }
 
     @Override
@@ -111,7 +114,9 @@ public class TripComputer implements MenuState, Runnable {
             setText(infoHeader + "\n" + newValue);
         }
     }
-
+    public TripComputer(ModelManager object){
+        this.model=object;
+    }
 
     public void updateTripComputerMode(String distance, String speed, String time) {
         if (speed != null && speed.length()>0) {

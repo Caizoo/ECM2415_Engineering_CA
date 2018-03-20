@@ -4,6 +4,8 @@
 
 package view;
 
+import model.ModelManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -22,6 +24,7 @@ public class WhereTo implements MenuState {
     final JTextField txtf = new RoundJTextField(30);
     int currentButton;
     int currentMode;
+    ModelManager model;
 
     CharacterButton[] charButtons = new CharacterButton[28];
     NumberButton[] numButtons = new NumberButton[12];
@@ -244,7 +247,7 @@ public class WhereTo implements MenuState {
             } else if (e == NavigationAction.POWER) {
                 stop();
             } else if (e == NavigationAction.MENU) {
-                //.start().getDirections();
+                model.setDestination(getDirections());
             }
 
         }
@@ -376,7 +379,8 @@ public class WhereTo implements MenuState {
                 return shape.contains(x, y);
             }
         }
-    public WhereTo() {
+    public WhereTo(ModelManager object) {
+        this.model = object;
         }
         public String getDirections () {
             String destination = txtf.getText();
