@@ -6,10 +6,8 @@ package view;
     Have calculation functions in a model class so they can be calculating in the background
  */
 
-import model.ModelManager;
 import model.ModelTripComputer;
 
-import java.lang.Math;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -23,10 +21,6 @@ public class TripComputer implements MenuState, Runnable {
     private JPanel screen;
     private ActionListener listener;
     MyText[] textLabels = new MyText[3];
-    private double currentLat = 360.00;//impossible value to tell its the inital latitiude
-    private double currentLong = 360.00;//impossible value to tell its the inital longitiude
-    private static double currentTime;
-    private double totalDistance = 0;
     @Override
     public void setRenderer(Graphics2D renderer) {
         this.renderer = renderer;
