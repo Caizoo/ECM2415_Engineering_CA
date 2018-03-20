@@ -1,3 +1,7 @@
+/**
+ * @author Joshua Chalcraft
+ */
+
 package model;
 /*
 public enum Language {

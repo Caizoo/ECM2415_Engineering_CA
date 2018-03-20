@@ -4,7 +4,7 @@ package model;
 import java.net.URLEncoder;
 
 
-/*
+/**
  * Directions using the Google Maps APIs.
  *
  * See https://developers.google.com/maps/documentation/directions/intro
@@ -12,6 +12,7 @@ import java.net.URLEncoder;
  * David Wakeling, 2018.
  *
  * Modified by Gabriel Mulcahy and Joshua Chalcraft
+ * @author David Wakeling, Gabriel Mulcahy, Joshua Chalcraft
  */
 public class Directions {
     private static String origin      = "The Forum, Exeter University";//"The Forum, Exeter University";

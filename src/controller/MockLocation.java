@@ -1,3 +1,7 @@
+/**
+ * @author Scott Woodward
+ */
+
 package controller;
 
 import java.io.BufferedReader;

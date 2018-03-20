@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
+ * @author Cai Davies
  *
  * Empty class of type MenuState which displays nothing,
  * but comforms with state switching in UserController for on/off

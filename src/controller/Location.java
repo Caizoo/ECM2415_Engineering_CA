@@ -6,11 +6,11 @@ import gnu.io.SerialPort;
 import java.io.IOException;
 import java.io.InputStream;
 
-/*
+/**
  *
  * Code modified, with permission, from David Wakeling
  *
- * @author Scott Woodward
+ * @author David Wakeling, Scott Woodward
  */
 public class Location implements Runnable {
 

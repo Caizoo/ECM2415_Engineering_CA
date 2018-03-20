@@ -4,12 +4,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.DataOutputStream;
 
-/*
+/**
  * Speech generation using Microsoft Cognitive Services
  *
  * Original code by David Wakeling
  *
- * Modified by Joshua Chalcraft
+ * @auhtor David Wakeling, Joshua Chalcroft
  *  - Changed some attributes to non-final as they could be changed via the SpeechMode class
  *  - Added set and (currently unused) get methods for these attributes
  *  - Changed access modifiers of attributes and provided methods
