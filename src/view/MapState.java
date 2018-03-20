@@ -11,15 +11,14 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Observable;
-import java.util.Observer;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-/**
+
+/*
  * MapState.
  *
- * @author Gabriel Mulcahy
+ * Gabriel Mulcahy
  */
 public class MapState extends JPanel implements MenuState {
   private BufferedImage image;
@@ -31,6 +30,8 @@ public class MapState extends JPanel implements MenuState {
   private Graphics2D renderer;
   private Maps map;
   private Rectangle clip;
+  private double prevLat = 0;
+  private double prevLong = 0;
 
 
   @Override
@@ -111,9 +112,10 @@ public class MapState extends JPanel implements MenuState {
 
   }
 
-  public void update( String latitude, String longitude, String direction ) {
+  public void update( String latitude, String longitude, String direction, String language ) {
     map.setLat(latitude);
     map.setLong(longitude);
+    map.setLanguage(language);
     map.make();
     //Needed to change image each time -Scott
     try {
@@ -121,24 +123,41 @@ public class MapState extends JPanel implements MenuState {
     } catch (IOException e1) {
       e1.printStackTrace();
     }
-    if (!direction.equals("")) {
+
+    if (!direction.equals("") /*true*/ ) {
         resetDirection();
-        setDirection(Double.parseDouble(direction));
+        setDirection(Double.parseDouble(direction)/*, Double.parseDouble(latitude), Double.parseDouble(longitude)*/); // use of previous points to find direction
         System.out.println("NEW DIRECTION!!!");
       }else{
         System.out.println("No new direction");
     }
+
     render();
   }
   
-  private void setDirection(double angle){
-    rotation = angle;
-    double radians = Math.toRadians( angle );
+  private void setDirection(double angle/*, double lat, double lng*/){
+
+    //double radians = Math.toRadians(getDirection(prevLat, prevLong, lat, lng)); //use of previous points to find directions
+    //rotation = Math.toDegrees(radians);
+    rotation = -angle;
+    double radians = Math.toRadians( -angle );
     renderer.rotate( radians, UserController.SCREEN_X+104, UserController.SCREEN_Y+153);
+    //prevLat = lat;
+    //prevLong = lng;
   }
 
   private void resetDirection(){
     double radians = Math.toRadians(-rotation);
     renderer.rotate( radians, UserController.SCREEN_X+104, UserController.SCREEN_Y+153);
   }
+
+  private double getDirection(double lat1, double lng1, double lat2, double lng2) {
+    double PI = Math.PI;
+    double dTeta = Math.log(Math.tan((lat2/2)+(PI/4))/Math.tan((lat1/2)+(PI/4)));
+    double dLon = Math.abs(lng1-lng2);
+    double teta = Math.atan2(dLon,dTeta);
+    double direction = Math.round(Math.toDegrees(teta));
+    return direction; //direction in degree
+
+    }
 }
