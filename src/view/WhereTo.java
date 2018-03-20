@@ -1,3 +1,7 @@
+/**
+ * @author Rob Wells
+ */
+
 package view;
 
 import javax.swing.*;

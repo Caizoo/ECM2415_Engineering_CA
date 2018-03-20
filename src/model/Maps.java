@@ -1,3 +1,7 @@
+/**
+ * @author Gabriel Mulcahy
+ */
+
 package model;
 
 import java.io.FileOutputStream;

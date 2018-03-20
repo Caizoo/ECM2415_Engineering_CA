@@ -5,8 +5,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.util.ArrayList;
 import java.util.Iterator;
-/*
- * Joshua Chalcraft
+/**
+ * @author Joshua Chalcraft
  *
  * Class takes in JSON data stored as a string and extracts directions, which are stored in an ArrayList
  *

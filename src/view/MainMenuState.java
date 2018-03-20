@@ -1,5 +1,5 @@
 /**
- * Author: Cai Davies
+ * @author: Cai Davies
  */
 
 package view;

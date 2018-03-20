@@ -8,7 +8,7 @@ public class ModelTripComputer {
     private double speed =0;
 
     public ModelTripComputer(){}
-    public Double deg2rad(Double deg) {
+    public static Double deg2rad(Double deg) {
         return deg * (Math.PI / 180);
     }
 
@@ -19,7 +19,7 @@ public class ModelTripComputer {
         this.speed= Double.parseDouble(speed);
     }
 
-    public double getDistance(Double lat1, Double lon1, Double lat2, Double lon2) {
+    public static double getDistance(Double lat1, Double lon1, Double lat2, Double lon2) {
         int r = 6371; // Radius of the earth in km
         double dLat = deg2rad(lat2 - lat1);  // deg2rad below
         double dLon = deg2rad(lon2 - lon1);

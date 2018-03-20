@@ -16,10 +16,10 @@ import java.util.Observer;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-/*
+/**
  * MapState.
  *
- * Gabriel Mulcahy
+ * @author Gabriel Mulcahy
  */
 public class MapState extends JPanel implements MenuState {
   private BufferedImage image;

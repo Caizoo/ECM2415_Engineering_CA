@@ -11,8 +11,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.border.LineBorder;
 
-/*
- * Joshua Chalcraft
+/**
+ * @author Joshua Chalcraft
  *
  * Changes made since last scrum:
  *   - Utilises vertical menus over buttons

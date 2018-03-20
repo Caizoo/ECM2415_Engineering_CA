@@ -1,5 +1,5 @@
-/*
-@Author-Rob Wells
+/**
+ * @author Rob Wells
  */
 package view;
 

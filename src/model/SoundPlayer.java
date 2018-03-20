@@ -9,10 +9,10 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.SourceDataLine;
-/*
+/**
  * Original code by David Wakeling
  *
- * Modified by Joshua Chalcraft
+ * @author Davies Wakeling, Joshua Chalcroft
  *  - FILENAME now has an additional "res/directions" added at the start of the string as output is stored there
  *  - Main method now replaced by a "play" method
  *  - Changed access modifiers of provided methods

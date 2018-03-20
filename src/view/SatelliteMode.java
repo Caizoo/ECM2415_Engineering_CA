@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/*
+/**
  * From rxtx-2.2pre2-bins.zip, extract RXTXcomm.jar and
  * the win64 version of rxtxSerial.dll.
  *

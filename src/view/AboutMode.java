@@ -1,3 +1,7 @@
+/**
+ * @author Scott Woodward
+ */
+
 package view;
 
 import controller.UserController;
