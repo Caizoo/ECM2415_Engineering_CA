@@ -25,7 +25,7 @@ public class WhereTo implements MenuState {
 
     CharacterButton[] charButtons = new CharacterButton[28];
     NumberButton[] numButtons = new NumberButton[12];
-
+    JPanel panel = new JPanel();
     @Override
     public void setRenderer(Graphics2D renderer) {
         this.renderer = renderer;
@@ -97,39 +97,56 @@ public class WhereTo implements MenuState {
         numButtons[10] = new NumberButton(-1, "DEL");
         numButtons[11] = new NumberButton(-1, "\u21d0");
 
-
+        panel.setPreferredSize(new Dimension(180,210));
+        panel.setLayout(null);
+        panel.setOpaque(false);
         txtf.setPreferredSize(new Dimension(100, 30));
         screen.add(txtf);
+        screen.add(panel);
         txtf.setFont(new Font("Ariel", Font.BOLD, 18));
 
-        for (CharacterButton x : charButtons) {
-            if (x.getChar() == "A") {
-                x.setPreferredSize(new Dimension(46, 30));
-                screen.add(x);
-                x.setBackground(Color.ORANGE);
-            } else {
-                x.setBackground(Color.WHITE);
-                x.setPreferredSize(new Dimension(46, 30));
-                screen.add(x);
+        int charCount=0;
+        int numbCount=0;
+        int[] a = {0,45,90,135};
+        int[] b = {0,30,60,90,120,150,180};
+        for (int y: b){
+            for( int x:a){
+                if(charCount==0) {
+                    charButtons[0].setBounds(x, y, 45, 30);
+                    panel.add(charButtons[0]);
+                    charButtons[0].setBackground(Color.ORANGE);
+                    charCount++;
+                }
+                else{
+                    charButtons[charCount].setBounds(x, y, 45, 30);
+                    panel.add(charButtons[charCount]);
+                    charCount++;
+                }
             }
         }
-        for (NumberButton x : numButtons) {
-            if (x.getChar() == "1") {
-                x.setPreferredSize(new Dimension(60, 40));
+        int[] c = {0,60,120};
+        int[] d = {0,42,84};
+        for(int y: d){
+            for(int x: c){
+                if(numbCount==0){
+                    numButtons[numbCount].setBounds(x,y,60,42);
+                    panel.add(numButtons[numbCount]);
+                    numButtons[numbCount].setBackground(Color.ORANGE);
+                    numButtons[numbCount].setVisible(false);
+                    numbCount++;
+                }
+                else{
+                    numButtons[numbCount].setBounds(x,y,60,42);
+                    panel.add(numButtons[numbCount]);
+                    numButtons[numbCount].setVisible(false);
+                    numbCount++;
+                }
+            }
+        }
+        numButtons[9].setBounds(0,126,60,42); panel.add(numButtons[9]);numButtons[9].setVisible(false);
+        numButtons[10].setBounds(60,126,120,84); panel.add(numButtons[10]);numButtons[10].setVisible(false);
+        numButtons[11].setBounds(0,168,60,42); panel.add(numButtons[11]);numButtons[11].setVisible(false);
 
-                x.setVisible(false);
-                x.setBackground(Color.ORANGE);
-                screen.add(x);
-            } else if (x.getChar().equals("DEL")) {
-                x.setPreferredSize(new Dimension(120, 80));
-                x.setVisible(false);
-                screen.add(x);
-            } else {
-                x.setPreferredSize(new Dimension(60, 40));
-                x.setVisible(false);
-                screen.add(x);
-            }
-        }
     }
 
 
@@ -143,6 +160,7 @@ public class WhereTo implements MenuState {
         }
         screen.remove(txtf);
         System.out.println("STOP");
+        screen.remove(panel);
         screen.removeAll();
 
     }
@@ -225,16 +243,21 @@ public class WhereTo implements MenuState {
                 }
             } else if (e == NavigationAction.POWER) {
                 stop();
-            } else if (e == NavigationAction.MENU) ;
-            String directions = getDirections();
+            } else if (e == NavigationAction.MENU) {
+                //.start().getDirections();
+            }
+
         }
 
-        public class NumberButton extends JButton {
+        public class NumberButton extends JTextPane {
             public String num;
             Font font = new Font("Verdana", Font.BOLD, 12);
 
             NumberButton(int i, String special) {
-                this.setVerticalAlignment(JLabel.TOP);
+                StyledDocument doc = this.getStyledDocument();
+                SimpleAttributeSet center = new SimpleAttributeSet();
+                StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+                doc.setParagraphAttributes(0, doc.getLength(), center, false);
                 this.setFont(font);
                 this.num = special;
                 this.setText(special);
@@ -331,7 +354,8 @@ public class WhereTo implements MenuState {
 
             public RoundJTextField(int size) {
                 super(size);
-                setOpaque(false); // As suggested by @AVD in comment.
+                setOpaque(false);
+                this.setEditable(false);
             }
 
             protected void paintComponent(Graphics g) {
