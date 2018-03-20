@@ -1,3 +1,7 @@
+/**
+ * @author Gabriel Mulcahy
+ */
+
 package view;
 
 import controller.UserController;
@@ -15,11 +19,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
-/*
- * MapState.
- *
- * Gabriel Mulcahy
- */
 public class MapState extends JPanel implements MenuState {
   private BufferedImage image;
   private BufferedImage dot;
@@ -31,6 +30,7 @@ public class MapState extends JPanel implements MenuState {
   private Graphics2D renderer;
   private Maps map;
   private Rectangle clip;
+  private Boolean newInstance = true;
 
 
 
@@ -58,8 +58,11 @@ public class MapState extends JPanel implements MenuState {
   public void start(){
 
     map = new Maps();
-    clip = new Rectangle(UserController.SCREEN_X+8, UserController.SCREEN_Y+32, 191, 241); //only draw the part of the image that fits the screen
-    renderer.clip(clip);
+    if (newInstance) {
+      clip = new Rectangle(UserController.SCREEN_X+8, UserController.SCREEN_Y+32, 191, 241);
+      renderer.clip(clip); //only draw the part of the image that fits the screen
+      newInstance = false;
+    }
 
     try {
       error = ImageIO.read(new File("res/NoSat.png"));
@@ -123,8 +126,7 @@ public class MapState extends JPanel implements MenuState {
     map.setLat(latitude);
     map.setLong(longitude);
     map.setLanguage(language);
-    map.make();
-    //Needed to change image each time -Scott
+    map.make(); //create a new map image based on current information
     try {
       image = ImageIO.read(new File("res/output.png"));
     } catch (IOException e1) {
@@ -133,7 +135,7 @@ public class MapState extends JPanel implements MenuState {
 
     if (!direction.equals("")) {
         resetDirection();
-        setDirection(Double.parseDouble(direction)); // use of previous points to find direction
+        setDirection(Double.parseDouble(direction));
         System.out.println("NEW DIRECTION!!!");
       }else{
         System.out.println("No new direction");
@@ -147,7 +149,8 @@ public class MapState extends JPanel implements MenuState {
         render();
     }
   }
-  
+
+
   private void setDirection(double angle){
     rotation = -angle; //negative as a turn to the left requires a rotation anti-clockwise
     double radians = Math.toRadians( -angle );
