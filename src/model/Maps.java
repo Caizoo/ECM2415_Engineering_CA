@@ -8,11 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-/*
- * Maps
- *
- * Gabriel Mulcahy
- */
 
 public class Maps {
   final static String KEY       = "AIzaSyDC6wHj2s9ZTXqtre3DbYNhQsvu-kH8d1w";
@@ -20,7 +15,7 @@ public class Maps {
   String latitude;
   String longitude;     
   String zoom                   = "18";                                      /* 0 .. 21           */
-  String size                   = "308x308";                                 /* Size              */
+  String size                   = "308x308";    //size of the widest part of the screen, allowing it to be rotated and still fill the screen
   String language;
 
   static byte[] readData( String latitude
@@ -95,13 +90,4 @@ public class Maps {
     writeData( OUTPUT, data ); 
   }
 
-  //creates an image to be rendered facing north/south
-  public void northSouth() {
-    size = "191x241";
-  }
-
-  //creates an image to be rendered facing east/west
-  public void eastWest() {
-    size = "241x191";
-  }
 }
