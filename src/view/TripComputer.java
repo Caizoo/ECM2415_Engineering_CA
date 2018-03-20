@@ -27,7 +27,6 @@ public class TripComputer implements MenuState, Runnable {
     private double currentLong = 360.00;//impossible value to tell its the inital longitiude
     private static double currentTime;
     private double totalDistance = 0;
-    public ModelManager model;
     @Override
     public void setRenderer(Graphics2D renderer) {
         this.renderer = renderer;
@@ -113,9 +112,6 @@ public class TripComputer implements MenuState, Runnable {
         public void resetValues(String newValue) {
             setText(infoHeader + "\n" + newValue);
         }
-    }
-    public TripComputer(ModelManager object){
-        this.model=object;
     }
 
     public void updateTripComputerMode(String distance, String speed, String time) {
