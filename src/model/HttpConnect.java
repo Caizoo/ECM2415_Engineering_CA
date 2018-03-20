@@ -7,10 +7,10 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.HttpURLConnection;
-/*
+/**
  * Make an HTTP connection.
  *
- * David Wakeling, 2018.
+ * @author David Wakeling, 2018.
  */
 public class HttpConnect {
     final static int TIMEOUT  = 5000; /* ms  */

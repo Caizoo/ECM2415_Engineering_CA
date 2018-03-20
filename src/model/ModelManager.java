@@ -1,3 +1,7 @@
+/**
+ * @author Cai Davies, Scott Woodward
+ */
+
 package model;
 
 import controller.MenuAction;
@@ -18,6 +22,7 @@ public class ModelManager {
     SpeechGenerator speech;
     Language currentLanguage;
     private static MenuAction currentView = MenuAction.ON_OFF_STATE;
+    double distance;
 
     public static String longitude,latitude,direction,time;
 
@@ -35,12 +40,14 @@ public class ModelManager {
         mapGenerator = new Maps();
         directions = new Directions();
         speech = new SpeechGenerator();
-        currentLanguage = null;
+        currentLanguage = new Language();
+        currentLanguage.setLanguageType(Language.LanguageType.OFF);
         currentView = MenuAction.ON_OFF_STATE;
         longitude = "";
         latitude = "";
         direction = "0";
         time = "0";
+        distance = 0;
 
         // create new state objects
         hardReset();
@@ -62,6 +69,10 @@ public class ModelManager {
         //Around +- 0.00002 roughly 2m radius
 
         if(currentView==MenuAction.ON_OFF_STATE) return;
+
+        if(!x[0].equals("")) distance += ModelTripComputer.getDistance(Double.parseDouble(latitude),Double.parseDouble(longitude),
+                                                  Double.parseDouble(x[0]),Double.parseDouble(x[1]));
+
         latitude = x[0];
         longitude = x[1];
         direction = x[2];
@@ -72,13 +83,13 @@ public class ModelManager {
 
             //Need to consider loss of signal and what to display
             if (Float.valueOf(time) + 10 < Float.valueOf(x[4]) || !direction.equals("")){
-                ((MapState)views[currentView.getVal()]).update(latitude, longitude, direction);
+                ((MapState)views[currentView.getVal()]).update(latitude, longitude, direction, currentLanguage.getCode());
                 time = x[4];
                 if (!direction.equals("")) System.out.println(direction);
             }
 
         }else if(currentView==MenuAction.TRIP_COMPUTER_STATE){
-            ((TripComputer)views[currentView.getVal()]).updateTripComputer(x[3], latitude, longitude, time);
+            ((TripComputer)views[currentView.getVal()]).updateTripComputerMode(String.valueOf(distance),x[3],time);
         }
     }
 

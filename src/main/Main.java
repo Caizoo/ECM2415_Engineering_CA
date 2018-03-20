@@ -1,3 +1,7 @@
+/**
+ * @author Cai Davies, Scott Woodward
+ */
+
 package main;
 
 import controller.*;

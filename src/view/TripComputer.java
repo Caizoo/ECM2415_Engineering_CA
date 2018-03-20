@@ -1,8 +1,10 @@
-/*
-@Author-Rob Wells
+/**
+ * @author Rob Wells
  */
 package view;
-
+/*
+    Have calculation functions in a model class so they can be calculating in the background
+ */
 import java.lang.Math;
 import java.awt.*;
 import java.awt.event.*;
@@ -20,7 +22,7 @@ public class TripComputer implements MenuState, Runnable  {
     private  double currentLat= 360.00;//impossible value to tell its the inital latitiude
     private  double currentLong= 360.00;//impossible value to tell its the inital longitiude
     private static double currentTime;
-    private double totalDistace=0;
+    private double totalDistance=0;
     @Override
     public void setRenderer(Graphics2D renderer) {
         this.renderer = renderer;
@@ -103,51 +105,10 @@ public class TripComputer implements MenuState, Runnable  {
     }
 
 
-    public Double deg2rad(Double deg) {
-        return deg * (Math.PI/180);
-    }
+    public void updateTripComputerMode(String distance, String speed, String time){
 
-    public void setCoords(String latitude, String longitude) {
-            currentLat = Double.parseDouble(latitude);
-            currentLong = Double.parseDouble(longitude);
-    }
-
-    public double getDistanceFromLatLonInKm(Double lat1,Double lon1,Double lat2, Double lon2) {
-        int R = 6371; // Radius of the earth in km
-        double dLat = deg2rad(lat2-lat1);  // deg2rad below
-        double dLon = deg2rad(lon2-lon1);
-        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-                                Math.sin(dLon/2) * Math.sin(dLon/2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        double d = R * c; // Distance in km
-        return d;
-    }
-
-
-    public void updateTripSpeedAndTime(String speed,String time){
-        textLabels[1].resetValues(speed);
+        textLabels[0].resetValues(distance+"KM");
+        textLabels[1].resetValues(speed+"KM/H");
         textLabels[2].resetValues(time);
-    }
-
-    public void resetTripComputer(String time, String speed,String distance){
-        if( distance != null){textLabels[0].resetValues(distance);}
-        if(speed != null){textLabels[1].resetValues(speed);}
-        if(time != null ){textLabels[2].resetValues(time);}
-    }
-    public void updateTripDistance(String latitude,String longitude){
-        if (latitude.equals("")|| longitude.equals("")){
-
-        }
-        else {
-            if(currentLat == 360.00 ||currentLong==360.00){
-                setCoords(latitude,longitude);
-            }
-            double distance = getDistanceFromLatLonInKm(currentLat, currentLong, Double.parseDouble(latitude), Double.parseDouble(longitude));
-            totalDistace += distance;
-            textLabels[0].resetValues(Double.toString(totalDistace));
-            setCoords(latitude, longitude);
-        }
-
     }
 }
