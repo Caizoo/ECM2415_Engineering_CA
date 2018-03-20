@@ -23,8 +23,11 @@ public class ModelManager {
     Language currentLanguage;
     private static MenuAction currentView = MenuAction.ON_OFF_STATE;
     double distance;
+    int startTime;
 
-    public static String longitude,latitude,direction,time;
+    String destination;
+
+    public static String longitude,latitude,direction, timeSinceUpdate;
 
 
     // views
@@ -42,11 +45,12 @@ public class ModelManager {
         speech = new SpeechGenerator();
         currentLanguage = Language.OFF;
         currentView = MenuAction.ON_OFF_STATE;
-        longitude = "";
+        /*longitude = "";
         latitude = "";
         direction = "0";
-        time = "0";
+        timeSinceUpdate = "0";
         distance = 0;
+        startTime = 0;*/ //Called in hardReset()
 
         // create new state objects
         hardReset();
@@ -69,9 +73,12 @@ public class ModelManager {
 
         if(currentView==MenuAction.ON_OFF_STATE) return;
 
-        if(x[0]!=("") && latitude!=("")) {
+        if(!x[0].equals("") && !latitude.equals("")) {
             distance += ModelTripComputer.getDistance(Double.parseDouble(latitude),Double.parseDouble(longitude),
                     Double.parseDouble(x[0]),Double.parseDouble(x[1]));
+        }
+        if(startTime ==0){
+            startTime = Integer.valueOf(x[4]);
         }
 
         latitude = x[0];
@@ -82,15 +89,15 @@ public class ModelManager {
             ((SatelliteMode)views[currentView.getVal()]).update(latitude,longitude);
         }else if(currentView==MenuAction.MAP_STATE){ //Added basic map state -Scott
 
-            //Need to consider loss of signal and what to display
-            if (Float.valueOf(time) + 10 < Float.valueOf(x[4]) || !direction.equals("")){
+
+            if (Integer.valueOf(timeSinceUpdate) + 10 < Integer.valueOf(x[4]) || !direction.equals("")){
                 ((MapState)views[currentView.getVal()]).update(latitude, longitude, direction, currentLanguage.getCode());
-                time = x[4];
+                timeSinceUpdate = x[4];
                 if (!direction.equals("")) System.out.println(direction);
             }
 
         }else if(currentView==MenuAction.TRIP_COMPUTER_STATE){
-            ((TripComputer)views[currentView.getVal()]).updateTripComputerMode(String.valueOf(distance),x[3],time);
+            ((TripComputer)views[currentView.getVal()]).updateTripComputerMode(String.valueOf(distance),x[3],String.valueOf(Integer.valueOf(x[4])-startTime));
         }
     }
 
@@ -112,6 +119,7 @@ public class ModelManager {
                 break;
             case MENU:
                 if(currentView==MenuAction.MAIN_STATE) return;
+                views[currentView.getVal()].navigationButton(NavigationAction.MENU);
                 views[currentView.getVal()].stop();
                 currentView = MenuAction.MAIN_STATE;
                 views[currentView.getVal()].stop();
@@ -155,11 +163,19 @@ public class ModelManager {
         views[MenuAction.ON_OFF_STATE.getVal()] = new OnOffState();
         views[MenuAction.MAIN_STATE.getVal()] = new MainMenuState(this);
         views[MenuAction.TRIP_COMPUTER_STATE.getVal()] = new TripComputer();
-        views[MenuAction.WHERE_TO_STATE.getVal()] = new WhereTo();
+        views[MenuAction.WHERE_TO_STATE.getVal()] = new WhereTo(this);
         views[MenuAction.MAP_STATE.getVal()] = new MapState();
         views[MenuAction.SPEECH_STATE.getVal()] = new SpeechMode(this); //change by Josh - renamed class
         views[MenuAction.SATELLITE_STATE.getVal()] = new SatelliteMode();
         views[MenuAction.ABOUT_STATE.getVal()] = new AboutMode();
+
+        longitude = "";
+        latitude = "";
+        direction = "0";
+        timeSinceUpdate = "0";
+        distance = 0;
+        startTime = 0;
+        destination = "";
 
         for(MenuState view:views) {
             if(view!=null) {
@@ -179,5 +195,13 @@ public class ModelManager {
     public Language getLanguage() { return this.currentLanguage; }
     public MenuAction getView() { return this.currentView; }
     public static MenuAction getViewState() { return currentView; }
+
+    public void setDestination(String destination){
+        if (!destination.equals(this.destination)){
+            this.destination = destination;
+            System.out.println("New journey");
+        }
+    }
+    public String getDestination(){return this.destination;} //Not sure if needed
 
 }

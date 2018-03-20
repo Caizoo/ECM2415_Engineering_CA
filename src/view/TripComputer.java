@@ -5,7 +5,9 @@ package view;
 /*
     Have calculation functions in a model class so they can be calculating in the background
  */
-import java.lang.Math;
+
+import model.ModelTripComputer;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -13,16 +15,12 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-public class TripComputer implements MenuState, Runnable  {
+public class TripComputer implements MenuState, Runnable {
     Graphics2D renderer;
     private JFrame frame;
     private JPanel screen;
     private ActionListener listener;
     MyText[] textLabels = new MyText[3];
-    private  double currentLat= 360.00;//impossible value to tell its the inital latitiude
-    private  double currentLong= 360.00;//impossible value to tell its the inital longitiude
-    private static double currentTime;
-    private double totalDistance=0;
     @Override
     public void setRenderer(Graphics2D renderer) {
         this.renderer = renderer;
@@ -30,25 +28,25 @@ public class TripComputer implements MenuState, Runnable  {
 
     @Override
     public void setFrame(JFrame frame) {
-        this.frame=frame;
+        this.frame = frame;
     }
 
     @Override
     public void setPanel(JPanel panel) {
-        this.screen=panel;
+        this.screen = panel;
     }
 
     @Override
     public void setListener(ActionListener listener) {
-        this.listener=listener;
+        this.listener = listener;
     }
 
     @Override
     public void start() {
-        textLabels[0]= new MyText("Trip odem", "0.0 KM");
-        textLabels[1] = new MyText("Speed", "7 KM/H");
-        textLabels[2]= new MyText("Moving time", "27min 8 sec");
-        for (MyText x: textLabels){
+        textLabels[0] = new MyText("Trip odem", "0.0 KM");
+        textLabels[1] = new MyText("Speed", "0 KM/H");
+        textLabels[2] = new MyText("Moving time", "0min 0 sec");
+        for (MyText x : textLabels) {
             x.setPreferredSize(new Dimension(180, 77));
             screen.add(x);
         }
@@ -65,50 +63,66 @@ public class TripComputer implements MenuState, Runnable  {
 
     @Override
     public void render() {
-        for (MyText x: textLabels){
-            if(x!=null) x.repaint();
+        for (MyText x : textLabels) {
+            if (x != null) x.repaint();
         }
-    }
-    @Override
-    public void navigationButton(NavigationAction e) {
-        if (e== NavigationAction.POWER){
-            stop();
-        }
-        else if (e == NavigationAction.MENU){
-            stop();}
-        else if (e == NavigationAction.SELECT);
     }
 
     @Override
-    public void run(){
-        int x=2;
-        while(x==2){}
+    public void navigationButton(NavigationAction e) {
+        if (e == NavigationAction.POWER) {
+            stop();
+        } else if (e == NavigationAction.MENU) {
+
+        }
+        else if (e == NavigationAction.SELECT) ;
     }
+
+    @Override
+    public void run() {
+        int x = 2;
+        while (x == 2) {
+        }
+    }
+
     StyledDocument doc;
-    public class MyText extends JTextPane  {
+
+    public class MyText extends JTextPane {
         String infoHeader;
         String infoValue;
-        MyText(String header, String value){
+
+        MyText(String header, String value) {
             StyledDocument doc = this.getStyledDocument();
             SimpleAttributeSet center = new SimpleAttributeSet();
             StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
             doc.setParagraphAttributes(0, doc.getLength(), center, false);
             this.setFont(new Font("Verdana", Font.BOLD, 20));
             this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
-            this.infoHeader=header;
-            this.infoValue=value;
-            this.setText(infoHeader+"\n"+infoValue);
+            this.infoHeader = header;
+            this.infoValue = value;
+            this.setText(infoHeader + "\n" + infoValue);
         }
-        public void resetValues(String newValue){
-            setText(infoHeader+"\n"+newValue);
+
+        public void resetValues(String newValue) {
+            setText(infoHeader + "\n" + newValue);
         }
     }
 
+    public void updateTripComputerMode(String distance, String speed, String time) {
+        if (speed != null && speed.length()>0) {
+            System.out.println(speed);
+            double doubleSpeed = Double.parseDouble(speed);
+            String roundedSpeed = String.format("%,.1f", doubleSpeed);
+            textLabels[1].resetValues(roundedSpeed + "KM/H");
+        } else {
+            textLabels[1].resetValues("0" + "KM/H");
+        }
+        Double doubleDistance = Double.parseDouble(distance);
+        String roundedDistance = String.format("%,.3f", doubleDistance);
+        String timeInMins = ModelTripComputer.getTimeInMins(time);
+        textLabels[0].resetValues(roundedDistance + "KM");
+        textLabels[2].resetValues(timeInMins);
 
-    public void updateTripComputerMode(String distance, String speed, String time){
-
-        textLabels[0].resetValues(distance+"KM");
-        textLabels[1].resetValues(speed+"KM/H");
-        textLabels[2].resetValues(time);
     }
+
 }
