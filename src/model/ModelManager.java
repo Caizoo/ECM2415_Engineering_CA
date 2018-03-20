@@ -119,6 +119,7 @@ public class ModelManager {
                 break;
             case MENU:
                 if(currentView==MenuAction.MAIN_STATE) return;
+                views[currentView.getVal()].navigationButton(NavigationAction.MENU);
                 views[currentView.getVal()].stop();
                 currentView = MenuAction.MAIN_STATE;
                 views[currentView.getVal()].stop();
@@ -162,7 +163,7 @@ public class ModelManager {
         views[MenuAction.ON_OFF_STATE.getVal()] = new OnOffState();
         views[MenuAction.MAIN_STATE.getVal()] = new MainMenuState(this);
         views[MenuAction.TRIP_COMPUTER_STATE.getVal()] = new TripComputer();
-        views[MenuAction.WHERE_TO_STATE.getVal()] = new WhereTo();
+        views[MenuAction.WHERE_TO_STATE.getVal()] = new WhereTo(this);
         views[MenuAction.MAP_STATE.getVal()] = new MapState();
         views[MenuAction.SPEECH_STATE.getVal()] = new SpeechMode(this); //change by Josh - renamed class
         views[MenuAction.SATELLITE_STATE.getVal()] = new SatelliteMode();
@@ -174,6 +175,7 @@ public class ModelManager {
         timeSinceUpdate = "0";
         distance = 0;
         startTime = 0;
+        destination = "";
 
         for(MenuState view:views) {
             if(view!=null) {
@@ -197,7 +199,7 @@ public class ModelManager {
     public void setDestination(String destination){
         if (!destination.equals(this.destination)){
             this.destination = destination;
-            //STart new trip
+            System.out.println("New journey");
         }
     }
     public String getDestination(){return this.destination;} //Not sure if needed
