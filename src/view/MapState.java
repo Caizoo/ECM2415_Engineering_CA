@@ -23,6 +23,7 @@ import javax.swing.*;
 public class MapState extends JPanel implements MenuState {
   private BufferedImage image;
   private BufferedImage dot;
+  private BufferedImage error;
   private double rotation;
   private JFrame frame;
   private JPanel screen;
@@ -56,11 +57,14 @@ public class MapState extends JPanel implements MenuState {
 
   @Override
   public void start(){
+
     map = new Maps();
     clip = new Rectangle(UserController.SCREEN_X+8, UserController.SCREEN_Y+32, 191, 241); //only draw the part of the image that fits the screen
     renderer.clip(clip);
+
     try {
-      dot = ImageIO.read(new File("res/red.png"));
+      error = ImageIO.read(new File("res/NoSat.png"));
+      dot   = ImageIO.read(new File("res/red.png"));
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -82,6 +86,10 @@ public class MapState extends JPanel implements MenuState {
     renderer.drawImage( image, UserController.SCREEN_X-51, UserController.SCREEN_Y-2,/*screen.getWidth()-4,screen.getHeight()-4,*/screen);
     System.out.println("Update");
     renderer.drawImage( dot, UserController.SCREEN_X+101, UserController.SCREEN_Y+147, 10, 10, screen ); //centre the red dot to the screen
+  }
+
+  private void renderError(){
+      renderer.drawImage( error, UserController.SCREEN_X+165, UserController.SCREEN_Y+35, 30, 30, screen );
   }
 
   @Override
@@ -124,22 +132,28 @@ public class MapState extends JPanel implements MenuState {
       e1.printStackTrace();
     }
 
-    if (!direction.equals("") /*true*/ ) {
+    if (!direction.equals("")) {
         resetDirection();
-        setDirection(Double.parseDouble(direction)/*, Double.parseDouble(latitude), Double.parseDouble(longitude)*/); // use of previous points to find direction
+        setDirection(Double.parseDouble(direction)); // use of previous points to find direction
         System.out.println("NEW DIRECTION!!!");
       }else{
         System.out.println("No new direction");
     }
-
-    render();
+    if (latitude.equals("")){
+        renderError();
+        System.out.println("NO COORDINATES");
+    }else{
+        render();
+    }
+    //render();
+    //renderError();
   }
   
   private void setDirection(double angle/*, double lat, double lng*/){
 
     //double radians = Math.toRadians(getDirection(prevLat, prevLong, lat, lng)); //use of previous points to find directions
     //rotation = Math.toDegrees(radians);
-    rotation = -angle;
+    rotation = -angle; //negative as a turn to the left requires a rotation anti-clockwise
     double radians = Math.toRadians( -angle );
     renderer.rotate( radians, UserController.SCREEN_X+104, UserController.SCREEN_Y+153);
     //prevLat = lat;
