@@ -83,14 +83,13 @@ public class ModelManager {
 
             //Need to consider loss of signal and what to display
             if (Float.valueOf(time) + 10 < Float.valueOf(x[4]) || !direction.equals("")){
-                ((MapState)views[currentView.getVal()]).update(latitude, longitude, direction);
+                ((MapState)views[currentView.getVal()]).update(latitude, longitude, direction, currentLanguage.getCode());
                 time = x[4];
                 if (!direction.equals("")) System.out.println(direction);
             }
 
         }else if(currentView==MenuAction.TRIP_COMPUTER_STATE){
-            //((TripComputer)views[currentView.getVal()]).updateTripComputer(x[3], latitude, longitude, time);
-            // give tripcomputer data
+            ((TripComputer)views[currentView.getVal()]).updateTripComputerMode(String.valueOf(distance),x[3],time);
         }
     }
 
