@@ -21,6 +21,14 @@ public class ModelTripComputer {
         return d;
     }
 
-
+    public static String getTimeInMins(String time){
+        int timeMins =0;
+        int timeSeconds = Integer.parseInt(time);
+        while ((timeSeconds -60) >=0){
+            timeSeconds-=60;
+            timeMins+=1;
+        }
+        return Integer.toString(timeMins)+" Min "+Integer.toString(timeSeconds)+" Sec";
+    }
 
 }
