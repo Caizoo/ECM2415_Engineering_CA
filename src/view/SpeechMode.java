@@ -1,5 +1,7 @@
 package view;
 
+import model.Language;
+import model.ModelManager;
 import model.SpeechGenerator;
 
 import java.awt.*;
@@ -24,12 +26,25 @@ import javax.swing.border.LineBorder;
 public class SpeechMode extends JFrame implements MenuState
 {
     //Attributes
+    //Language.LanguageType lang = new LanguageType();
+    //lang.setLanguageType(Language.LanguageType.OFF);
     private JFrame frame;
     private JPanel screen;
     private ActionListener listener;
     private Graphics2D renderer;
     private LanguageMenuBar menuBar = new LanguageMenuBar();
     private int menuIndex = -1;
+    ModelManager mm;
+
+
+    public SpeechMode(ModelManager m)
+    {
+        this.mm = m;
+    }
+
+
+
+
 
     //Methods
     @Override
@@ -58,12 +73,12 @@ public class SpeechMode extends JFrame implements MenuState
     @Override
     public void start()
     {
-        menuBar.add(new LanguageMenu("Off", null, null, null));
-        menuBar.add(new LanguageMenu("English", "en-US", "Apollo", "(en-GB, Susan, Apollo)"));
-        menuBar.add(new LanguageMenu("French", "fr-FR", "Apollo", "(fr-FR, Julie, Apollo)"));
-        menuBar.add(new LanguageMenu("German", "de-DE", "Hedda", "(de-DE, Hedda)"));
-        menuBar.add(new LanguageMenu("Italian", "it-IT", "Apollo", "(it-IT, Cosimo, Apollo)"));
-        menuBar.add(new LanguageMenu("Spanish", "es-ES", "Apollo", "(es-ES, Laura, Apollo)"));
+        menuBar.add(new LanguageMenu(Language.OFF, "Off"));
+        menuBar.add(new LanguageMenu(Language.ENGLISH, "English"));
+        menuBar.add(new LanguageMenu(Language.FRENCH, "French"));
+        menuBar.add(new LanguageMenu(Language.GERMAN, "German"));
+        menuBar.add(new LanguageMenu(Language.ITALIAN, "Italian"));
+        menuBar.add(new LanguageMenu(Language.SPANISH, "Spanish"));
         screen.add(menuBar);
     }
 
@@ -76,7 +91,7 @@ public class SpeechMode extends JFrame implements MenuState
     @Override
     public void render()
     {
-       for (int i = 0; i < menuBar.getMenuCount(); i++) menuBar.getMenu(i).repaint();
+        for (int i = 0; i < menuBar.getMenuCount(); i++) menuBar.getMenu(i).repaint();
     }
 
     @Override
@@ -106,18 +121,13 @@ public class SpeechMode extends JFrame implements MenuState
         if (e == NavigationAction.SELECT)
         {
             LanguageMenu menu = (LanguageMenu) menuBar.getMenu(menuIndex);
-            SpeechGenerator.setLanguage(menu.languageCode);
-            SpeechGenerator.setGender(menu.languageGender);
-            SpeechGenerator.setArtist(menu.languageArtist);
-            //System.out.println("language code is " + SpeechGenerator.getLanguage());
-            //System.out.println("gender is " + SpeechGenerator.getGender());
-            //System.out.println("artist is " + SpeechGenerator.getArtist());
+            mm.setLanguage(menu.type);
         }
     }
 
     /*
-    * Custom JMenuBar that is vertical.
-    */
+     * Custom JMenuBar that is vertical.
+     */
     public class LanguageMenuBar extends JMenuBar
     {
         private final LayoutManager grid = new GridLayout(0,1);
@@ -134,17 +144,11 @@ public class SpeechMode extends JFrame implements MenuState
      */
     public class LanguageMenu extends JMenu
     {
-        String languageType;
-        String languageCode;
-        String languageGender;
-        String languageArtist;
-        LanguageMenu(String languageType, String languageCode, String languageGender, String languageArtist)
+        Language type;
+        LanguageMenu(Language type, String languageName)
         {
-            this.languageType = languageType;
-            this.languageCode = languageCode;
-            this.languageGender = languageGender;
-            this.languageArtist = languageArtist;
-            this.setText(languageType);
+            this.type = type;
+            this.setText(languageName);
             this.setFont(new Font("Ariel", Font.BOLD, 24));
             this.setBorder(new LineBorder(Color.BLACK, 3));
             this.setPreferredSize((new Dimension(191, 40)));
