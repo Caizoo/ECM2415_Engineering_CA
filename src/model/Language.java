@@ -147,6 +147,9 @@ public enum Language
     {
         return data;
     }
+    public String getCode() { return data.get("Code"); }
+    public String getGender() { return data.get("Gender"); }
+    public String getArtist() { return data.get("Artist"); }
 
 }
 

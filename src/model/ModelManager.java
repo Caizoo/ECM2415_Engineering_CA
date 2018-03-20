@@ -40,8 +40,7 @@ public class ModelManager {
         mapGenerator = new Maps();
         directions = new Directions();
         speech = new SpeechGenerator();
-        currentLanguage = new Language();
-        currentLanguage.setLanguageType(Language.LanguageType.OFF);
+        currentLanguage = Language.OFF;
         currentView = MenuAction.ON_OFF_STATE;
         longitude = "";
         latitude = "";
@@ -158,7 +157,7 @@ public class ModelManager {
         views[MenuAction.TRIP_COMPUTER_STATE.getVal()] = new TripComputer();
         views[MenuAction.WHERE_TO_STATE.getVal()] = new WhereTo();
         views[MenuAction.MAP_STATE.getVal()] = new MapState();
-        views[MenuAction.SPEECH_STATE.getVal()] = new SpeechMode(); //change by Josh - renamed class
+        views[MenuAction.SPEECH_STATE.getVal()] = new SpeechMode(this); //change by Josh - renamed class
         views[MenuAction.SATELLITE_STATE.getVal()] = new SatelliteMode();
         views[MenuAction.ABOUT_STATE.getVal()] = new AboutMode();
 
