@@ -97,7 +97,7 @@ public class MockLocation implements Runnable{
                     if (ss[2].equals("S")) lat = "-" + lat;
                     if (ss[4].equals("W")) lon = "-" + lon;
                 }
-                String time = String.format("%f", Integer.valueOf(ss[5].substring(0,2))*3600 + Integer.valueOf(ss[5].substring(2,4))*60 + Float.valueOf(ss[5].substring(4)));
+                String time = String.format("%d", Integer.valueOf(ss[5].substring(0,2))*3600 + Integer.valueOf(ss[5].substring(2,4))*60 + Integer.valueOf(ss[5].substring(4,6)));
                 //if (strLine.startsWith("$GPGLL")||strLine.startsWith("$GPVTG")) System.out.println (strLine);
                 synchronized (lock){
                     this.velocity = speed;

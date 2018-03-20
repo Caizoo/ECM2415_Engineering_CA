@@ -23,8 +23,9 @@ public class ModelManager {
     Language currentLanguage;
     private static MenuAction currentView = MenuAction.ON_OFF_STATE;
     double distance;
+    int startTime;
 
-    public static String longitude,latitude,direction,time;
+    public static String longitude,latitude,direction, timeSinceUpdate;
 
 
     // views
@@ -45,8 +46,9 @@ public class ModelManager {
         longitude = "";
         latitude = "";
         direction = "0";
-        time = "0";
+        timeSinceUpdate = "0";
         distance = 0;
+        startTime = 0;
 
         // create new state objects
         hardReset();
@@ -69,9 +71,12 @@ public class ModelManager {
 
         if(currentView==MenuAction.ON_OFF_STATE) return;
 
-        if(x[0]!=("") && latitude!=("")) {
+        if(!x[0].equals("") && !latitude.equals("")) {
             distance += ModelTripComputer.getDistance(Double.parseDouble(latitude),Double.parseDouble(longitude),
                     Double.parseDouble(x[0]),Double.parseDouble(x[1]));
+        }
+        if(startTime ==0){
+            startTime = Integer.valueOf(x[4]);
         }
 
         latitude = x[0];
@@ -83,14 +88,14 @@ public class ModelManager {
         }else if(currentView==MenuAction.MAP_STATE){ //Added basic map state -Scott
 
             //Need to consider loss of signal and what to display
-            if (Float.valueOf(time) + 10 < Float.valueOf(x[4]) || !direction.equals("")){
+            if (Float.valueOf(timeSinceUpdate) + 10 < Float.valueOf(x[4]) || !direction.equals("")){
                 ((MapState)views[currentView.getVal()]).update(latitude, longitude, direction, currentLanguage.getCode());
-                time = x[4];
+                timeSinceUpdate = x[4];
                 if (!direction.equals("")) System.out.println(direction);
             }
 
         }else if(currentView==MenuAction.TRIP_COMPUTER_STATE){
-            ((TripComputer)views[currentView.getVal()]).updateTripComputerMode(String.valueOf(distance),x[3],time);
+            ((TripComputer)views[currentView.getVal()]).updateTripComputerMode(String.valueOf(distance),x[3],String.valueOf(Integer.valueOf(x[4])-startTime));
         }
     }
 
