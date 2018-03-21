@@ -14,7 +14,7 @@ public class Maps {
   private final static String OUTPUT    = "res/output.png";                          // Ouput file
   String latitude;
   String longitude;     
-  String zoom                           = "18";                                      // 0 .. 21
+  String zoom                           = "18";                                      // 1 ... 21, a zoom level of 0 will fail to fill the screen
   private final static String size      = "308x308";                                 // size of the widest part of the screen, allowing it to be rotated and still fill the screen
   String language;
   static String mapType                 = "roadmap";
@@ -79,14 +79,6 @@ public class Maps {
   public void setLanguage(String language){
     this.language = language;
   }
-
-  public void toggleMapType(){
-      if (mapType == "roadmap"){
-          mapType = "hybrid";
-      }else{
-          mapType = "roadmap";
-      }
-  }
   
   public void zoomIn(){
     int iZoom = Integer.parseInt(zoom); //create an integer form of zoom that can be incremented
@@ -96,7 +88,7 @@ public class Maps {
   
   public void zoomOut(){
     int iZoom = Integer.parseInt(zoom);
-    if (iZoom > 0) iZoom--;
+    if (iZoom > 1) iZoom--;
     zoom = Integer.toString(iZoom);
   }
   
