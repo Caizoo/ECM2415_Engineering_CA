@@ -1,5 +1,7 @@
 package model;
 
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.DataOutputStream;
@@ -17,10 +19,6 @@ import java.io.DataOutputStream;
 public class SpeechGenerator
 {
     private final static String KEY = "e9488f2304204a599d806da749983124";
-    private static String text   = null;
-    private static String lang   = null;
-    private static String gender = null;
-    private static String artist = null;
     private final static String OUTPUT = "sound_output.wav";
     private final static String PATH   = "res/directions/"+OUTPUT;
     private final static String FORMAT = "riff-16khz-16bit-mono-pcm";
@@ -50,7 +48,7 @@ public class SpeechGenerator
 
             final String method = "POST";
             final String url = "https://speech.platform.bing.com/synthesize";
-            final byte[] body = ( "<speak version='1.0' xml:lang='en-us'>" + "<voice xml:lang='" + lang + "' " + "xml:gender='" + gender + "' " + "name='Microsoft Server Speech Text to Speech Voice " + artist + "'>" + text + "</voice></speak>" ).getBytes();
+            final byte[] body = ("<speak version='1.0' xml:lang='en-us'>" + "<voice xml:lang='" + lang + "' " + "xml:gender='" + gender + "' " + "name='Microsoft Server Speech Text to Speech Voice " + artist + "'>" + text + "</voice></speak>").getBytes();
             final String[][] headers
                     = { { "Content-Type"             , "application/ssml+xml"      }
                     , { "Content-Length"           , String.valueOf( body.length ) }
@@ -96,12 +94,6 @@ public class SpeechGenerator
     /*
      * Generate speech.
      */
-    public static void generate()
-    {
-        final String token = renewAccessToken(KEY);
-        final byte[] speech = generateSpeech(token, text, lang, gender, artist, FORMAT);
-        writeData(speech, PATH);
-    }
 
 
     //text would likely be something like directions[0] or any other number
@@ -110,20 +102,15 @@ public class SpeechGenerator
     //Will look like generate(directions[0], mm.getLanguage(), mm.getGender(), mm.getArtist())
     public static void generate(String text, String lang, String gender, String artist)
     {
+        //Store token in model manager, have thread that sleeps for 10 mins that renews token.
         final String token = renewAccessToken(KEY);
+        System.out.println(lang);
+        System.out.println(gender);
+        System.out.println(artist);
         final byte[] speech = generateSpeech(token, text, lang, gender, artist, FORMAT);
         writeData(speech, PATH);
     }
 
 
-
-
-    public static void setLanguage(String newLang) {SpeechGenerator.lang = newLang;}
-
-    public static void setGender(String newGender) {SpeechGenerator.gender = newGender;}
-
-    public static void setArtist(String newArtist) {SpeechGenerator.artist = newArtist;}
-
-    public static void setText(String newText) {SpeechGenerator.text = newText;}
 
 }

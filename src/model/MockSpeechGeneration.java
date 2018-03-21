@@ -5,6 +5,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /*
  * Joshua Chalcraft
@@ -18,12 +19,12 @@ import java.util.ArrayList;
  * By scrum 3, this behaviour should be exhibited through the GPS gui application (or behaviour similar)
  */
 
-/*
+
 public class MockSpeechGeneration
 {
     private static ArrayList<String> directions = new ArrayList<>();
 
-    public static void play()
+    /*public static void play()
     {
         String data = Directions.sendToParser();
         JSONParser.getDirections(data, directions);
@@ -33,27 +34,26 @@ public class MockSpeechGeneration
             SpeechGenerator.generate();
             SoundPlayer.play();
         }
-    }
+    }*/
 
     public static void main(String[] args)
     {
-        Directions.setLanguage("en-GB");
+        Directions.setLanguage(Language.FRENCH.getCode());
         String data = Directions.sendToParser();
-        JSONParser.getDirections(data, directions);
-        SpeechGenerator.setLanguage("en-US");
-        SpeechGenerator.setGender("Apollo");
-        SpeechGenerator.setArtist("(en-GB, Susan, Apollo)");
-        for (String line : directions)
+        ArrayList<HashMap<String,String>> directions = JSONParser.getDirections(data);
+
+
+        for (HashMap<String,String> leg : directions)
         {
+            String line = leg.get("Directions");
             System.out.println(line);
-            SpeechGenerator.setText(line);
-            SpeechGenerator.generate();
-            SoundPlayer.play();
+            SpeechGenerator.generate(line, Language.FRENCH.getCode(), Language.FRENCH.getGender(), Language.FRENCH.getArtist());
+            SoundPlayer.playDirection();
         }
     }
 }
 
-*/
+/**/
 
 
 

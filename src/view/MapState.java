@@ -23,14 +23,14 @@ public class MapState extends JPanel implements MenuState {
   private BufferedImage image;
   private BufferedImage dot;
   private BufferedImage error;
-  private double rotation;
+  private double rotation;              // current rotation of map so that direction of travel is at the top of the screen
   private JFrame frame;
   private JPanel screen;
   private ActionListener listener;
   private Graphics2D renderer;
   private Maps map;
   private Rectangle clip;
-  private Boolean newInstance = true;
+  private Boolean newInstance = true;   //check if map mode has been run previously
 
 
 
@@ -59,9 +59,9 @@ public class MapState extends JPanel implements MenuState {
 
     map = new Maps();
     if (newInstance) {
-      clip = new Rectangle(UserController.SCREEN_X+8, UserController.SCREEN_Y+32, 191, 241);
+      clip = new Rectangle(UserController.SCREEN_X+8, UserController.SCREEN_Y+32, 191, 241);  //screen size and position
       renderer.clip(clip); //only draw the part of the image that fits the screen
-      newInstance = false;
+      newInstance = false; //prevents the screen being re-clipped upon re-entering map mode
     }
 
     try {
@@ -91,11 +91,11 @@ public class MapState extends JPanel implements MenuState {
   }
 
   private void renderError(){
-      renderer.drawImage( error, UserController.SCREEN_X+165, UserController.SCREEN_Y+35, 30, 30, screen ); //draw no satellite image to top right of screen
+      renderer.drawImage( error, UserController.SCREEN_X+165, UserController.SCREEN_Y+35, 30, 30, screen ); //draw 'no satellite' image to top right of screen
   }
 
   /*
-   *Redraw the map with a increased/decreased zoom level if plus/minus buttons are pressed, respectively
+   *Redraw the map with a increased/decreased zoom level if plus/minus buttons are pressed, respectively.
    */
   @Override
   public void navigationButton(NavigationAction e){
@@ -126,7 +126,7 @@ public class MapState extends JPanel implements MenuState {
   }
 
   /*
-   * refreshes map based on new data
+   * Refresh the map based on new data.
    */
   public void update( String latitude, String longitude, String direction, String language ) {
     map.setLat(latitude);
@@ -157,16 +157,16 @@ public class MapState extends JPanel implements MenuState {
   }
 
   /*
-   * rotate map based on direction of travel from north
+   * Rotate map based on direction of travel from north.
    */
   private void setDirection(double angle){
     rotation = -angle; //negative as a turn to the left requires a rotation anti-clockwise
-    double radians = Math.toRadians( -angle );
+    double radians = Math.toRadians( rotation );
     renderer.rotate( radians, UserController.SCREEN_X+104, UserController.SCREEN_Y+153);
   }
 
   /*
-   * resets the rotation of the renderer to 0
+   * Reset the rotation of the renderer to 0.
    */
   private void resetDirection(){
     double radians = Math.toRadians(-rotation);

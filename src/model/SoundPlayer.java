@@ -98,7 +98,7 @@ public class SoundPlayer
     /*
      * Uses the above methods to set up and play an audio file in one go.
      */
-    public static void play()
+    public static void playDirection()
     {
         AudioInputStream stm = setupStream(FILENAME);
         playStream(stm, readStream(stm));

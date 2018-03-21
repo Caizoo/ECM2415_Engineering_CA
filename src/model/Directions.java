@@ -56,7 +56,7 @@ public class Directions {
     /*
      * Turns byte array into string ready for JSON parsing - Joshua Chalcraft
      */
-    public static String sendToParser() {
+    public static String sendToParser() { //Add all parameters as arguments
         final byte[] ds = readDirections( origin, destination, region, mode, language );
         String directions = new String(ds);
         return directions;
