@@ -146,7 +146,7 @@ public class MapState extends JPanel implements MenuState {
       }else{
         System.out.println("No new direction");
     }
-    if (latitude.equals("")){
+    if (latitude.equals("")){    //empty string when gps signal is lost
         resetDirection();
         renderError();
         //setDirection(Double.parseDouble(direction));
