@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 /**
  * @author Joshua Chalcraft
@@ -22,10 +23,12 @@ public class JSONParser
     /*
      * Traverse through JSON data and extract useful information. Commented code to be extended for another sprint.
      */
-    private static void parseJSON(String data, ArrayList<String> directions)
+    private static ArrayList<HashMap<String, String>> parseJSON(String data)
     {
+        ArrayList<HashMap<String, String>> directions = new ArrayList<>();
         try
         {
+
             //Moving to the 'steps' JsonArray, which is where the data we want is stored.
             JsonObject obj1 = new JsonParser().parse(data).getAsJsonObject(); //Parse string from Directions.
             if(obj1.get("error_message") != null) throw new IndexOutOfBoundsException();
@@ -39,36 +42,49 @@ public class JSONParser
             Iterator<JsonElement> it = steps.iterator();
             while (it.hasNext())
             {
+                HashMap<String, String> leg = new HashMap<>();
                 JsonObject names = it.next().getAsJsonObject();
                 String direction = names.get("html_instructions").toString();
-                directions.add(direction);
+                //directions.add(direction);
+                leg.put("Directions", direction);
 
-                //JsonObject distance = names.getAsJsonObject("distance");
-                //String text = distance.get("text").toString();
+                JsonObject distance = names.getAsJsonObject("distance");
+                String text = distance.get("text").toString();
+                leg.put("Distance", text);
                 //Double value = distance.get("value").getAsDouble();
 
-                //JsonObject startLocation = names.getAsJsonObject("start_location");
-                //Double sLat = startLocation.get("lat").getAsDouble();
-                //Double sLng = startLocation.get("lng").getAsDouble();
+                JsonObject startLocation = names.getAsJsonObject("start_location");
+                String sLat = String.valueOf(startLocation.get("lat").getAsDouble());
+                String sLng = String.valueOf(startLocation.get("lng").getAsDouble());
+                leg.put("Start-Lat", sLat);
+                leg.put("Start-Long", sLng);
 
-                //JsonObject endLocation = names.getAsJsonObject("end_location");
-                //Double eLat = endLocation.get("lat").getAsDouble();
-                //Double eLng = endLocation.get("lng").getAsDouble();
+                JsonObject endLocation = names.getAsJsonObject("end_location");
+                String eLat = String.valueOf(endLocation.get("lat").getAsDouble());
+                String eLng = String.valueOf(endLocation.get("lng").getAsDouble());
+                leg.put("End-Lat", eLat);
+                leg.put("End-Long", eLng);
+
+                directions.add(leg);
             }
         }
         catch (IndexOutOfBoundsException ex) {SoundPlayer.playError("res/errorMessages/GoogleError.wav");}
         catch (Exception ex) {SoundPlayer.playError("res/errorMessages/GoogleError.wav");}
+        return directions;
+
     }
 
     /*
      * Removes the HTML tags from the direction strings and elongates abbreviated terms. Used before generating speech.
      */
-    private static ArrayList<String> filter(ArrayList<String> directions)
+    private static ArrayList<HashMap<String, String>> filter(ArrayList<HashMap<String,String>> directions)
     {
         for (int i =0; i<directions.size(); i++)
         {
-            directions.set(i, directions.get(i).replaceAll("<.*?>", " "));
-            directions.set(i, enlongator(directions.get(i)));
+            HashMap<String,String> h = directions.get(i);
+            h.put("Directions", elongator(h.get("Directions").replaceAll("<.*?>", " ")));
+            //directions.set(i, directions.get(i).replaceAll("<.*?>", " "));
+            //directions.set(i, elongator(directions.get(i)));
         }
         return directions;
     }
@@ -76,7 +92,7 @@ public class JSONParser
     /*
      * Elongates abbreviated words. E.g. 'rd' to 'road'
      */
-    private static String enlongator(String line)
+    private static String elongator(String line)
     {
         String[] words = line.split(" ");
         for (int i = 0; i < words.length; i++)
@@ -97,10 +113,11 @@ public class JSONParser
     /*
      * Returns the directions.
      */
-    public static ArrayList<String> getDirections(String data, ArrayList<String> directions)
+    public static ArrayList<HashMap<String,String>> getDirections(String data)
     {
-        JSONParser.parseJSON(data, directions);
-        directions = JSONParser.filter(directions);
+
+        ArrayList<HashMap<String,String>> directions = parseJSON(data);
+        directions = filter(directions);
         return directions;
     }
 }
