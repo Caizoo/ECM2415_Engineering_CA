@@ -1,5 +1,5 @@
 /**
- * @author Gabriel Mulcahy
+ * @author Gabriel Mulcahy, David Wakeling
  */
 
 package model;
@@ -10,12 +10,12 @@ import java.io.OutputStream;
 
 
 public class Maps {
-  final static String KEY       = "AIzaSyDC6wHj2s9ZTXqtre3DbYNhQsvu-kH8d1w";
-  final static String OUTPUT    = "res/output.png";                           /* Ouput file        */
+  private final static String KEY       = "AIzaSyDC6wHj2s9ZTXqtre3DbYNhQsvu-kH8d1w";
+  private final static String OUTPUT    = "res/output.png";                          // Ouput file
   String latitude;
   String longitude;     
-  String zoom                   = "18";                                      /* 0 .. 21           */
-  String size                   = "308x308";    //size of the widest part of the screen, allowing it to be rotated and still fill the screen
+  String zoom                           = "18";                                      // 0 .. 21
+  private final static String size      = "308x308";                                 // size of the widest part of the screen, allowing it to be rotated and still fill the screen
   String language;
 
   static byte[] readData( String latitude
@@ -43,8 +43,6 @@ public class Maps {
 
   /*
    * Write map data.
-   *
-   * David Wakeling 2018
    */
   static void writeData( String file, byte[] data) {
     try {
@@ -52,7 +50,8 @@ public class Maps {
       os.write( data, 0, data.length );
       os.close();
     } catch ( IOException ex ) {
-      ex.printStackTrace(); System.exit( 1 );
+      ex.printStackTrace();
+      System.exit( 1 );
     }
   }
   
@@ -82,8 +81,6 @@ public class Maps {
   
   /*
    * Download map data.
-   *
-   * David Wakeling 2018
    */
   public void make() {
     final byte[] data = readData( latitude, longitude, zoom, size, language );
