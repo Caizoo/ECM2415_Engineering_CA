@@ -17,7 +17,7 @@ public class Maps {
   String zoom                           = "18";                                      // 0 .. 21
   private final static String size      = "308x308";                                 // size of the widest part of the screen, allowing it to be rotated and still fill the screen
   String language;
-  static String mapType                        = "roadmap";
+  static String mapType                 = "roadmap";
 
   static byte[] readData( String latitude
                         , String longitude
