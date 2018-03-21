@@ -57,8 +57,8 @@ public class MapState extends JPanel implements MenuState {
   @Override
   public void start(){
 
-    map = new Maps();
     if (newInstance) {
+      map = new Maps();
       clip = new Rectangle(UserController.SCREEN_X+8, UserController.SCREEN_Y+32, 191, 241);  //screen size and position
       renderer.clip(clip); //only draw the part of the image that fits the screen
       newInstance = false; //prevents the screen being re-clipped upon re-entering map mode
