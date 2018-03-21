@@ -17,18 +17,19 @@ import javax.swing.text.StyledDocument;
 
 
 public class WhereTo implements MenuState {
-    Graphics2D renderer;
+    //This class is the view for the "Where To?" mode. This classes uses the swing library to create a virtual keyboard to take in text input.
+    private Graphics2D renderer;
     private JFrame frame;
     private JPanel screen;
-    private ActionListener listener;
     final JTextField txtf = new RoundJTextField(30);
-    int currentButton;
-    int currentMode;
+    private int currentButton;
+    private int currentMode;
     ModelManager model;
 
-    CharacterButton[] charButtons = new CharacterButton[28];
-    NumberButton[] numButtons = new NumberButton[12];
-    JPanel panel = new JPanel();
+    private CharacterButton[] charButtons = new CharacterButton[28];
+    private NumberButton[] numButtons = new NumberButton[12];
+    private JPanel panel = new JPanel();
+
     @Override
     public void setRenderer(Graphics2D renderer) {
         this.renderer = renderer;
@@ -50,9 +51,12 @@ public class WhereTo implements MenuState {
 
     @Override
     public void setListener(ActionListener listener) {
-        this.listener = listener;
+        ActionListener listener1 = listener;
     }
 
+    /*
+     Overriden method from the implemented MenuState interface which will instantiate all the java.swing elements
+     */
     @Override
     public void start() {
         currentButton = 0;
@@ -152,7 +156,9 @@ public class WhereTo implements MenuState {
 
     }
 
-
+    /*
+    Overriden method that is used to remove all the java.swing elements on the virtual screen when called
+     */
     @Override
     public void stop() {
         for (CharacterButton x : charButtons) {
@@ -181,8 +187,15 @@ public class WhereTo implements MenuState {
             }
             txtf.repaint();
         }
+        /*
+        Overridden method that will perform some sort of action when the emulated buttons are clicked
+         */
         @Override
         public void navigationButton (NavigationAction e){
+            /*
+            The select button is used to press the buttons on the keyboard, either to add or remove characters to the
+            text field, or to switch it from numerical/alphabetical mode
+             */
             if (e == NavigationAction.SELECT) {
                 if (currentMode > 0) {
                     if (currentButton == 27) {
@@ -199,7 +212,10 @@ public class WhereTo implements MenuState {
                         numButtons[currentButton].numInput();
                     }
                 }
-
+            /*
+            This plus button is set to cycle forward through the keyboard, highlighting the current key it is on. If
+            it reaches it the last key in the keyboard, the it will cycle back to the first key
+             */
             } else if (e == NavigationAction.PLUS) {
                 if (currentMode > 0) {
                     if (this.currentButton == 27) {
@@ -222,6 +238,10 @@ public class WhereTo implements MenuState {
                         numButtons[currentButton].setBackground(Color.ORANGE);
                     }
                 }
+            /*
+            This plus button is set to cycle backwards through the keyboard, highlighting the current key it is on. If
+            it reaches it the first key in the keyboard, the it will cycle back to the last key
+             */
             } else if (e == NavigationAction.MINUS) {
                 if (currentMode > 0) {
                     if (this.currentButton == 0) {
@@ -244,16 +264,26 @@ public class WhereTo implements MenuState {
                         numButtons[currentButton].setBackground(Color.ORANGE);
                     }
                 }
+            /*
+            The power button is set to turn off the emulator and provide a hard reset to the device, not saving the
+            state of previous journeys
+             */
             } else if (e == NavigationAction.POWER) {
                 stop();
+            /*
+            The menu button acts as the starting point for the journey, taking what is in the text field and creating a
+            route and provide directions based on the current location and the destination.
+             */
             } else if (e == NavigationAction.MENU) {
                 model.setDestination(getDirections());
             }
 
         }
-
+        /*
+        The class which create JTextPane objects which are used to create the keys for the numerical keyboard mode
+         */
         public class NumberButton extends JTextPane {
-            public String num;
+            String num;
             Font font = new Font("Verdana", Font.BOLD, 12);
 
             NumberButton(int i, String special) {
@@ -267,13 +297,13 @@ public class WhereTo implements MenuState {
                 this.setBackground(Color.WHITE);
                 this.setFont(new Font("Verdana", Font.BOLD, 13));
                 this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-                if (special == "\u21d0"){
+                if (special.equals("\u21d0")){
                     this.setText(String.valueOf('\u21d0'));
                     this.setFont(new Font("Verdana", Font.BOLD, 20));
                 }
             }
 
-            public void switchToChars() {
+            void switchToChars() {
                 currentMode = -(currentMode);
                 for (CharacterButton x : charButtons) {
                     x.setVisible(true);
@@ -286,22 +316,22 @@ public class WhereTo implements MenuState {
                 numButtons[currentButton].setBackground(Color.ORANGE);
             }
 
-            public String getChar() {
+            String getChar() {
                 return this.num;
             }
 
-            public void numInput() {
+            void numInput() {
                 txtf.setText(txtf.getText() + this.getChar());
             }
 
-            public void backSpace() {
+            void backSpace() {
                 String currentField = txtf.getText();
                 currentField = currentField.substring(0, currentField.length() - 1);
                 txtf.setText(currentField);
             }
         }
         public class CharacterButton extends JTextPane {
-            public int alphaNum;
+            int alphaNum;
             public String s;
 
             CharacterButton(String s, int i) {
@@ -314,31 +344,37 @@ public class WhereTo implements MenuState {
                 this.s = s;
                 this.setBackground(Color.WHITE);
                 this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-                if (s == "\u2423" ) {
-                    this.setText(String.valueOf('\u2423'));
-                    this.setFont(new Font("Verdana", Font.BOLD, 20));
-                }
-                else if (s== "\u21d2"){
-                    this.setText(String.valueOf('\u21d2'));
-                    this.setFont(new Font("Verdana", Font.BOLD, 20));
-                }
-                else {
-                    this.setText(s);
-                    this.setFont(new Font("Verdana", Font.BOLD, 13));
+                switch (s) {
+                    case "\u2423":
+                        this.setText(String.valueOf('\u2423'));
+                        this.setFont(new Font("Verdana", Font.BOLD, 20));
+                        break;
+                    case "\u21d2":
+                        this.setText(String.valueOf('\u21d2'));
+                        this.setFont(new Font("Verdana", Font.BOLD,     20));
+                        break;
+                    default:
+                        this.setText(s);
+                        this.setFont(new Font("Verdana", Font.BOLD, 13));
+                        break;
                 }
             }
 
 
-            public void textInput() {
-                txtf.setText(txtf.getText() + this.getChar());
+            void textInput() {
+                String text =this.getChar();
+                    if(text.equals(String.valueOf('\u2423'))){
+                        text=" ";
+                    }
+                txtf.setText(txtf.getText() + text);
             }
 
-            public String getChar() {
+            String getChar() {
                 System.out.println(this.s);
                 return this.s;
             }
 
-            public void switchToNums() {
+            void switchToNums() {
                 currentMode = -(currentMode);
                 for (CharacterButton x : charButtons) {
                     x.setVisible(false);
@@ -355,7 +391,7 @@ public class WhereTo implements MenuState {
         public class RoundJTextField extends JTextField {
             private Shape shape;
 
-            public RoundJTextField(int size) {
+            RoundJTextField(int size) {
                 super(size);
                 setOpaque(false);
                 this.setEditable(false);
@@ -383,11 +419,7 @@ public class WhereTo implements MenuState {
         this.model = object;
         }
         public String getDirections () {
-            String destination = txtf.getText();
-            return destination;
+            return txtf.getText();
         }
-        public int increment () {
-            currentButton++;
-            return currentButton;
-        }
+
 }
