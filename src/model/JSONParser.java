@@ -26,9 +26,9 @@ public class JSONParser
     {
         try
         {
-            if (data == null) throw new NullPointerException("JSON-parser: No directions have been set");
             //Moving to the 'steps' JsonArray, which is where the data we want is stored.
             JsonObject obj1 = new JsonParser().parse(data).getAsJsonObject(); //Parse string from Directions.
+            if(obj1.get("error_message") != null) throw new IndexOutOfBoundsException();
             JsonArray routes = obj1.getAsJsonArray("routes");
             JsonObject obj2 = routes.get(0).getAsJsonObject();
             JsonArray legs = obj2.getAsJsonArray("legs");
@@ -56,12 +56,9 @@ public class JSONParser
                 //Double eLng = endLocation.get("lng").getAsDouble();
             }
         }
-        catch (NullPointerException ex)
-        {
-            System.out.println(ex);
-        }
+        catch (IndexOutOfBoundsException ex) {SoundPlayer.playError("res/errorMessages/GoogleError.wav");}
+        catch (Exception ex) {SoundPlayer.playError("res/errorMessages/GoogleError.wav");}
     }
-
 
     /*
      * Removes the HTML tags from the direction strings and elongates abbreviated terms. Used before generating speech.
@@ -76,6 +73,9 @@ public class JSONParser
         return directions;
     }
 
+    /*
+     * Elongates abbreviated words. E.g. 'rd' to 'road'
+     */
     private static String enlongator(String line)
     {
         String[] words = line.split(" ");
@@ -93,7 +93,6 @@ public class JSONParser
         }
         return line.join(" ", words);
     }
-
 
     /*
      * Returns the directions.

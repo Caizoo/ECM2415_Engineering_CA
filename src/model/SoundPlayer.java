@@ -1,9 +1,7 @@
 package model;
 
 import java.io.File;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -22,8 +20,8 @@ public class SoundPlayer
     private final static String FILENAME = "res/directions/sound_output.wav";
 
     /*
-    * Set up stream.
-    */
+     * Set up stream.
+     */
     private static AudioInputStream setupStream(String name)
     {
         try
@@ -36,14 +34,13 @@ public class SoundPlayer
         catch (Exception e)
         {
             System.out.println(e);
-            System.exit(1);
             return null;
         }
     }
 
     /*
-    * Read stream.
-    */
+     * Read stream.
+     */
     private static ByteArrayOutputStream readStream(AudioInputStream stm)
     {
         try
@@ -71,14 +68,13 @@ public class SoundPlayer
         catch (Exception e)
         {
             System.out.println(e);
-            System.exit(1);
             return null;
         }
     }
 
     /*
-    * Play stream.
-    */
+     * Play stream.
+     */
     private static void playStream( AudioInputStream stm, ByteArrayOutputStream bos )
     {
         try
@@ -95,14 +91,25 @@ public class SoundPlayer
         catch (Exception e)
         {
             System.out.println(e);
-            System.exit(1);
         }
     }
 
 
+    /*
+     * Uses the above methods to set up and play an audio file in one go.
+     */
     public static void play()
     {
-        AudioInputStream stm = setupStream( FILENAME );
-        playStream( stm, readStream( stm ) );
+        AudioInputStream stm = setupStream(FILENAME);
+        playStream(stm, readStream(stm));
+    }
+
+    /*
+     * Method designed to play files that diagnose errors.
+     */
+    public static void playError(String file)
+    {
+        AudioInputStream stm = setupStream(file);
+        playStream(stm, readStream(stm));
     }
 }

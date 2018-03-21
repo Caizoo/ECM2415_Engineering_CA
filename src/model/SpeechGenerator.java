@@ -36,8 +36,8 @@ public class SpeechGenerator
     }
 
     /*
-    * Synthesize speech.
-    */
+     * Synthesize speech.
+     */
     private static byte[] generateSpeech( String token, String text, String lang, String gender, String artist, String format)
     {
         try
@@ -52,10 +52,10 @@ public class SpeechGenerator
             final String url = "https://speech.platform.bing.com/synthesize";
             final byte[] body = ( "<speak version='1.0' xml:lang='en-us'>" + "<voice xml:lang='" + lang + "' " + "xml:gender='" + gender + "' " + "name='Microsoft Server Speech Text to Speech Voice " + artist + "'>" + text + "</voice></speak>" ).getBytes();
             final String[][] headers
-            = { { "Content-Type"             , "application/ssml+xml"      }
-            , { "Content-Length"           , String.valueOf( body.length ) }
-            , { "Authorization"            , "Bearer " + token             }
-            , { "X-Microsoft-OutputFormat" , format                        }
+                    = { { "Content-Type"             , "application/ssml+xml"      }
+                    , { "Content-Length"           , String.valueOf( body.length ) }
+                    , { "Authorization"            , "Bearer " + token             }
+                    , { "X-Microsoft-OutputFormat" , format                        }
             };
             byte[] response = HttpConnect.httpConnect(method, url, headers, body);
             return response;
@@ -68,14 +68,14 @@ public class SpeechGenerator
 
         catch (Exception ex)
         {
-            System.out.println("Microsoft text-to-speech api has failed. Please try again");
+            SoundPlayer.playError("res/errorMessages/MicrosoftError");
             return null;
         }
     }
 
     /*
-    * Write data to file.
-    */
+     * Write data to file.
+     */
     private static void writeData(byte[] buffer, String name)
     {
         try
@@ -87,16 +87,15 @@ public class SpeechGenerator
             dos.flush();
             dos.close();
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            System.out.println(e);
-            System.exit(1);
+            SoundPlayer.playError("The sat-nav has come across an error when producing voice for directions. Please try again");
         }
     }
 
     /*
-    * Generate speech.
-    */
+     * Generate speech.
+     */
     public static void generate()
     {
         final String token = renewAccessToken(KEY);
@@ -105,14 +104,19 @@ public class SpeechGenerator
     }
 
 
+    //text would likely be something like directions[0] or any other number
+    //Using these parameters avoids using SpeechGenerator 'set' methods. E.g.
+    //The setText method used in the MockSpeechGeneration class
+    //Will look like generate(directions[0], mm.getLanguage(), mm.getGender(), mm.getArtist())
+    public static void generate(String text, String lang, String gender, String artist)
+    {
+        final String token = renewAccessToken(KEY);
+        final byte[] speech = generateSpeech(token, text, lang, gender, artist, FORMAT);
+        writeData(speech, PATH);
+    }
 
-    public static String getLanguage()  {return lang;}
 
-    public static String getGender() {return gender;}
 
-    public static String getArtist() {return artist;}
-
-    public static String getText() {return text;}
 
     public static void setLanguage(String newLang) {SpeechGenerator.lang = newLang;}
 

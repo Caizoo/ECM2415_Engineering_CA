@@ -26,8 +26,6 @@ import javax.swing.border.LineBorder;
 public class SpeechMode extends JFrame implements MenuState
 {
     //Attributes
-    //Language.LanguageType lang = new LanguageType();
-    //lang.setLanguageType(Language.LanguageType.OFF);
     private JFrame frame;
     private JPanel screen;
     private ActionListener listener;
@@ -36,15 +34,11 @@ public class SpeechMode extends JFrame implements MenuState
     private int menuIndex = -1;
     ModelManager mm;
 
-
+    //Constructor
     public SpeechMode(ModelManager m)
     {
         this.mm = m;
     }
-
-
-
-
 
     //Methods
     @Override
@@ -60,19 +54,12 @@ public class SpeechMode extends JFrame implements MenuState
     public void setListener(ActionListener listener){this.listener = listener;}
 
     @Override
-    public void actionPerformed(ActionEvent e)
-    {
-        {
-            if(e.getSource().equals(menuBar.getMenu(0)))
-            {
-                System.out.println("Off button clicked");
-            }
-        }
-    }
+    public void actionPerformed(ActionEvent e) {}
 
     @Override
     public void start()
     {
+        //Set up the menus
         menuBar.add(new LanguageMenu(Language.OFF, "Off"));
         menuBar.add(new LanguageMenu(Language.ENGLISH, "English"));
         menuBar.add(new LanguageMenu(Language.FRENCH, "French"));
@@ -97,14 +84,16 @@ public class SpeechMode extends JFrame implements MenuState
     @Override
     public void navigationButton(NavigationAction e)
     {
-        if ((e == NavigationAction.PLUS) && (menuIndex > 0)) //Go upwards
+        //Go up
+        if ((e == NavigationAction.PLUS) && (menuIndex > 0))
         {
             menuIndex--;
             menuBar.getMenu(menuIndex+1).setBackground(Color.WHITE);
             menuBar.getMenu(menuIndex).setBackground(Color.ORANGE);
         }
 
-        if ((e == NavigationAction.MINUS) && (menuIndex < (menuBar.getMenuCount()-1))) //Go downwards
+        //Go down
+        if ((e == NavigationAction.MINUS) && (menuIndex < (menuBar.getMenuCount()-1)))
         {
             menuIndex++;
             if (menuIndex == 0)
@@ -118,6 +107,7 @@ public class SpeechMode extends JFrame implements MenuState
             }
         }
 
+        //Select the chosen language
         if (e == NavigationAction.SELECT)
         {
             LanguageMenu menu = (LanguageMenu) menuBar.getMenu(menuIndex);
