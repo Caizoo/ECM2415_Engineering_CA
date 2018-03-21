@@ -17,6 +17,7 @@ public class Maps {
   String zoom                           = "18";                                      // 0 .. 21
   private final static String size      = "308x308";                                 // size of the widest part of the screen, allowing it to be rotated and still fill the screen
   String language;
+  static String mapType                 = "roadmap";
 
   static byte[] readData( String latitude
                         , String longitude
@@ -30,6 +31,7 @@ public class Maps {
         + "?" + "center"   + "=" + latitude + "," + longitude
         + "&" + "zoom"     + "=" + zoom
         + "&" + "size"     + "=" + size
+        + "&" + "maptype"  + "=" + mapType
         + "&" + "key"      + "=" + KEY
         + "&" + "language" + "=" + language
         );
@@ -54,7 +56,18 @@ public class Maps {
       System.exit( 1 );
     }
   }
-  
+
+  /*
+   * Toggle the style of the map.
+   */
+  public void toggleMapType() {
+    if (mapType == "roadmap") {
+      mapType = "hybrid";
+    } else {
+      mapType = "roadmap";
+    }
+  }
+
   public void setLong(String longitude){
     this.longitude = longitude;
   }
