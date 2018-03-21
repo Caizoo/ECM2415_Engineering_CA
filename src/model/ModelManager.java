@@ -29,6 +29,7 @@ public class ModelManager {
     private static MenuAction currentView = MenuAction.ON_OFF_STATE;
     double distance;
     int startTime;
+    final static double TOLERANCE = 0.00004; //Roughly 5m
 
     String destination;
 
@@ -96,7 +97,7 @@ public class ModelManager {
         }else if(currentView==MenuAction.MAP_STATE){ //Added basic map state -Scott
 
 
-            if (Integer.valueOf(timeSinceUpdate) + 10 < Integer.valueOf(x[4]) || !direction.equals("")){
+            if (Integer.valueOf(timeSinceUpdate) + 5 < Integer.valueOf(x[4]) || !direction.equals("")){
                 ((MapState)views[currentView.getVal()]).update(latitude, longitude, direction, currentLanguage.getCode());
                 timeSinceUpdate = x[4];
                 //if (!direction.equals("")) System.out.println(direction);
@@ -105,6 +106,13 @@ public class ModelManager {
         }else if(currentView==MenuAction.TRIP_COMPUTER_STATE){
             ((TripComputer)views[currentView.getVal()]).updateTripComputerMode(String.valueOf(distance),x[3],String.valueOf(Integer.valueOf(x[4])-startTime));
         }
+
+        //Check if made to point
+        //+- 0.00004 is roughly 5m
+        // if (Directions is not empty && endLat - currentLat =< TOLERANCE /ignoring minus sign/ && endLong - currentLong =< TOLERANCE /ignoring minus sign/){
+        //      Move to next leg of journey if one exists
+        //}
+
     }
 
     public void doAction(NavigationAction action) {
