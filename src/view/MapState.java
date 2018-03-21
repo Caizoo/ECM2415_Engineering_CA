@@ -95,7 +95,8 @@ public class MapState extends JPanel implements MenuState {
   }
 
   /*
-   *Redraw the map with a increased/decreased zoom level if plus/minus buttons are pressed, respectively.
+   * Redraw the map with a increased/decreased zoom level if plus/minus buttons are pressed, respectively.
+   * If select is pressed, the style of the map is toggled
    */
   @Override
   public void navigationButton(NavigationAction e){
@@ -117,6 +118,15 @@ public class MapState extends JPanel implements MenuState {
           e1.printStackTrace();
       }
       render();
+    } else if(e== NavigationAction.SELECT) {
+      map.toggleMapType();
+      map.make();
+      try {
+        image = ImageIO.read(new File("res/output.png"));
+      } catch (IOException e1) {
+        e1.printStackTrace();
+      }
+      render();
     }
   }
 
@@ -132,7 +142,7 @@ public class MapState extends JPanel implements MenuState {
     map.setLat(latitude);
     map.setLong(longitude);
     map.setLanguage(language);
-    map.make(); //create a new map image based on current information
+    map.make();                   //create a new map image based on current information
     try {
       image = ImageIO.read(new File("res/output.png"));
     } catch (IOException e1) {
