@@ -56,7 +56,18 @@ public class Maps {
       System.exit( 1 );
     }
   }
-  
+
+  /*
+   * Toggle the style of the map.
+   */
+  public void toggleMapType() {
+    if (mapType == "roadmap") {
+      mapType = "hybrid";
+    } else {
+      mapType = "roadmap";
+    }
+  }
+
   public void setLong(String longitude){
     this.longitude = longitude;
   }
