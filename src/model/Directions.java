@@ -61,6 +61,11 @@ public class Directions {
         String directions = new String(ds);
         return directions;
     }
+    public static String sendToParser(String latitude, String longitude, String destination, String language){
+        final byte[] ds = readDirections(latitude +","+longitude, destination, region, mode, language);
+        String directions = new String(ds);
+        return directions;
+    }
 
     public static void setOrigin(String newOrigin){
         Directions.origin = newOrigin;

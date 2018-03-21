@@ -12,6 +12,9 @@ import view.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ModelManager {
 
@@ -20,7 +23,7 @@ public class ModelManager {
     MockLocation location;
     //Location location;
     Maps mapGenerator;
-    Directions directions;
+    ArrayList<HashMap<String, String>> directions;
     SpeechGenerator speech;
     Language currentLanguage;
     private static MenuAction currentView = MenuAction.ON_OFF_STATE;
@@ -44,7 +47,7 @@ public class ModelManager {
         location = new MockLocation();
         //location = new Location();
         mapGenerator = new Maps();
-        directions = new Directions();
+        directions = null;//new Directions();
         speech = new SpeechGenerator();
         currentLanguage = Language.OFF;
         currentView = MenuAction.ON_OFF_STATE;
@@ -202,7 +205,17 @@ public class ModelManager {
     public void setDestination(String destination){
         if (!destination.equals(this.destination)){
             this.destination = destination;
-            System.out.println("New journey");
+            if (!currentLanguage.equals(Language.OFF)) {
+                this.directions = JSONParser.getDirections(Directions.sendToParser(latitude, longitude, this.destination, this.currentLanguage.getCode()));
+                System.out.println("New journey");
+
+                for (HashMap<String, String> leg : directions) {
+                    String line = leg.get("Directions");
+                    System.out.println(line);
+                    SpeechGenerator.generate(line, this.currentLanguage.getCode(), this.currentLanguage.getGender(), this.currentLanguage.getArtist());
+                    SoundPlayer.playDirection();
+                }
+            }
         }
     }
     public String getDestination(){return this.destination;} //Not sure if needed
