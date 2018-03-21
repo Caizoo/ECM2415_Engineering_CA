@@ -104,9 +104,6 @@ public class SpeechGenerator
     {
         //Store token in model manager, have thread that sleeps for 10 mins that renews token.
         final String token = renewAccessToken(KEY);
-        System.out.println(lang);
-        System.out.println(gender);
-        System.out.println(artist);
         final byte[] speech = generateSpeech(token, text, lang, gender, artist, FORMAT);
         writeData(speech, PATH);
     }
