@@ -15,6 +15,7 @@ import java.net.URLEncoder;
  * @author David Wakeling, Gabriel Mulcahy, Joshua Chalcraft
  */
 public class Directions {
+    private static final String KEY   = "AIzaSyD-VVgKS5-_C_ptg68nJ6xr5RI7BsTCpRo";
     private static String origin      = "The Forum, Exeter University";//"The Forum, Exeter University";
     private static String destination = "Cathedral Green, Exeter";
     private static String region      = "uk";
@@ -38,7 +39,8 @@ public class Directions {
                     + "&" + "destination" + "=" + encDestination
                     + "&" + "region"      + "=" + region
                     + "&" + "mode"        + "=" + mode
-                    + "&" + "language"   + "=" + language
+                    + "&" + "language"    + "=" + language
+                    + "&" + "key"         + "=" + KEY
             );
             final byte[] body
                     = {};
