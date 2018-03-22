@@ -7,14 +7,9 @@ import java.io.FileOutputStream;
 import java.io.DataOutputStream;
 
 /**
- * Speech generation using Microsoft Cognitive Services
- *
- * Original code by David Wakeling
- *
- * @auhtor David Wakeling, Joshua Chalcroft
- *  - Changed some attributes to non-final as they could be changed via the SpeechMode class
- *  - Added set and (currently unused) get methods for these attributes
- *  - Changed access modifiers of attributes and provided methods
+ * @author David Wakeling, Joshua Chalcraft
+ *  - SpeechGenerator takes in a string of text, a language, a gender and an artist
+ *  - It then uses Microsoft Cognitive Services to generate a sound file through this information
  */
 public class SpeechGenerator
 {
@@ -23,15 +18,19 @@ public class SpeechGenerator
     private final static String OUTPUT = "sound_output.wav";
     private final static String PATH   = "res/directions/"+OUTPUT;
     private final static String FORMAT = "riff-16khz-16bit-mono-pcm";
+    private final static Object LOCK = new Object();
 
-    public static String renewAccessToken()
+    public static void renewAccessToken()
     {
         final String method = "POST";
         final String url = "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";
         final byte[] body = {};
         final String[][] headers = {{"Ocp-Apim-Subscription-Key", KEY}, {"Content-Length", String.valueOf(body.length)}};
         byte[] response = HttpConnect.httpConnect(method, url, headers, body);
-        return new String(response);
+        synchronized (LOCK)
+        {
+            token = new String(response);
+        }
     }
 
     /*
@@ -45,8 +44,6 @@ public class SpeechGenerator
 
             if ((lang == null) || (gender == null) || (artist == null)) throw new NullPointerException("language and artist must be specified");
 
-
-
             final String method = "POST";
             final String url = "https://speech.platform.bing.com/synthesize";
             final byte[] body = ("<speak version='1.0' xml:lang='en-us'>" + "<voice xml:lang='" + lang + "' " + "xml:gender='" + gender + "' " + "name='Microsoft Server Speech Text to Speech Voice " + artist + "'>" + text + "</voice></speak>").getBytes();
@@ -59,12 +56,6 @@ public class SpeechGenerator
             byte[] response = HttpConnect.httpConnect(method, url, headers, body);
             return response;
         }
-        catch (NullPointerException e)
-        {
-            System.out.println(e);
-            return null;
-        }
-
         catch (Exception ex)
         {
             SoundPlayer.playError("res/errorMessages/MicrosoftError");
@@ -93,20 +84,17 @@ public class SpeechGenerator
     }
 
     /*
-     * Generate speech.
+     * Generate speech. Will look like generate(directions[0], mm.getLanguage(), mm.getGender(), mm.getArtist())
      */
-
-
-    //text would likely be something like directions[0] or any other number
-    //Using these parameters avoids using SpeechGenerator 'set' methods. E.g.
-    //The setText method used in the MockSpeechGeneration class
-    //Will look like generate(directions[0], mm.getLanguage(), mm.getGender(), mm.getArtist())
-    public static void generate(String token, String text, String lang, String gender, String artist) {
+    public static void generate(String text, String lang, String gender, String artist)
+    {
         //Store token in model manager, have thread that sleeps for 10 mins that renews token.
         //renewAccessToken();
-        final byte[] speech = generateSpeech(token, text, lang, gender, artist, FORMAT);
-        writeData(speech, PATH);
-
+        synchronized (LOCK)
+        {
+            final byte[] speech = generateSpeech(token, text, lang, gender, artist, FORMAT);
+            writeData(speech, PATH);
+        }
     }
 
 
