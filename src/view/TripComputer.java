@@ -20,7 +20,12 @@ public class TripComputer implements MenuState, Runnable {
     private JFrame frame;
     private JPanel screen;
     private ActionListener listener;
+
     MyText[] textLabels = new MyText[3];
+    public TripComputer(){
+
+
+    }
     @Override
     public void setRenderer(Graphics2D renderer) {
         this.renderer = renderer;
@@ -110,7 +115,6 @@ public class TripComputer implements MenuState, Runnable {
 
     public void updateTripComputerMode(String distance, String speed, String time) {
         if (speed != null && speed.length()>0) {
-            System.out.println(speed);
             double doubleSpeed = Double.parseDouble(speed);
             String roundedSpeed = String.format("%,.1f", doubleSpeed);
             textLabels[1].resetValues(roundedSpeed + "KM/H");
@@ -119,7 +123,7 @@ public class TripComputer implements MenuState, Runnable {
         }
         Double doubleDistance = Double.parseDouble(distance);
         String roundedDistance = String.format("%,.3f", doubleDistance);
-        String timeInMins = ModelTripComputer.getTimeInMins(time);
+        String timeInMins = ModelTripComputer.getTimeInMins(ModelTripComputer.getCurrentTime());
         textLabels[0].resetValues(roundedDistance + "KM");
         textLabels[2].resetValues(timeInMins);
 
