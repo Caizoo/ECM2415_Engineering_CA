@@ -20,17 +20,14 @@ public class SpeechGenerator
     private final static String FORMAT = "riff-16khz-16bit-mono-pcm";
     private final static Object LOCK = new Object();
 
-    public static void renewAccessToken()
+    public static String renewAccessToken()
     {
         final String method = "POST";
         final String url = "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";
         final byte[] body = {};
         final String[][] headers = {{"Ocp-Apim-Subscription-Key", KEY}, {"Content-Length", String.valueOf(body.length)}};
         byte[] response = HttpConnect.httpConnect(method, url, headers, body);
-        synchronized (LOCK)
-        {
-            token = new String(response);
-        }
+        return new String(response);
     }
 
     /*
@@ -86,7 +83,7 @@ public class SpeechGenerator
     /*
      * Generate speech. Will look like generate(directions[0], mm.getLanguage(), mm.getGender(), mm.getArtist())
      */
-    public static void generate(String text, String lang, String gender, String artist)
+    public static void generate(String token, String text, String lang, String gender, String artist)
     {
         //Store token in model manager, have thread that sleeps for 10 mins that renews token.
         //renewAccessToken();
