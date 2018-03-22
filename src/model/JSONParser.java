@@ -24,7 +24,6 @@ public class JSONParser
         ArrayList<HashMap<String, String>> directions = new ArrayList<>();
         try
         {
-
             //Moving to the 'steps' JsonArray, which is where the data we want is stored.
             JsonObject obj1 = new JsonParser().parse(data).getAsJsonObject(); //Parse string from Directions.
             JsonArray routes = obj1.getAsJsonArray("routes");
@@ -61,7 +60,7 @@ public class JSONParser
                 directions.add(leg); //Add all this information in the HashMap to an ArrayList
             }
         }
-        //The error that can occur is the use of the Google API is all used up.
+        //The error that can occur if the use of the Google API is all used up.
         catch (Exception ex) {SoundPlayer.playFile("res/errorMessages/GoogleError.wav");}
         return directions;
 

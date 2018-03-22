@@ -13,10 +13,9 @@ import javax.swing.border.LineBorder;
 
 /**
  * @author Joshua Chalcraft
- *
- * Changes made since last scrum:
- *   - Utilises vertical menus over buttons
- *   - LanguageMenu (known before as LanguageButton) now has more attributes regarding other text-to-speech parameters
+ * - Class provides the interface for speech functionality
+ * - Renders the menus for the languages
+ * - Once a language is selected, it sets that language for the ModelManager
  */
 public class SpeechMode extends JFrame implements MenuState
 {
@@ -83,7 +82,7 @@ public class SpeechMode extends JFrame implements MenuState
     public void navigationButton(NavigationAction e)
     {
         //Go up
-        if ((e == NavigationAction.PLUS) && (menuIndex > 0))
+        if ((e == NavigationAction.PLUS) && (menuIndex > 0)) //The checks on menuIndex prevents the menuIndex being out of bounds.
         {
             menuIndex--;
             menuBar.getMenu(menuIndex+1).setBackground(Color.WHITE);
