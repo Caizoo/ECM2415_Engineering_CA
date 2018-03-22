@@ -2,8 +2,6 @@ package view;
 
 import model.Language;
 import model.ModelManager;
-import model.SpeechGenerator;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
