@@ -144,7 +144,6 @@ public class MapState extends JPanel implements MenuState {
    * Refresh the map based on new data.
    */
   public void update( String latitude, String longitude, String direction, String language ) {
-    System.out.println(lastDir);
     map.setLat(latitude);
     map.setLong(longitude);
     map.setLanguage(language);
