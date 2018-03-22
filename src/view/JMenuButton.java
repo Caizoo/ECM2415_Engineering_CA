@@ -23,7 +23,6 @@ public class JMenuButton extends JButton {
     public JMenuButton(String text, MenuAction action, File locationIcon) {
         super("<html><div style='text-align: center;'>" + text + "</div></html>");
         this.menuAction = action;
-        setMargin(new Insets(4, 1, 10, 1));
         setVerticalAlignment(SwingConstants.TOP);
         setVerticalTextPosition(SwingConstants.BOTTOM);
         setHorizontalTextPosition(SwingConstants.CENTER);
@@ -33,9 +32,9 @@ public class JMenuButton extends JButton {
             e.printStackTrace();
         }
         setIcon(new ImageIcon(icon));
-        setBorder(null);
+        setBorder(BorderFactory.createLineBorder(new Color(27,27,27),2));
         setModel(new FixedStateButtonModel());
-
+        //setMargin(new Insets(4, 1, 10, 1));
     }
 
     public void setPreferredIconSize(Dimension d) {
