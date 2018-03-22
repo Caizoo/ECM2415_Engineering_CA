@@ -1,7 +1,4 @@
 package model;
-
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.DataOutputStream;

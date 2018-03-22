@@ -17,9 +17,6 @@ import javax.swing.border.LineBorder;
  * Changes made since last scrum:
  *   - Utilises vertical menus over buttons
  *   - LanguageMenu (known before as LanguageButton) now has more attributes regarding other text-to-speech parameters
- *
- * Conversion to a project-wide MVC planned for the third scrum as shown by 'Software Eng CA.jpg' in res folder
- * Third scrum also includes moving all classes into a project-wide directory
  */
 public class SpeechMode extends JFrame implements MenuState
 {
