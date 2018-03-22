@@ -31,7 +31,8 @@ public class ModelManager {
     private static MenuAction currentView = MenuAction.ON_OFF_STATE;
     double distance, reCalcDistance;
     static long startTime;
-    final static double TOLERANCE = 0.00004; //Roughly 5m
+    final static double TOLERANCE = 0.025; //Roughly 5m
+    final static double RECALC_TOLERANCE = 0.02;
 
     String destination, token;
 
@@ -125,23 +126,23 @@ public class ModelManager {
 
         if ( leg!=null && !latitude.equals("")&& !longitude.equals("")) {
 
-            System.out.println(Math.abs(Double.parseDouble(leg.get("endLat")) - Double.parseDouble(latitude)) <= TOLERANCE && Math.abs(Double.parseDouble(leg.get("endLong")) - Double.parseDouble(longitude)) <= TOLERANCE);
+            double dist = ModelTripComputer.getDistance(Double.parseDouble(latitude), Double.parseDouble(longitude), Double.parseDouble(leg.get("endLat")), Double.parseDouble(leg.get("endLong")));
 
-
-            if (Math.abs(Double.parseDouble(leg.get("endLat")) - Double.parseDouble(latitude)) <= TOLERANCE && Math.abs(Double.parseDouble(leg.get("endLong")) - Double.parseDouble(longitude)) <= TOLERANCE) {
+            if (dist <= TOLERANCE) {
                 System.out.println("Made to point");
-                if (currentLanguage != Language.OFF){
-                    speech.generate(token, leg.get("Directions"), currentLanguage.getCode(), currentLanguage.getGender(), currentLanguage.getArtist());
-                    SoundPlayer.playDirection();
-                }
                 directions.remove(0);
 
-                leg = directions.get(0);
+                if (!directions.isEmpty()) {
+                    leg = directions.get(0);
+                    //Maybe speak next direction??
+                    if (currentLanguage != Language.OFF){
+                        speech.generate(token, leg.get("Directions"), currentLanguage.getCode(), currentLanguage.getGender(), currentLanguage.getArtist());
+                        SoundPlayer.playDirection();
+                    }
 
-                //Maybe speak next direction??
-                if (currentLanguage != Language.OFF){
-                    speech.generate(token, leg.get("Directions"), currentLanguage.getCode(), currentLanguage.getGender(), currentLanguage.getArtist());
-                    SoundPlayer.playDirection();
+                    reCalcDistance = -1;
+                } else {
+                    leg = null;
                 }
 
             }else{
@@ -155,9 +156,13 @@ public class ModelManager {
                     System.out.println(latitude+", "+longitude);
                     System.out.println(leg.get("endLat")+", "+leg.get("endLong"));
                     System.out.println();
-                    if (newDist > reCalcDistance){
+                    if (newDist > (reCalcDistance+RECALC_TOLERANCE)){
                         //Recalculate//
-                    }else{
+                        System.out.println("Recalculate");
+                        SoundPlayer.playError("res/errorMessages/Recalculating.wav");
+                        reCalcDistance = -1;
+                        this.directions = JSONParser.getDirections(Directions.sendToParser(latitude, longitude, this.destination, this.currentLanguage.getCode()));
+                    }else if (newDist < reCalcDistance) {
                         this.reCalcDistance = newDist;
                     }
 
