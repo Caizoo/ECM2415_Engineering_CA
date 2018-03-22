@@ -5,10 +5,8 @@
 package view;
 
 import controller.UserController;
-import controller.MockLocation;
 
 import model.Maps;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
