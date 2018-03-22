@@ -30,7 +30,7 @@ public class ModelManager {
 
     private static MenuAction currentView = MenuAction.ON_OFF_STATE;
     double distance;
-    int startTime;
+    static long  startTime;
     final static double TOLERANCE = 0.00004; //Roughly 5m
 
     String destination;
@@ -52,6 +52,7 @@ public class ModelManager {
         mapGenerator = new Maps();
         directions = null;//new Directions();
         speech = new SpeechGenerator();
+        startTime = System.currentTimeMillis();
         currentLanguage = Language.OFF;
         currentView = MenuAction.ON_OFF_STATE;
         renewToken = new Thread(){
@@ -155,7 +156,12 @@ public class ModelManager {
         * }
         */
     }
-
+    /**
+    @Author- Rob Wells
+     */
+    public static long getStartTime(){
+        return startTime;
+    }
     public void doAction(NavigationAction action) {
         switch(action) {
             case POWER:
@@ -229,7 +235,7 @@ public class ModelManager {
         direction = "0";
         timeSinceUpdate = "0";
         distance = 0;
-        startTime = 0;
+        startTime = System.currentTimeMillis();
         destination = "";
 
         for(MenuState view:views) {
