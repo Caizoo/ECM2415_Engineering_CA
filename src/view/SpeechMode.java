@@ -54,7 +54,7 @@ public class SpeechMode extends JFrame implements MenuState
     @Override
     public void start()
     {
-        //Set up the menus
+        //Set up the menus.
         menuBar.add(new LanguageMenu(Language.OFF, "Off"));
         menuBar.add(new LanguageMenu(Language.ENGLISH, "English"));
         menuBar.add(new LanguageMenu(Language.FRENCH, "French"));
@@ -62,7 +62,7 @@ public class SpeechMode extends JFrame implements MenuState
         menuBar.add(new LanguageMenu(Language.ITALIAN, "Italian"));
         menuBar.add(new LanguageMenu(Language.SPANISH, "Spanish"));
         screen.add(menuBar);
-        menuBar.getMenu(0).setBackground(Color.GREEN); //indicates it's off by default
+        menuBar.getMenu(0).setBackground(Color.GREEN); //Indicates it's off by default.
     }
 
     @Override
@@ -81,7 +81,7 @@ public class SpeechMode extends JFrame implements MenuState
     @Override
     public void navigationButton(NavigationAction e)
     {
-        //Go up
+        //Go up.
         if ((e == NavigationAction.PLUS) && (menuIndex > 0)) //The checks on menuIndex prevents the menuIndex being out of bounds.
         {
             menuIndex--;
@@ -90,7 +90,7 @@ public class SpeechMode extends JFrame implements MenuState
             menuBar.getMenu(selectedIndex).setBackground(Color.GREEN);
         }
 
-        //Go down
+        //Go down.
         if ((e == NavigationAction.MINUS) && (menuIndex < (menuBar.getMenuCount()-1)))
         {
             menuIndex++;
@@ -106,7 +106,7 @@ public class SpeechMode extends JFrame implements MenuState
             menuBar.getMenu(selectedIndex).setBackground(Color.GREEN);
         }
 
-        //Select the chosen language
+        //Select the chosen language.
         if ((e == NavigationAction.SELECT) && (menuIndex > 0))
         {
             menuBar.getMenu(selectedIndex).setBackground(Color.WHITE);
