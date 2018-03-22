@@ -169,8 +169,6 @@ public class MapState extends JPanel implements MenuState {
             render();
             lostSignal = false;
         }
-        System.out.println(lastDir);
-
     }
 
     /*

@@ -78,12 +78,11 @@ public class SpeechGenerator
     }
 
     /*
-     * Generate speech. Will look like generate(directions[0], mm.getLanguage(), mm.getGender(), mm.getArtist())
+     * Generate speech.
      */
     public static void generate(String token, String text, String lang, String gender, String artist)
     {
-        //Store token in model manager, have thread that sleeps for 10 mins that renews token.
-        //renewAccessToken();
+        //Store token in model manager, have thread that sleeps for 10 minutes that renews token.
         synchronized (LOCK)
         {
             final byte[] speech = generateSpeech(token, text, lang, gender, artist, FORMAT);
