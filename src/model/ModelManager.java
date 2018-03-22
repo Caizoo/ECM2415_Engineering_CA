@@ -252,6 +252,10 @@ public class ModelManager {
         if (!destination.equals(this.destination)){
             this.destination = destination;
             distance = 0;
+            TripComputer.resetTripComputer(); /*
+
+            Added by - Rob Wells: Will reset the Trip Computer View when a new
+            */
             startTime = System.currentTimeMillis();
             if (!currentLanguage.equals(Language.OFF)) {
                 this.directions = JSONParser.getDirections(Directions.sendToParser(latitude, longitude, this.destination, this.currentLanguage.getCode()));
