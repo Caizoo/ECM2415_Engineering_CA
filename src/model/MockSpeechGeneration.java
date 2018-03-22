@@ -43,13 +43,13 @@ public class MockSpeechGeneration
         ArrayList<HashMap<String,String>> directions = JSONParser.getDirections(data);
 
 
-        /*for (HashMap<String,String> leg : directions)
+        for (HashMap<String,String> leg : directions)
         {
             String line = leg.get("Directions");
             System.out.println(line);
             SpeechGenerator.generate(line, Language.FRENCH.getCode(), Language.FRENCH.getGender(), Language.FRENCH.getArtist());
             SoundPlayer.playDirection();
-        }*/
+        }
     }
 }
 

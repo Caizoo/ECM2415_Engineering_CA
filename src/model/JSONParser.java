@@ -56,14 +56,14 @@ public class JSONParser
                 JsonObject startLocation = names.getAsJsonObject("start_location");
                 String sLat = String.valueOf(startLocation.get("lat").getAsDouble());
                 String sLng = String.valueOf(startLocation.get("lng").getAsDouble());
-                leg.put("Start-Lat", sLat);
-                leg.put("Start-Long", sLng);
+                leg.put("startLat", sLat);
+                leg.put("startLong", sLng);
 
                 JsonObject endLocation = names.getAsJsonObject("end_location");
                 String eLat = String.valueOf(endLocation.get("lat").getAsDouble());
                 String eLng = String.valueOf(endLocation.get("lng").getAsDouble());
-                leg.put("End-Lat", eLat);
-                leg.put("End-Long", eLng);
+                leg.put("endLat", eLat);
+                leg.put("endLong", eLng);
 
                 directions.add(leg);
             }

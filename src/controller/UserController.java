@@ -97,6 +97,7 @@ public class UserController extends JFrame implements ActionListener, MouseListe
         screen = new JPanel();
         screen.setBackground(new Color(27,27,27,255));
         screen.setBounds(SCREEN_X,SCREEN_Y,SCREEN_WIDTH,SCREEN_HEIGHT);
+        screen.setLayout(new FlowLayout(FlowLayout.LEFT,10,10));
 
         // power button which will be active across all states
         power = new JPowerButton(new File("res/powerButtonOn.png"),new File("res/powerButtonOff.png"),Color.BLACK);
@@ -104,9 +105,6 @@ public class UserController extends JFrame implements ActionListener, MouseListe
         power.setSize(65,65);
         power.setLocation(696,182);
         this.add(power);
-
-        /**TODO:  change layout of screen to null when using absolute locations for buttons**/
-        //screen.setLayout(null);
 
         // add screen to frame
         getContentPane().add(screen);
@@ -116,6 +114,8 @@ public class UserController extends JFrame implements ActionListener, MouseListe
             gpsImage = ImageIO.read(new File("res/gpsDevice.png"));
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("GPS device image not found, system exiting...");
+            System.exit(1);
         }
 
         super.repaint();

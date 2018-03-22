@@ -26,6 +26,8 @@ public class ModelManager {
     ArrayList<HashMap<String, String>> directions;
     SpeechGenerator speech;
     Language currentLanguage;
+    Thread renewToken;
+
     private static MenuAction currentView = MenuAction.ON_OFF_STATE;
     double distance;
     int startTime;
@@ -52,6 +54,17 @@ public class ModelManager {
         speech = new SpeechGenerator();
         currentLanguage = Language.OFF;
         currentView = MenuAction.ON_OFF_STATE;
+        renewToken = new Thread(){
+            public void run(){
+                SpeechGenerator.renewAccessToken();
+                try {
+                    sleep(600000); //Sleeps for 10 minutes
+                } catch (InterruptedException e) {
+                    e.printStackTrace(); //Doesn't matter
+                }
+            }
+        };
+
         /*longitude = "";
         latitude = "";
         direction = "0";
@@ -75,7 +88,8 @@ public class ModelManager {
     public void update() {
 
         String[] x = location.getData();
-
+        HashMap<String, String> leg = null;
+        if (directions != null && !directions.isEmpty()) leg = directions.get(0);
         //Around +- 0.00002 roughly 2m radius
 
         if(currentView==MenuAction.ON_OFF_STATE) return;
@@ -107,12 +121,39 @@ public class ModelManager {
             ((TripComputer)views[currentView.getVal()]).updateTripComputerMode(String.valueOf(distance),x[3],String.valueOf(Integer.valueOf(x[4])-startTime));
         }
 
-        //Check if made to point
-        //+- 0.00004 is roughly 5m
-        // if (Directions is not empty && endLat - currentLat =< TOLERANCE /ignoring minus sign/ && endLong - currentLong =< TOLERANCE /ignoring minus sign/){
-        //      Move to next leg of journey if one exists
-        //}
+        if ( leg!=null && !latitude.equals("")&& !longitude.equals("")) {
 
+            System.out.println(Math.abs(Double.parseDouble(leg.get("endLat")) - Double.parseDouble(latitude)) <= TOLERANCE && Math.abs(Double.parseDouble(leg.get("endLong")) - Double.parseDouble(longitude)) <= TOLERANCE);
+
+
+            if (Math.abs(Double.parseDouble(leg.get("endLat")) - Double.parseDouble(latitude)) <= TOLERANCE && Math.abs(Double.parseDouble(leg.get("endLong")) - Double.parseDouble(longitude)) <= TOLERANCE) {
+                if (currentLanguage != Language.OFF){
+                    SpeechGenerator.generate(leg.get("Directions"), currentLanguage.getCode(), currentLanguage.getGender(), currentLanguage.getArtist());
+                    SoundPlayer.playDirection();
+                }
+                directions.remove(0);
+
+                leg = directions.get(0);
+
+                //Maybe speak next direction??
+                if (currentLanguage != Language.OFF){
+                    SpeechGenerator.generate(leg.get("Directions"), currentLanguage.getCode(), currentLanguage.getGender(), currentLanguage.getArtist());
+                    SoundPlayer.playDirection();
+                }
+
+            }else{
+                //Determine recalculation
+            }
+        }
+
+        /*Check if made to point
+        *+- 0.00004 is roughly 5m
+        * if (Directions is not empty && endLat - currentLat =< TOLERANCE /ignoring minus sign/ && endLong - currentLong =< TOLERANCE /ignoring minus sign/){
+        *   Move to next leg of journey if one exists
+        *} else (){
+        *
+        * }
+        */
     }
 
     public void doAction(NavigationAction action) {
@@ -204,7 +245,7 @@ public class ModelManager {
 
     public boolean isOff() { return currentView==MenuAction.ON_OFF_STATE; }
 
-    public void setLanguage(Language language) { this.currentLanguage = language; }
+    public void setLanguage(Language language) { this.currentLanguage = language; /*Reget directions in new languages*/}
     public void setView(MenuAction view) { this.currentView = view; }
     public Language getLanguage() { return this.currentLanguage; }
     public MenuAction getView() { return this.currentView; }
@@ -215,14 +256,11 @@ public class ModelManager {
             this.destination = destination;
             if (!currentLanguage.equals(Language.OFF)) {
                 this.directions = JSONParser.getDirections(Directions.sendToParser(latitude, longitude, this.destination, this.currentLanguage.getCode()));
-                System.out.println("New journey");
+                //System.out.println("New journey");
+            //if (!currentLanguage.equals(Language.OFF)) {
+                SpeechGenerator.generate(directions.get(0).get("Directions"), this.currentLanguage.getCode(), this.currentLanguage.getGender(), this.currentLanguage.getArtist());
+                SoundPlayer.playDirection();
 
-                for (HashMap<String, String> leg : directions) {
-                    String line = leg.get("Directions");
-                    System.out.println(line);
-                    SpeechGenerator.generate(line, this.currentLanguage.getCode(), this.currentLanguage.getGender(), this.currentLanguage.getArtist());
-                    SoundPlayer.playDirection();
-                }
             }
         }
     }
