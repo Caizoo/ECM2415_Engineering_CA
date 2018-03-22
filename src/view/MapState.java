@@ -23,6 +23,7 @@ public class MapState extends JPanel implements MenuState {
   private BufferedImage image;
   private BufferedImage dot;
   private BufferedImage error;
+  private BufferedImage loading;
   private double rotation;              // current rotation of map so that direction of travel is at the top of the screen
   private JFrame frame;
   private JPanel screen;
@@ -57,6 +58,14 @@ public class MapState extends JPanel implements MenuState {
   @Override
   public void start(){
 
+    try {
+      error   = ImageIO.read(new File("res/NoSat.png"));
+      dot     = ImageIO.read(new File("res/red.png"));
+      loading = ImageIO.read(new File("res/loading.png"));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
     if (newInstance) {
       map = new Maps();
       clip = new Rectangle(UserController.SCREEN_X+8, UserController.SCREEN_Y+32, 191, 241);  //screen size and position
@@ -64,12 +73,6 @@ public class MapState extends JPanel implements MenuState {
       newInstance = false; //prevents the screen being re-clipped upon re-entering map mode
     }
 
-    try {
-      error = ImageIO.read(new File("res/NoSat.png"));
-      dot   = ImageIO.read(new File("res/red.png"));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
   }
 
   @Override
@@ -84,9 +87,9 @@ public class MapState extends JPanel implements MenuState {
 
   @Override
   public void render(){
+    renderer.drawImage( loading, 568, 308, screen); //loading image displayed until map is created
     if(image==null) return;
     renderer.drawImage( image, UserController.SCREEN_X-51, UserController.SCREEN_Y-2, screen); //adjusted so that centre of map is at the centre of the screen
-    System.out.println("Update");
     renderer.drawImage( dot, UserController.SCREEN_X+101, UserController.SCREEN_Y+147, 10, 10, screen ); //centre the red dot to the screen
   }
 
@@ -152,15 +155,11 @@ public class MapState extends JPanel implements MenuState {
     if (!direction.equals("")) {
         resetDirection();
         setDirection(Double.parseDouble(direction));
-        System.out.println("NEW DIRECTION!!!");
-      }else{
-        System.out.println("No new direction");
-    }
+      }
+
     if (latitude.equals("")){    //empty string when gps signal is lost
         resetDirection();
         renderError();
-        //setDirection(Double.parseDouble(direction));
-        System.out.println("NO COORDINATES");
     }else{
         render();
     }
