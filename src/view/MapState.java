@@ -87,10 +87,9 @@ public class MapState extends JPanel implements MenuState {
 
   @Override
   public void render(){
-    renderer.drawImage(loading, 568, 308, screen); //loading image displayed until map is created
+    renderer.drawImage( loading, 568, 308, screen); //loading image displayed until map is created
     if(image==null) return;
     renderer.drawImage( image, UserController.SCREEN_X-51, UserController.SCREEN_Y-2, screen); //adjusted so that centre of map is at the centre of the screen
-    System.out.println("Update");
     renderer.drawImage( dot, UserController.SCREEN_X+101, UserController.SCREEN_Y+147, 10, 10, screen ); //centre the red dot to the screen
   }
 
@@ -156,15 +155,11 @@ public class MapState extends JPanel implements MenuState {
     if (!direction.equals("")) {
         resetDirection();
         setDirection(Double.parseDouble(direction));
-        System.out.println("NEW DIRECTION!!!");
-      }else{
-        System.out.println("No new direction");
-    }
+      }
+
     if (latitude.equals("")){    //empty string when gps signal is lost
         resetDirection();
         renderError();
-        //setDirection(Double.parseDouble(direction));
-        System.out.println("NO COORDINATES");
     }else{
         render();
     }
