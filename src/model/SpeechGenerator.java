@@ -19,18 +19,22 @@ import java.io.DataOutputStream;
 public class SpeechGenerator
 {
     private final static String KEY = "e9488f2304204a599d806da749983124";
+    private static String token;
     private final static String OUTPUT = "sound_output.wav";
     private final static String PATH   = "res/directions/"+OUTPUT;
     private final static String FORMAT = "riff-16khz-16bit-mono-pcm";
+    private final static Object LOCK = new Object();
 
-    private static String renewAccessToken(String key1)
+    public static void renewAccessToken()
     {
         final String method = "POST";
         final String url = "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";
         final byte[] body = {};
-        final String[][] headers = {{"Ocp-Apim-Subscription-Key", key1}, {"Content-Length", String.valueOf(body.length)}};
+        final String[][] headers = {{"Ocp-Apim-Subscription-Key", KEY}, {"Content-Length", String.valueOf(body.length)}};
         byte[] response = HttpConnect.httpConnect(method, url, headers, body);
-        return new String(response);
+        synchronized (LOCK) {
+            token = new String(response);
+        }
     }
 
     /*
@@ -100,12 +104,13 @@ public class SpeechGenerator
     //Using these parameters avoids using SpeechGenerator 'set' methods. E.g.
     //The setText method used in the MockSpeechGeneration class
     //Will look like generate(directions[0], mm.getLanguage(), mm.getGender(), mm.getArtist())
-    public static void generate(String text, String lang, String gender, String artist)
-    {
+    public static void generate(String text, String lang, String gender, String artist) {
         //Store token in model manager, have thread that sleeps for 10 mins that renews token.
-        final String token = renewAccessToken(KEY);
-        final byte[] speech = generateSpeech(token, text, lang, gender, artist, FORMAT);
-        writeData(speech, PATH);
+        //renewAccessToken();
+        synchronized (LOCK) {
+            final byte[] speech = generateSpeech(token, text, lang, gender, artist, FORMAT);
+            writeData(speech, PATH);
+        }
     }
 
 

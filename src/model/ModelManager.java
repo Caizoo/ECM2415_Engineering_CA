@@ -26,6 +26,7 @@ public class ModelManager {
     ArrayList<HashMap<String, String>> directions;
     SpeechGenerator speech;
     Language currentLanguage;
+    Thread renewToken;
 
     private static MenuAction currentView = MenuAction.ON_OFF_STATE;
     double distance;
@@ -53,7 +54,16 @@ public class ModelManager {
         speech = new SpeechGenerator();
         currentLanguage = Language.OFF;
         currentView = MenuAction.ON_OFF_STATE;
-
+        renewToken = new Thread(){
+            public void run(){
+                SpeechGenerator.renewAccessToken();
+                try {
+                    sleep(600000); //Sleeps for 10 minutes
+                } catch (InterruptedException e) {
+                    e.printStackTrace(); //Doesn't matter
+                }
+            }
+        };
 
         /*longitude = "";
         latitude = "";
@@ -111,7 +121,7 @@ public class ModelManager {
             ((TripComputer)views[currentView.getVal()]).updateTripComputerMode(String.valueOf(distance),x[3],String.valueOf(Integer.valueOf(x[4])-startTime));
         }
 
-        if (!latitude.equals("")&& !longitude.equals("") && leg!=null) {
+        if ( leg!=null && !latitude.equals("")&& !longitude.equals("")) {
 
             System.out.println(Math.abs(Double.parseDouble(leg.get("endLat")) - Double.parseDouble(latitude)) <= TOLERANCE && Math.abs(Double.parseDouble(leg.get("endLong")) - Double.parseDouble(longitude)) <= TOLERANCE);
 
@@ -124,11 +134,13 @@ public class ModelManager {
                 directions.remove(0);
 
                 leg = directions.get(0);
+
+                //Maybe speak next direction??
                 if (currentLanguage != Language.OFF){
                     SpeechGenerator.generate(leg.get("Directions"), currentLanguage.getCode(), currentLanguage.getGender(), currentLanguage.getArtist());
                     SoundPlayer.playDirection();
                 }
-                //Maybe speak next direction??
+
             }else{
                 //Determine recalculation
             }
@@ -233,7 +245,7 @@ public class ModelManager {
 
     public boolean isOff() { return currentView==MenuAction.ON_OFF_STATE; }
 
-    public void setLanguage(Language language) { this.currentLanguage = language; }
+    public void setLanguage(Language language) { this.currentLanguage = language; /*Reget directions in new languages*/}
     public void setView(MenuAction view) { this.currentView = view; }
     public Language getLanguage() { return this.currentLanguage; }
     public MenuAction getView() { return this.currentView; }
@@ -242,10 +254,10 @@ public class ModelManager {
     public void setDestination(String destination){
         if (!destination.equals(this.destination)){
             this.destination = destination;
-            //if (!currentLanguage.equals(Language.OFF)) {
-            this.directions = JSONParser.getDirections(Directions.sendToParser(latitude, longitude, this.destination, this.currentLanguage.getCode()));
-                //System.out.println("New journey");
             if (!currentLanguage.equals(Language.OFF)) {
+                this.directions = JSONParser.getDirections(Directions.sendToParser(latitude, longitude, this.destination, this.currentLanguage.getCode()));
+                //System.out.println("New journey");
+            //if (!currentLanguage.equals(Language.OFF)) {
                 SpeechGenerator.generate(directions.get(0).get("Directions"), this.currentLanguage.getCode(), this.currentLanguage.getGender(), this.currentLanguage.getArtist());
                 SoundPlayer.playDirection();
 
