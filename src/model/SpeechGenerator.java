@@ -27,7 +27,8 @@ public class SpeechGenerator
         final byte[] body = {};
         final String[][] headers = {{"Ocp-Apim-Subscription-Key", KEY}, {"Content-Length", String.valueOf(body.length)}};
         byte[] response = HttpConnect.httpConnect(method, url, headers, body);
-        synchronized (LOCK) {
+        synchronized (LOCK)
+        {
             token = new String(response);
         }
     }

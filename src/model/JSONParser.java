@@ -8,20 +8,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 /**
  * @author Joshua Chalcraft
- *
- * Class takes in JSON data stored as a string and extracts directions, which are stored in an ArrayList
- *
- * Code is open for extension. Could be used later to extract lang and long info, as well as distance and other things
- *
- * Examples of this are given (commented out) in the parseJSON method
- *
- * Code requires gson-2.2.2.jar to run, which is stored in the lib folder
+ * - Class takes in JSON data stored as a string and extracts directions and other info
+ * - This information is stored in a HashMap
+ * - Example infromation includes the directions, distance and co-ordinates of next checkpoint
+ * - Code requires gson-2.2.2.jar to run, which is stored in the lib folder
  */
 
 public class JSONParser
 {
     /*
-     * Traverse through JSON data and extract useful information. Commented code to be extended for another sprint.
+     * Traverse through JSON data and extract useful information.
      */
     private static ArrayList<HashMap<String, String>> parseJSON(String data)
     {
@@ -31,7 +27,6 @@ public class JSONParser
 
             //Moving to the 'steps' JsonArray, which is where the data we want is stored.
             JsonObject obj1 = new JsonParser().parse(data).getAsJsonObject(); //Parse string from Directions.
-            if(obj1.get("error_message") != null) throw new IndexOutOfBoundsException();
             JsonArray routes = obj1.getAsJsonArray("routes");
             JsonObject obj2 = routes.get(0).getAsJsonObject();
             JsonArray legs = obj2.getAsJsonArray("legs");
@@ -45,13 +40,11 @@ public class JSONParser
                 HashMap<String, String> leg = new HashMap<>();
                 JsonObject names = it.next().getAsJsonObject();
                 String direction = names.get("html_instructions").toString();
-                //directions.add(direction);
                 leg.put("Directions", direction);
 
                 JsonObject distance = names.getAsJsonObject("distance");
                 String text = distance.get("text").toString();
                 leg.put("Distance", text);
-                //Double value = distance.get("value").getAsDouble();
 
                 JsonObject startLocation = names.getAsJsonObject("start_location");
                 String sLat = String.valueOf(startLocation.get("lat").getAsDouble());
@@ -65,10 +58,10 @@ public class JSONParser
                 leg.put("endLat", eLat);
                 leg.put("endLong", eLng);
 
-                directions.add(leg);
+                directions.add(leg); //Add all this information in the HashMap to an ArrayList
             }
         }
-        catch (IndexOutOfBoundsException ex) {SoundPlayer.playError("res/errorMessages/GoogleError.wav");}
+        //The error that can occur is the use of the Google API is all used up.
         catch (Exception ex) {SoundPlayer.playError("res/errorMessages/GoogleError.wav");}
         return directions;
 
@@ -83,8 +76,6 @@ public class JSONParser
         {
             HashMap<String,String> h = directions.get(i);
             h.put("Directions", elongator(h.get("Directions").replaceAll("<.*?>", " ")));
-            //directions.set(i, directions.get(i).replaceAll("<.*?>", " "));
-            //directions.set(i, elongator(directions.get(i)));
         }
         return directions;
     }
