@@ -7,8 +7,10 @@ import java.math.RoundingMode;
 
 public class ModelTripComputer {
 
-
-    public ModelTripComputer(){}
+    long startTime;
+    public ModelTripComputer(){
+        startTime=System.currentTimeMillis();
+    }
     public static Double deg2rad(Double deg) {
         return deg * (Math.PI / 180);
     }
@@ -26,14 +28,20 @@ public class ModelTripComputer {
         return d;
     }
 
-    public static String getTimeInMins(String time){
+    public static String getTimeInMins(int timeSeconds){
         int timeMins =0;
-        int timeSeconds = Integer.parseInt(time);
         while ((timeSeconds -60) >=0){
             timeSeconds-=60;
             timeMins+=1;
         }
         return Integer.toString(timeMins)+" Min "+Integer.toString(timeSeconds)+" Sec";
+    }
+    public static int getCurrentTime(){
+        long startTime = ModelManager.getStartTime();
+        long elapsedTime = System.currentTimeMillis() - startTime;
+        long elapsedSeconds = elapsedTime / 1000;
+        return (int) elapsedSeconds;
+
     }
     public  static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
