@@ -15,7 +15,9 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-
+/**
+ *@author- Rob Wells
+ */
 public class WhereTo implements MenuState {
     //This class is the view for the "Where To?" mode. This classes uses the swing library to create a virtual keyboard to take in text input.
     private Graphics2D renderer;
@@ -114,8 +116,8 @@ public class WhereTo implements MenuState {
 
         int charCount=0;
         int numbCount=0;
-        int[] a = {0,45,90,135};
-        int[] b = {0,30,60,90,120,150,180};
+        int[] a = {0,45,90,135}; //X coordinates of the buttons
+        int[] b = {0,30,60,90,120,150,180}; // Y coordinantes of the buttons
         for (int y: b){
             for( int x:a){
                 if(charCount==0) {
@@ -139,7 +141,7 @@ public class WhereTo implements MenuState {
                     numButtons[numbCount].setBounds(x,y,60,42);
                     panel.add(numButtons[numbCount]);
                     numButtons[numbCount].setBackground(Color.ORANGE);
-                    numButtons[numbCount].setVisible(false);
+                    numButtons[numbCount].setVisible(false);//Setting the numerical keys to be invisible
                     numbCount++;
                 }
                 else{
@@ -168,7 +170,7 @@ public class WhereTo implements MenuState {
             screen.remove(x);
         }
         screen.remove(txtf);
-        System.out.println("STOP");
+
         screen.remove(panel);
         screen.removeAll();
 
@@ -302,7 +304,9 @@ public class WhereTo implements MenuState {
                     this.setFont(new Font("Verdana", Font.BOLD, 20));
                 }
             }
-
+            /*
+            Switch numerical keyboard to alphabetical keyboard
+             */
             void switchToChars() {
                 currentMode = -(currentMode);
                 for (CharacterButton x : charButtons) {
@@ -370,10 +374,11 @@ public class WhereTo implements MenuState {
             }
 
             String getChar() {
-                System.out.println(this.s);
                 return this.s;
             }
-
+            /*
+            Switch the alphabetical keyboard to the numerical one
+             */
             void switchToNums() {
                 currentMode = -(currentMode);
                 for (CharacterButton x : charButtons) {
@@ -388,6 +393,9 @@ public class WhereTo implements MenuState {
             }
 
         }
+        /*
+        Class to make the rounded text field to input the keyboard text into
+         */
         public class RoundJTextField extends JTextField {
             private Shape shape;
 
@@ -418,6 +426,9 @@ public class WhereTo implements MenuState {
     public WhereTo(ModelManager object) {
         this.model = object;
         }
+        /*
+        Method to return the directions in the textfield
+         */
         public String getDirections () {
             return txtf.getText();
         }
