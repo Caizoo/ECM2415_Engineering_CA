@@ -15,16 +15,19 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-public class TripComputer implements MenuState, Runnable {
+public class TripComputer implements MenuState {
     Graphics2D renderer;
     private JFrame frame;
     private JPanel screen;
     private ActionListener listener;
 
-    MyText[] textLabels = new MyText[3];
+    static MyText[] textLabels = new MyText[3];
     public TripComputer(){
 
-
+        /**
+         * Overridden methods from the MenuSatet Interface that provides the basis for rendering, running, interacting
+         * and stopping this GPS view
+         */
     }
     @Override
     public void setRenderer(Graphics2D renderer) {
@@ -83,15 +86,10 @@ public class TripComputer implements MenuState, Runnable {
         else if (e == NavigationAction.SELECT) ;
     }
 
-    @Override
-    public void run() {
-        int x = 2;
-        while (x == 2) {
-        }
-    }
-
-    StyledDocument doc;
-
+    /**
+     *  @author  Rob Wells
+     *  Class which create Swing JTextPane elements which make the divisions to hold the Trip computer information
+     */
     public class MyText extends JTextPane {
         String infoHeader;
         String infoValue;
@@ -107,14 +105,19 @@ public class TripComputer implements MenuState, Runnable {
             this.infoValue = value;
             this.setText(infoHeader + "\n" + infoValue);
         }
-
+        /*
+            Changes the Text in the JTextPane
+         */
         public void resetValues(String newValue) {
             setText(infoHeader + "\n" + newValue);
         }
     }
 
+    /*
+     *  Method for updating the view with information from the model
+     */
     public void updateTripComputerMode(String distance, String speed, String time) {
-        if (speed != null && speed.length()>0) {
+        if (speed != null && speed.length()>0) {//If there is no speed therefore there isn't GPS data being recieved
             double doubleSpeed = Double.parseDouble(speed);
             String roundedSpeed = String.format("%,.1f", doubleSpeed);
             textLabels[1].resetValues(roundedSpeed + "KM/H");
@@ -126,7 +129,14 @@ public class TripComputer implements MenuState, Runnable {
         String timeInMins = ModelTripComputer.getTimeInMins(ModelTripComputer.getCurrentTime());
         textLabels[0].resetValues(roundedDistance + "KM");
         textLabels[2].resetValues(timeInMins);
-
+    }
+    /*
+    Set the view values to zero
+     */
+    public static void resetTripComputer(){
+        textLabels[0].resetValues("0" + "KM");
+        textLabels[1].resetValues("0" + "KM/H");
+        textLabels[2].resetValues("0 Min 0 Sec");
     }
 
 }
