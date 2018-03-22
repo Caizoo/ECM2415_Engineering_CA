@@ -30,7 +30,7 @@ public class ModelManager {
 
     private static MenuAction currentView = MenuAction.ON_OFF_STATE;
     double distance, reCalcDistance;
-    int startTime;
+    static long startTime;
     final static double TOLERANCE = 0.00004; //Roughly 5m
 
     String destination, token;
@@ -54,6 +54,8 @@ public class ModelManager {
         speech = new SpeechGenerator();
         currentLanguage = Language.OFF;
         currentView = MenuAction.ON_OFF_STATE;
+        startTime = System.currentTimeMillis();
+
         Thread renewToken = new Thread(){
             public void run(){
                 token = SpeechGenerator.renewAccessToken();
@@ -244,7 +246,8 @@ public class ModelManager {
         direction = "0";
         timeSinceUpdate = "0";
         distance = 0;
-        startTime = 0;
+        startTime = System.currentTimeMillis();
+
         destination = "";
         reCalcDistance = -1;
 
@@ -260,7 +263,7 @@ public class ModelManager {
     }
 
     public boolean isOff() { return currentView==MenuAction.ON_OFF_STATE; }
-
+    public static long getStartTime(){return startTime;}
     public void setLanguage(Language language) { this.currentLanguage = language; /*Reget directions in new languages*/}
     public void setView(MenuAction view) { this.currentView = view; }
     public Language getLanguage() { return this.currentLanguage; }
