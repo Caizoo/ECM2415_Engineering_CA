@@ -178,7 +178,6 @@ public class UserController extends JFrame implements ActionListener, MouseListe
     public void mouseClicked(MouseEvent e) {
         if(mm.isOff()) return;
         Point mousePoint = e.getPoint();
-        System.out.println(mousePoint);
         if(intersects(mousePoint,boundsSelectButton)) {
             doAction(NavigationAction.SELECT);
         }
