@@ -76,7 +76,7 @@ public class SpeechGenerator
         }
         catch (Exception ex)
         {
-            SoundPlayer.playError("The sat-nav has come across an error when producing voice for directions. Please try again");
+            SoundPlayer.playError("res/errorMessages/HardwareDirectionsFailure");
         }
     }
 
