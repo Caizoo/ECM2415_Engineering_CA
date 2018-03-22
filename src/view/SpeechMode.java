@@ -2,8 +2,6 @@ package view;
 
 import model.Language;
 import model.ModelManager;
-import model.SpeechGenerator;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -19,9 +17,6 @@ import javax.swing.border.LineBorder;
  * Changes made since last scrum:
  *   - Utilises vertical menus over buttons
  *   - LanguageMenu (known before as LanguageButton) now has more attributes regarding other text-to-speech parameters
- *
- * Conversion to a project-wide MVC planned for the third scrum as shown by 'Software Eng CA.jpg' in res folder
- * Third scrum also includes moving all classes into a project-wide directory
  */
 public class SpeechMode extends JFrame implements MenuState
 {
@@ -113,7 +108,7 @@ public class SpeechMode extends JFrame implements MenuState
         }
 
         //Select the chosen language
-        if (e == NavigationAction.SELECT)
+        if ((e == NavigationAction.SELECT) && (menuIndex > 0))
         {
             menuBar.getMenu(selectedIndex).setBackground(Color.WHITE);
             menuBar.getMenu(menuIndex).setBackground(Color.GREEN);
