@@ -105,7 +105,7 @@ public class SoundPlayer
     /*
      * Method designed to play files that diagnose errors.
      */
-    public static void playError(String file) //Extra parameter as it can't use the final "FILE" variable.
+    public static void playFile(String file) //Extra parameter as it can't use the final "FILE" variable.
     {
         AudioInputStream stm = setupStream(file);
         playStream(stm, readStream(stm));

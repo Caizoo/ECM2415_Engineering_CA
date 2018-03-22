@@ -62,7 +62,7 @@ public class JSONParser
             }
         }
         //The error that can occur is the use of the Google API is all used up.
-        catch (Exception ex) {SoundPlayer.playError("res/errorMessages/GoogleError.wav");}
+        catch (Exception ex) {SoundPlayer.playFile("res/errorMessages/GoogleError.wav");}
         return directions;
 
     }
@@ -95,6 +95,10 @@ public class JSONParser
                 case "Dr": words[i] = "Drive"; break;
                 case "Av": words[i] = "Avenue"; break;
                 case "St": words[i] = "Street"; break;
+                case "N" : words[i] = "North"; break;
+                case "E" : words[i] = "East"; break;
+                case "S" : words[i] = "South"; break;
+                case "W" : words[i] = "West"; break;
                 default: break;
             }
         }

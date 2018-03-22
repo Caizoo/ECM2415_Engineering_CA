@@ -8,6 +8,7 @@ import controller.UserController;
 import controller.MockLocation;
 
 import model.Maps;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -170,6 +171,8 @@ public class MapState extends JPanel implements MenuState {
             render();
             lostSignal = false;
         }
+        System.out.println(lastDir);
+
     }
 
     /*

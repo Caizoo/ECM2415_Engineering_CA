@@ -38,19 +38,19 @@ public class MockSpeechGeneration
 
     public static void main(String[] args)
     {
-        Directions.setLanguage(Language.FRENCH.getCode());
+        Directions.setLanguage(Language.SPANISH.getCode());
         String data = Directions.sendToParser();
-        ArrayList<HashMap<String,String>> directions = JSONParser.getDirections(data);
+        //ArrayList<HashMap<String,String>> directions = JSONParser.getDirections(data);
 
 
-        for (HashMap<String,String> leg : directions)
-        {
+        //for (HashMap<String,String> leg : directions)
+        //{
             String token = SpeechGenerator.renewAccessToken();
-            String line = leg.get("Directions");
-            System.out.println(line);
-            SpeechGenerator.generate(token, line, Language.FRENCH.getCode(), Language.FRENCH.getGender(), Language.FRENCH.getArtist());
+            //String line = leg.get("Directions");
+           // System.out.println(line);
+            SpeechGenerator.generate(token, "Ha llegado a su destino", Language.SPANISH.getCode(), Language.SPANISH.getGender(), Language.SPANISH.getArtist());
             SoundPlayer.playDirection();
-        }
+        //}
     }
 }
 

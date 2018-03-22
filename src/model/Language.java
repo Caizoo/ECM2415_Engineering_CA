@@ -30,12 +30,12 @@ public enum Language
     ITALIAN(new HashMap<String, String>() {{
         put("Code", "it-IT");
         put("Gender", "Apollo");
-        put("Artist", "(fr-FR, Cosimo, Apollo)");
+        put("Artist", "(it-IT, Cosimo, Apollo)");
     }}),
     SPANISH(new HashMap<String, String>() {{
         put("Code", "es-ES");
         put("Gender", "Apollo");
-        put("Artist", "(fr-FR, Laura, Apollo)");
+        put("Artist", "(es-ES, Laura, Apollo)");
     }}),;
 
 

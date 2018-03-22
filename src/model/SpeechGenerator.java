@@ -52,7 +52,7 @@ public class SpeechGenerator
         }
         catch (Exception ex)
         {
-            SoundPlayer.playError("res/errorMessages/MicrosoftError");
+            SoundPlayer.playFile("res/errorMessages/MicrosoftError");
             return null;
         }
     }
@@ -73,7 +73,7 @@ public class SpeechGenerator
         }
         catch (Exception ex)
         {
-            SoundPlayer.playError("res/errorMessages/HardwareDirectionsFailure");
+            SoundPlayer.playFile("res/errorMessages/HardwareDirectionsFailure");
         }
     }
 

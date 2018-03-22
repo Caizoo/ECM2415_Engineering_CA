@@ -20,8 +20,8 @@ public class ModelManager {
 
     UserController uc;
 
-    MockLocation location;
-    //Location location;
+    //MockLocation location;
+    Location location;
     Maps mapGenerator;
     ArrayList<HashMap<String, String>> directions;
     SpeechGenerator speech;
@@ -48,8 +48,8 @@ public class ModelManager {
 
         this.uc = uc;
 
-        location = new MockLocation();
-        //location = new Location();
+        //location = new MockLocation();
+        location = new Location();
         mapGenerator = new Maps();
         directions = null;//new Directions();
         speech = new SpeechGenerator();
@@ -129,7 +129,7 @@ public class ModelManager {
             double dist = ModelTripComputer.getDistance(Double.parseDouble(latitude), Double.parseDouble(longitude), Double.parseDouble(leg.get("endLat")), Double.parseDouble(leg.get("endLong")));
 
             if (dist <= TOLERANCE) {
-                System.out.println("Made to point");
+                //System.out.println("Made to point");
                 directions.remove(0);
 
                 if (!directions.isEmpty()) {
@@ -143,6 +143,7 @@ public class ModelManager {
                     reCalcDistance = -1;
                 } else {
                     leg = null;
+                    SoundPlayer.playFile("res/endMessages/"+currentLanguage.getCode()+"End.wav");
                 }
 
             }else{
@@ -150,16 +151,16 @@ public class ModelManager {
                     reCalcDistance = ModelTripComputer.getDistance(Double.parseDouble(latitude), Double.parseDouble(longitude), Double.parseDouble(leg.get("endLat")), Double.parseDouble(leg.get("endLong")));
                 }else{ //Check for time
                     Double newDist = ModelTripComputer.getDistance(Double.parseDouble(latitude), Double.parseDouble(longitude), Double.parseDouble(leg.get("endLat")), Double.parseDouble(leg.get("endLong")));
-                    System.out.println(newDist);
+                    /*System.out.println(newDist);
                     System.out.println(reCalcDistance);
                     System.out.println();
                     System.out.println(latitude+", "+longitude);
                     System.out.println(leg.get("endLat")+", "+leg.get("endLong"));
-                    System.out.println();
+                    System.out.println();*/
                     if (newDist > (reCalcDistance+RECALC_TOLERANCE)){
                         //Recalculate//
-                        System.out.println("Recalculate");
-                        SoundPlayer.playError("res/errorMessages/Recalculating.wav");
+                        //System.out.println("Recalculate");
+                        SoundPlayer.playFile("res/errorMessages/Recalculating.wav");
                         reCalcDistance = -1;
                         this.directions = JSONParser.getDirections(Directions.sendToParser(latitude, longitude, this.destination, this.currentLanguage.getCode()));
                     }else if (newDist < reCalcDistance) {
@@ -282,8 +283,8 @@ public class ModelManager {
                 this.directions = JSONParser.getDirections(Directions.sendToParser(latitude, longitude, this.destination, this.currentLanguage.getCode()));
                 //System.out.println("New journey");
             //if (!currentLanguage.equals(Language.OFF)) {
-                speech.generate(token, directions.get(0).get("Directions"), this.currentLanguage.getCode(), this.currentLanguage.getGender(), this.currentLanguage.getArtist());
-                SoundPlayer.playDirection();
+                //speech.generate(token, directions.get(0).get("Directions"), this.currentLanguage.getCode(), this.currentLanguage.getGender(), this.currentLanguage.getArtist());
+                //SoundPlayer.playDirection();
 
             }
         }
