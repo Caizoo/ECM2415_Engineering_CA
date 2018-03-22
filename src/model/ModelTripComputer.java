@@ -15,9 +15,16 @@ public class ModelTripComputer {
         return deg * (Math.PI / 180);
     }
 
-
+    /**
+     * Function that will calculate the distance between two latitude/longitude coordinantes in km
+     * @param lat1 previous latitude
+     * @param lon1 previous longitude
+     * @param lat2 current latitude
+     * @param lon2 current longitude
+     * @return distance between points in km
+     */
     public static double getDistance(Double lat1, Double lon1, Double lat2, Double lon2) {
-        int r = 6371;
+        int r = 6371; // radius of the earth
         double dLat = deg2rad(lat2 - lat1);
         double dLon = deg2rad(lon2 - lon1);
         double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
@@ -28,6 +35,11 @@ public class ModelTripComputer {
         return d;
     }
 
+    /**
+     * Function that will take a time in seocnds and convert it into minutes and seconds
+     * @param timeSeconds inital time in seconds
+     * @return A string in the format "X Min Y Sec"
+     */
     public static String getTimeInMins(int timeSeconds){
         int timeMins =0;
         while ((timeSeconds -60) >=0){
@@ -36,6 +48,11 @@ public class ModelTripComputer {
         }
         return Integer.toString(timeMins)+" Min "+Integer.toString(timeSeconds)+" Sec";
     }
+
+    /**
+     * Figures out the current elapsed time in seconds by using the  System.currentTimeMillis() funcion
+     * @return time elapsed in seconds
+     */
     public static int getCurrentTime(){
         long startTime = ModelManager.getStartTime();
         long elapsedTime = System.currentTimeMillis() - startTime;
@@ -43,14 +60,5 @@ public class ModelTripComputer {
         return (int) elapsedSeconds;
 
     }
-    public  static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-
-        BigDecimal bd = new BigDecimal(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
-
-    }
-
 
 }
