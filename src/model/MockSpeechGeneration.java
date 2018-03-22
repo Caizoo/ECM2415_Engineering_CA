@@ -45,9 +45,10 @@ public class MockSpeechGeneration
 
         for (HashMap<String,String> leg : directions)
         {
+            String token = SpeechGenerator.renewAccessToken();
             String line = leg.get("Directions");
             System.out.println(line);
-            SpeechGenerator.generate(line, Language.FRENCH.getCode(), Language.FRENCH.getGender(), Language.FRENCH.getArtist());
+            SpeechGenerator.generate(token, line, Language.FRENCH.getCode(), Language.FRENCH.getGender(), Language.FRENCH.getArtist());
             SoundPlayer.playDirection();
         }
     }
