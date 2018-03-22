@@ -8,6 +8,7 @@ import controller.*;
 import model.ModelManager;
 
 import java.awt.event.WindowEvent;
+import java.io.File;
 
 public class Main {
 
@@ -27,6 +28,8 @@ public class Main {
         }
 
         // resource cleanup if necessary
+
+        new File("res/output.png").delete();
 
         uc.dispose();
         System.exit(0);
