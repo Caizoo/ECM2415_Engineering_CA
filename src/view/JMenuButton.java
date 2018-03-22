@@ -16,9 +16,9 @@ import java.io.IOException;
 
 public class JMenuButton extends JButton {
 
-    MenuAction menuAction;
-    int width,height;
-    Image icon;
+    private MenuAction menuAction;
+    private int width,height;
+    private Image icon;
 
     public JMenuButton(String text, MenuAction action, File locationIcon) {
         super("<html><div style='text-align: center;'>" + text + "</div></html>");
@@ -34,7 +34,6 @@ public class JMenuButton extends JButton {
         setIcon(new ImageIcon(icon));
         setBorder(BorderFactory.createLineBorder(new Color(27,27,27),2));
         setModel(new FixedStateButtonModel());
-        //setMargin(new Insets(4, 1, 10, 1));
     }
 
     public void setPreferredIconSize(Dimension d) {

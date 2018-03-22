@@ -4,19 +4,6 @@
 
 package controller;
 
-/*
-import view.JPowerButton;
-import view.MainMenuState;
-import view.MenuState;
-import view.OnOffState;
-import view.AboutMode;
-import view.SatelliteMode;
-import view.TripComputer;
-import view.WhereTo;
-import view.MapState;
-import view.SpeechMode; //Change by josh - renamed class
-*/
-
 import main.Main;
 import model.ModelManager;
 import view.*;

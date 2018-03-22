@@ -20,38 +20,34 @@ public class ModelManager {
 
     UserController uc;
 
-    //MockLocation location;
-    Location location;
+    MockLocation location;  // used for MockData while testing
+    //Location location;
     Maps mapGenerator;
     ArrayList<HashMap<String, String>> directions;
     SpeechGenerator speech;
     Language currentLanguage;
 
-
     private static MenuAction currentView = MenuAction.ON_OFF_STATE;
     double distance, reCalcDistance;
     static long startTime;
-    final static double TOLERANCE = 0.025; //Roughly 5m
-    final static double RECALC_TOLERANCE = 0.02;
+    final static double TOLERANCE = 0.025; // 25m tolerance
+    final static double RECALC_TOLERANCE = 0.02; // if walked more than 20m from closest approach to next point
 
     String destination, token;
 
     public static String longitude,latitude,direction, timeSinceUpdate;
 
-
     // views
-
     private MenuState views[] = new MenuState[8];
-
 
     public ModelManager(UserController uc) {
 
         this.uc = uc;
 
-        //location = new MockLocation();
-        location = new Location();
+        location = new MockLocation();
+        //location = new Location();
         mapGenerator = new Maps();
-        directions = null;//new Directions();
+        directions = null; //new Directions();
         speech = new SpeechGenerator();
         currentLanguage = Language.OFF;
         currentView = MenuAction.ON_OFF_STATE;
@@ -67,12 +63,6 @@ public class ModelManager {
                 }
             }
         };
-        /*longitude = "";
-        latitude = "";
-        direction = "0";
-        timeSinceUpdate = "0";
-        distance = 0;
-        startTime = 0;*/ //Called in hardReset()
 
         // create new state objects
         hardReset();
@@ -90,14 +80,13 @@ public class ModelManager {
 
     public void update() {
 
+        if(currentView==MenuAction.ON_OFF_STATE) return; // if device is off
+
         String[] x = location.getData();
         HashMap<String, String> leg = null;
-        if (directions != null && !directions.isEmpty()) leg = directions.get(0);
-        //Around +- 0.00002 roughly 2m radius
+        if (directions != null && !directions.isEmpty()) leg = directions.get(0); // if there are directions to follow, leg is next part of directions
 
-        if(currentView==MenuAction.ON_OFF_STATE) return;
-
-        if(!x[0].equals("") && !latitude.equals("")) {
+        if(!x[0].equals("") && !latitude.equals("")) { // if there is satellite data, update trip computer distance
             distance += ModelTripComputer.getDistance(Double.parseDouble(latitude),Double.parseDouble(longitude),
                     Double.parseDouble(x[0]),Double.parseDouble(x[1]));
         }
@@ -113,11 +102,9 @@ public class ModelManager {
             ((SatelliteMode)views[currentView.getVal()]).update(latitude,longitude);
         }else if(currentView==MenuAction.MAP_STATE){ //Added basic map state -Scott
 
-
             if (Integer.valueOf(timeSinceUpdate) + 5 < Integer.valueOf(x[4]) || !direction.equals("")){
                 ((MapState)views[currentView.getVal()]).update(latitude, longitude, direction, currentLanguage.getCode());
                 timeSinceUpdate = x[4];
-                //if (!direction.equals("")) System.out.println(direction);
             }
 
         }else if(currentView==MenuAction.TRIP_COMPUTER_STATE){
@@ -126,13 +113,12 @@ public class ModelManager {
 
         if ( leg!=null && !latitude.equals("")&& !longitude.equals("")) {
 
-            double dist = ModelTripComputer.getDistance(Double.parseDouble(latitude), Double.parseDouble(longitude), Double.parseDouble(leg.get("endLat")), Double.parseDouble(leg.get("endLong")));
+            double dist = ModelTripComputer.getDistance(Double.parseDouble(latitude), Double.parseDouble(longitude), Double.parseDouble(leg.get("endLat")), Double.parseDouble(leg.get("endLong"))); // current distance from target
 
-            if (dist <= TOLERANCE) {
-                //System.out.println("Made to point");
+            if (dist <= TOLERANCE) { // if within TOLERANCE to target, reached target and go to next leg of journey
                 directions.remove(0);
 
-                if (!directions.isEmpty()) {
+                if (!directions.isEmpty()) { // if there is another leg
                     leg = directions.get(0);
                     //Maybe speak next direction??
                     if (currentLanguage != Language.OFF){
@@ -140,26 +126,18 @@ public class ModelManager {
                         SoundPlayer.playDirection();
                     }
 
-                    reCalcDistance = -1;
+                    reCalcDistance = -1; // reset distance to next target
                 } else {
                     leg = null;
-                    SoundPlayer.playFile("res/endMessages/"+currentLanguage.getCode()+"End.wav");
                 }
 
             }else{
-                if (reCalcDistance == -1) {//Set distance
+                if (reCalcDistance == -1) { //Set distance
                     reCalcDistance = ModelTripComputer.getDistance(Double.parseDouble(latitude), Double.parseDouble(longitude), Double.parseDouble(leg.get("endLat")), Double.parseDouble(leg.get("endLong")));
                 }else{ //Check for time
                     Double newDist = ModelTripComputer.getDistance(Double.parseDouble(latitude), Double.parseDouble(longitude), Double.parseDouble(leg.get("endLat")), Double.parseDouble(leg.get("endLong")));
-                    /*System.out.println(newDist);
-                    System.out.println(reCalcDistance);
-                    System.out.println();
-                    System.out.println(latitude+", "+longitude);
-                    System.out.println(leg.get("endLat")+", "+leg.get("endLong"));
-                    System.out.println();*/
-                    if (newDist > (reCalcDistance+RECALC_TOLERANCE)){
+                    if (newDist > (reCalcDistance+RECALC_TOLERANCE)){ // if moved further than RECALC_TOLERANCE from closest approach, recalculate journey
                         //Recalculate//
-                        //System.out.println("Recalculate");
                         SoundPlayer.playFile("res/errorMessages/Recalculating.wav");
                         reCalcDistance = -1;
                         this.directions = JSONParser.getDirections(Directions.sendToParser(latitude, longitude, this.destination, this.currentLanguage.getCode()));
@@ -168,12 +146,6 @@ public class ModelManager {
                     }
 
                 }
-
-
-                /*
-                *
-                *
-                 */
             }
         }
 
@@ -237,6 +209,7 @@ public class ModelManager {
         if(views[currentView.getVal()]!=null) views[currentView.getVal()].render();
     }
 
+    // reset all values and states, used for turning on and off
     public void hardReset() {
         views[MenuAction.ON_OFF_STATE.getVal()] = new OnOffState();
         views[MenuAction.MAIN_STATE.getVal()] = new MainMenuState(this);
@@ -274,21 +247,15 @@ public class ModelManager {
     public void setView(MenuAction view) { this.currentView = view; }
     public Language getLanguage() { return this.currentLanguage; }
     public MenuAction getView() { return this.currentView; }
-    public static MenuAction getViewState() { return currentView; }
 
     public void setDestination(String destination){
         if (!destination.equals(this.destination)){
             this.destination = destination;
+            distance = 0;
+            startTime = System.currentTimeMillis();
             if (!currentLanguage.equals(Language.OFF)) {
                 this.directions = JSONParser.getDirections(Directions.sendToParser(latitude, longitude, this.destination, this.currentLanguage.getCode()));
-                //System.out.println("New journey");
-            //if (!currentLanguage.equals(Language.OFF)) {
-                //speech.generate(token, directions.get(0).get("Directions"), this.currentLanguage.getCode(), this.currentLanguage.getGender(), this.currentLanguage.getArtist());
-                //SoundPlayer.playDirection();
-
             }
         }
     }
-    public String getDestination(){return this.destination;} //Not sure if needed
-
 }

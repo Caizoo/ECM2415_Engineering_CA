@@ -13,14 +13,15 @@ import java.io.IOException;
 
 public class JIconButton extends JButton {
 
-    Image iconImage;
-    int width,height = 0;
+    protected Image iconImage;
+    protected int width,height = 0;
 
     JIconButton(File imageLocation, Color backgroundColor) {
         super();
         try {
             iconImage = ImageIO.read(imageLocation);
         } catch (IOException e) {
+            iconImage = null; // adds null, meaning no icon, not a problem as text will still be visible
             e.printStackTrace();
         }
         setModel(new FixedStateButtonModel());

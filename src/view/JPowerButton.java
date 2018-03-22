@@ -12,8 +12,8 @@ import java.io.IOException;
 
 public class JPowerButton extends JIconButton {
 
-    Image imgOn;
-    Image imgOff;
+    private Image imgOn;
+    private Image imgOff;
 
     boolean on = false;
 

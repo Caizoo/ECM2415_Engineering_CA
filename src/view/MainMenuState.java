@@ -23,8 +23,8 @@ public class MainMenuState implements MenuState {
     private ActionListener listener;
     private Graphics2D renderer;
 
-    ArrayList<JMenuButton> buttons = new ArrayList<>();
-    int selectedIndex = 0;
+    private ArrayList<JMenuButton> buttons = new ArrayList<>();
+    private int selectedIndex = 0;
 
     public MainMenuState(ModelManager mm) {
         this.mm = mm;
@@ -86,7 +86,7 @@ public class MainMenuState implements MenuState {
             buttons.get(selectedIndex).select();
         }else if(e==NavigationAction.SELECT) {
             buttons.get(selectedIndex).unselect();
-            mm.goToState((buttons.get(selectedIndex)).menuAction);
+            mm.goToState((buttons.get(selectedIndex)).getMenuAction());
         }
 
         render();
