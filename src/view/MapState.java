@@ -25,6 +25,7 @@ public class MapState extends JPanel implements MenuState {
   private BufferedImage error;
   private BufferedImage loading;
   private double rotation;              // current rotation of map so that direction of travel is at the top of the screen
+  private double lastDir;               // last known direction of travel
   private JFrame frame;
   private JPanel screen;
   private ActionListener listener;
@@ -32,6 +33,7 @@ public class MapState extends JPanel implements MenuState {
   private Maps map;
   private Rectangle clip;
   private Boolean newInstance = true;   //check if map mode has been run previously
+  private Boolean lostSignal  = false;
 
 
 
@@ -142,6 +144,7 @@ public class MapState extends JPanel implements MenuState {
    * Refresh the map based on new data.
    */
   public void update( String latitude, String longitude, String direction, String language ) {
+    System.out.println(lastDir);
     map.setLat(latitude);
     map.setLong(longitude);
     map.setLanguage(language);
@@ -155,13 +158,18 @@ public class MapState extends JPanel implements MenuState {
     if (!direction.equals("")) {
         resetDirection();
         setDirection(Double.parseDouble(direction));
+        lastDir = Double.parseDouble(direction);
       }
+
+    if (lostSignal) setDirection(lastDir); //ensures correct rotation upon regain of signal
 
     if (latitude.equals("")){    //empty string when gps signal is lost
         resetDirection();
         renderError();
+        lostSignal = true;
     }else{
         render();
+        lostSignal = false;
     }
   }
 
