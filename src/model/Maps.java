@@ -61,7 +61,7 @@ public class Maps {
      * Toggle the style of the map.
      */
     public void toggleMapType() {
-        if (mapType == "roadmap") {
+        if (mapType.equals("roadmap")) {
             mapType = "hybrid";
         } else {
             mapType = "roadmap";
