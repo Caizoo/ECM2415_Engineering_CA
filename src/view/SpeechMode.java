@@ -113,7 +113,7 @@ public class SpeechMode extends JFrame implements MenuState
         }
 
         //Select the chosen language
-        if (e == NavigationAction.SELECT)
+        if ((e == NavigationAction.SELECT) && (menuIndex > 0))
         {
             menuBar.getMenu(selectedIndex).setBackground(Color.WHITE);
             menuBar.getMenu(menuIndex).setBackground(Color.GREEN);
