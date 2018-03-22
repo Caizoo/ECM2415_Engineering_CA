@@ -32,6 +32,7 @@ public class SpeechMode extends JFrame implements MenuState
     private Graphics2D renderer;
     private LanguageMenuBar menuBar = new LanguageMenuBar();
     private int menuIndex = -1;
+    private int selectedIndex = 0;
     ModelManager mm;
 
     //Constructor
@@ -67,6 +68,7 @@ public class SpeechMode extends JFrame implements MenuState
         menuBar.add(new LanguageMenu(Language.ITALIAN, "Italian"));
         menuBar.add(new LanguageMenu(Language.SPANISH, "Spanish"));
         screen.add(menuBar);
+        menuBar.getMenu(0).setBackground(Color.GREEN); //indicates it's off by default
     }
 
     @Override
@@ -79,6 +81,7 @@ public class SpeechMode extends JFrame implements MenuState
     public void render()
     {
         for (int i = 0; i < menuBar.getMenuCount(); i++) menuBar.getMenu(i).repaint();
+
     }
 
     @Override
@@ -90,6 +93,7 @@ public class SpeechMode extends JFrame implements MenuState
             menuIndex--;
             menuBar.getMenu(menuIndex+1).setBackground(Color.WHITE);
             menuBar.getMenu(menuIndex).setBackground(Color.ORANGE);
+            menuBar.getMenu(selectedIndex).setBackground(Color.GREEN);
         }
 
         //Go down
@@ -105,11 +109,15 @@ public class SpeechMode extends JFrame implements MenuState
                 menuBar.getMenu(menuIndex - 1).setBackground(Color.WHITE);
                 menuBar.getMenu(menuIndex).setBackground(Color.ORANGE);
             }
+            menuBar.getMenu(selectedIndex).setBackground(Color.GREEN);
         }
 
         //Select the chosen language
         if (e == NavigationAction.SELECT)
         {
+            menuBar.getMenu(selectedIndex).setBackground(Color.WHITE);
+            menuBar.getMenu(menuIndex).setBackground(Color.GREEN);
+            selectedIndex = menuIndex;
             LanguageMenu menu = (LanguageMenu) menuBar.getMenu(menuIndex);
             mm.setLanguage(menu.type);
         }
