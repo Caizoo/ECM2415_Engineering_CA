@@ -13,7 +13,7 @@ import java.net.HttpURLConnection;
  * @author David Wakeling, 2018.
  */
 public class HttpConnect {
-    final static int TIMEOUT  = 5000; /* ms  */
+    final static int TIMEOUT  = 10000; /* ms  */
     final static int BUFFSIZE = 4096; /* 4KB */
 
     public static byte[] httpConnect(String method, String url, String[][] headers, byte[] body) {

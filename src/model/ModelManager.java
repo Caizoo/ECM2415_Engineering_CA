@@ -26,14 +26,14 @@ public class ModelManager {
     ArrayList<HashMap<String, String>> directions;
     SpeechGenerator speech;
     Language currentLanguage;
-    Thread renewToken;
+
 
     private static MenuAction currentView = MenuAction.ON_OFF_STATE;
-    double distance;
+    double distance, reCalcDistance;
     int startTime;
     final static double TOLERANCE = 0.00004; //Roughly 5m
 
-    String destination;
+    String destination, token;
 
     public static String longitude,latitude,direction, timeSinceUpdate;
 
@@ -54,9 +54,9 @@ public class ModelManager {
         speech = new SpeechGenerator();
         currentLanguage = Language.OFF;
         currentView = MenuAction.ON_OFF_STATE;
-        renewToken = new Thread(){
+        Thread renewToken = new Thread(){
             public void run(){
-                SpeechGenerator.renewAccessToken();
+                token = SpeechGenerator.renewAccessToken();
                 try {
                     sleep(600000); //Sleeps for 10 minutes
                 } catch (InterruptedException e) {
@@ -64,7 +64,6 @@ public class ModelManager {
                 }
             }
         };
-
         /*longitude = "";
         latitude = "";
         direction = "0";
@@ -82,6 +81,7 @@ public class ModelManager {
         location.openPort("COM4");
         Thread thread = new Thread(location);
         thread.start();
+        renewToken.start();
 
     }
 
@@ -127,8 +127,9 @@ public class ModelManager {
 
 
             if (Math.abs(Double.parseDouble(leg.get("endLat")) - Double.parseDouble(latitude)) <= TOLERANCE && Math.abs(Double.parseDouble(leg.get("endLong")) - Double.parseDouble(longitude)) <= TOLERANCE) {
+                System.out.println("Made to point");
                 if (currentLanguage != Language.OFF){
-                    SpeechGenerator.generate(leg.get("Directions"), currentLanguage.getCode(), currentLanguage.getGender(), currentLanguage.getArtist());
+                    speech.generate(token, leg.get("Directions"), currentLanguage.getCode(), currentLanguage.getGender(), currentLanguage.getArtist());
                     SoundPlayer.playDirection();
                 }
                 directions.remove(0);
@@ -137,23 +138,37 @@ public class ModelManager {
 
                 //Maybe speak next direction??
                 if (currentLanguage != Language.OFF){
-                    SpeechGenerator.generate(leg.get("Directions"), currentLanguage.getCode(), currentLanguage.getGender(), currentLanguage.getArtist());
+                    speech.generate(token, leg.get("Directions"), currentLanguage.getCode(), currentLanguage.getGender(), currentLanguage.getArtist());
                     SoundPlayer.playDirection();
                 }
 
             }else{
-                //Determine recalculation
+                if (reCalcDistance == -1) {//Set distance
+                    reCalcDistance = ModelTripComputer.getDistance(Double.parseDouble(latitude), Double.parseDouble(longitude), Double.parseDouble(leg.get("endLat")), Double.parseDouble(leg.get("endLong")));
+                }else{ //Check for time
+                    Double newDist = ModelTripComputer.getDistance(Double.parseDouble(latitude), Double.parseDouble(longitude), Double.parseDouble(leg.get("endLat")), Double.parseDouble(leg.get("endLong")));
+                    System.out.println(newDist);
+                    System.out.println(reCalcDistance);
+                    System.out.println();
+                    System.out.println(latitude+", "+longitude);
+                    System.out.println(leg.get("endLat")+", "+leg.get("endLong"));
+                    System.out.println();
+                    if (newDist > reCalcDistance){
+                        //Recalculate//
+                    }else{
+                        this.reCalcDistance = newDist;
+                    }
+
+                }
+
+
+                /*
+                *
+                *
+                 */
             }
         }
 
-        /*Check if made to point
-        *+- 0.00004 is roughly 5m
-        * if (Directions is not empty && endLat - currentLat =< TOLERANCE /ignoring minus sign/ && endLong - currentLong =< TOLERANCE /ignoring minus sign/){
-        *   Move to next leg of journey if one exists
-        *} else (){
-        *
-        * }
-        */
     }
 
     public void doAction(NavigationAction action) {
@@ -231,6 +246,7 @@ public class ModelManager {
         distance = 0;
         startTime = 0;
         destination = "";
+        reCalcDistance = -1;
 
         for(MenuState view:views) {
             if(view!=null) {
@@ -258,7 +274,7 @@ public class ModelManager {
                 this.directions = JSONParser.getDirections(Directions.sendToParser(latitude, longitude, this.destination, this.currentLanguage.getCode()));
                 //System.out.println("New journey");
             //if (!currentLanguage.equals(Language.OFF)) {
-                SpeechGenerator.generate(directions.get(0).get("Directions"), this.currentLanguage.getCode(), this.currentLanguage.getGender(), this.currentLanguage.getArtist());
+                speech.generate(token, directions.get(0).get("Directions"), this.currentLanguage.getCode(), this.currentLanguage.getGender(), this.currentLanguage.getArtist());
                 SoundPlayer.playDirection();
 
             }
