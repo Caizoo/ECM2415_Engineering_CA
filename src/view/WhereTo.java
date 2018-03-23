@@ -16,7 +16,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 /**
- *@author- Rob Wells
+ *@author Rob Wells
  */
 public class WhereTo implements MenuState {
     //This class is the view for the "Where To?" mode. This classes uses the swing library to create a virtual keyboard to take in text input.

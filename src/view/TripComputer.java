@@ -106,7 +106,7 @@ public class TripComputer implements MenuState {
             this.setText(infoHeader + "\n" + infoValue);
         }
         /*
-            Changes the Text in the JTextPane
+         * Changes the Text in the JTextPane
          */
         public void resetValues(String newValue) {
             setText(infoHeader + "\n" + newValue);
