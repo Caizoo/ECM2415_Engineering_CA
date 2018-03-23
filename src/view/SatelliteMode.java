@@ -58,7 +58,6 @@ public class SatelliteMode implements MenuState{
         Font f = new Font("Ariel", Font.BOLD, 25);
         latitude.setFont(f);
         longitude.setFont(f);
-        //error.setFont(f);
 
         this.screen.add(latitude);
         this.screen.add(longitude);

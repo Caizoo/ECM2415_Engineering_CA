@@ -16,7 +16,8 @@ import java.util.Iterator;
 
 public class JSONParser
 {
-    /*
+    /**
+     * @author Joshua Chalcraft, Scott Woodward
      * Traverse through JSON data and extract useful information.
      */
     private static ArrayList<HashMap<String, String>> parseJSON(String data)

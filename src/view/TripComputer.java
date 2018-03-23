@@ -25,7 +25,7 @@ public class TripComputer implements MenuState {
     public TripComputer(){
 
         /**
-         * Overridden methods from the MenuSatet Interface that provides the basis for rendering, running, interacting
+         * Overridden methods from the MenuState Interface that provides the basis for rendering, running, interacting
          * and stopping this GPS view
          */
     }
