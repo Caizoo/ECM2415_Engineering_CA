@@ -1,8 +1,5 @@
 package view;
 
-import controller.Location;
-import controller.MockLocation;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -25,7 +22,6 @@ public class SatelliteMode implements MenuState{
     private JLabel latitude, longitude, error;
     private ActionListener listener;
     private Graphics2D renderer;
-    private Thread updateThread;
 
 
     @Override
@@ -42,8 +38,9 @@ public class SatelliteMode implements MenuState{
 
         latitude = new JLabel("", SwingConstants.CENTER);
         longitude = new JLabel("", SwingConstants.CENTER);
-        //error = new JLabel("<html><div style='text-align: center;'>POSITION<br/>CANNOT<br/>BE<br/>DETERMINED</div></html>", SwingConstants.CENTER);
         error = new JLabel();
+
+        //Reads in the no satellite image and scales it to the appropriate size
         ImageIcon icon = new ImageIcon("res/NoSat.png");
         Image display = icon.getImage().getScaledInstance(this.screen.getWidth()-10, this.screen.getWidth()-10, Image.SCALE_SMOOTH);
         error.setIcon(new ImageIcon(display));
@@ -73,6 +70,7 @@ public class SatelliteMode implements MenuState{
     }
 
     public void update(String latitude, String longitude){
+        //When updated, displays the latitude and longitude coordinates or the error message if there is no connection
         if (latitude.equals("") || longitude.equals("")){
             this.latitude.setVisible(false);
             this.longitude.setVisible(false);
@@ -90,6 +88,7 @@ public class SatelliteMode implements MenuState{
 
     @Override
     public void stop() {
+        //Removes the items on the screen
         this.screen.setBackground(new Color(27,27,27,255));
         screen.remove(longitude);
         screen.remove(latitude);

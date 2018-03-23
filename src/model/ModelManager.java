@@ -20,8 +20,8 @@ public class ModelManager {
 
     UserController uc;
 
-    MockLocation location;  // used for MockData while testing
-    //Location location;
+    //MockLocation location;  // used for MockData while testing
+    Location location;
     Maps mapGenerator;
     ArrayList<HashMap<String, String>> directions;
     SpeechGenerator speech;
@@ -44,8 +44,8 @@ public class ModelManager {
 
         this.uc = uc;
 
-        location = new MockLocation();
-        //location = new Location();
+        //location = new MockLocation();
+        location = new Location();
         mapGenerator = new Maps();
         directions = null; //new Directions();
         speech = new SpeechGenerator();

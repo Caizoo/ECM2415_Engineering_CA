@@ -3,6 +3,8 @@ package controller;
 import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
+import model.SoundPlayer;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -30,6 +32,7 @@ public class Location implements Runnable {
     }
 
     public String[] getData() {
+        //Returns data in a synchronized manner to avoid concurrency issues
         synchronized (lock) {
             return new String[]{this.latitude, this.longitude, this.direction, this.velocity, this.time};
         }
@@ -39,7 +42,8 @@ public class Location implements Runnable {
         try {
             CommPortIdentifier portId = CommPortIdentifier.getPortIdentifier(portName);
             if (portId.isCurrentlyOwned()) {
-                System.out.println("port in use");
+                //System.out.println("port in use");
+                SoundPlayer.playFile("res/errorMessages/NoGPS.wav");
                 return;
             }
             CommPort commPort = portId.open("LocationObject", TIMEOUT);
@@ -53,10 +57,10 @@ public class Location implements Runnable {
                 //Prevents the error messages appearing in the console
                 System.err.close();
             } else {
-                System.out.println("not a serial port");
+                SoundPlayer.playFile("res/errorMessages/NoGPS.wav");
             }
         } catch (Exception ex) {
-            System.out.println(ex);
+            SoundPlayer.playFile("res/errorMessages/NoGPS.wav");
         }
     }
 
@@ -70,37 +74,46 @@ public class Location implements Runnable {
             String d, v;
 
 
+            /*Can guarentee the order in which the NMEA messages appear and thus can always
+            * assure that the GPVTG message will appear before the GPGLL message.
+            * Further, with ot without connection, the messages will always contain the same
+            * number of commas and so the splitting of the input string will be consistent.
+            */
+
             while ((n = in.read(buffer)) > -1) {
                 s = new String(buffer, 0, n);
 
+                //Read until the VTG message is read
                 while (!s.startsWith("$GPVTG")){
                     n = in.read(buffer);
                     s = new String(buffer,0,n);
                 }
                 String ss[] = s.split(",");
+                //The direction and velocity will always be in positions 1 and 7 of the GPVTG message
                 d = ss[1];
                 v = ss[7];
                 n = in.read(buffer);
                 s = new String(buffer,0,n);
-                //Can guarantee that the GPGLL message will have the same format with or without connection to the satellites
+
+                //Read until the GLL message is read.
                 while (!s.startsWith("$GPGLL")) {
-                    //String ss[] = s.split(",");
                     n = in.read(buffer);
                     s = new String(buffer, 0, n);
                 }
                 ss = s.split(",");
+                //Synchronize to ensure that no concurrency issues occur when updating
                 synchronized (lock) {
                     if (ss[1].equals("")) {
                         this.latitude = "";
                         this.longitude = "";
                     } else {
-                        //Converts to correct formatting for API
+                        //Converts from Degrees and Decimal minutes to Decimal degrees as it is the correct format for the APIs
                         String lat = String.format("%.6f", Integer.valueOf(ss[1].substring(0,2)) + Float.valueOf(ss[1].substring(2))/60);
                         String lon = String.format("%.6f", Integer.valueOf(ss[3].substring(0,3)) + Float.valueOf(ss[3].substring(3))/60);
                         this.latitude = (ss[2].equals("N")) ? lat : "-" + lat;
                         this.longitude = (ss[4].equals("E")) ? lon : "-" + lon;
                     }
-                        //this.time = ss[5];
+                        //Converts the time into seconds
                         this.time = String.format("%d", Integer.valueOf(ss[5].substring(0,2))*3600 + Integer.valueOf(ss[5].substring(2,4))*60 + Integer.valueOf(ss[5].substring(4,6)));
                         this.direction = d;
                         this.velocity = v;
@@ -109,7 +122,7 @@ public class Location implements Runnable {
                 }
 
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            SoundPlayer.playFile("res/errorMessages/NoGPS.wav");
         }
     }
 }

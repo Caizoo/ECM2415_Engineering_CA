@@ -4,7 +4,6 @@
 
 package view;
 
-import controller.UserController;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -36,11 +35,11 @@ public class AboutMode implements MenuState {
 
     @Override
     public void start() {
-
+        //Displays the static image of the information
         try {
             display = ImageIO.read(new File("res/aboutMode.png"));
         } catch (IOException e) {
-            //DO SOMETHING WITH ERROR??
+            //Won't happen as it is a given resource
             e.printStackTrace();
         }
 
