@@ -22,13 +22,13 @@ public class TripComputer implements MenuState {
     private ActionListener listener;
 
     static MyText[] textLabels = new MyText[3];
-    public TripComputer(){
+    public TripComputer(){}
 
-        /**
+        /*
          * Overridden methods from the MenuState Interface that provides the basis for rendering, running, interacting
          * and stopping this GPS view
          */
-    }
+
     @Override
     public void setRenderer(Graphics2D renderer) {
         this.renderer = renderer;
