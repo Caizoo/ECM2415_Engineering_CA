@@ -26,7 +26,6 @@ public class SoundPlayer
         try
         {
             File file = new File(name);
-            System.out.println(file.getCanonicalPath());
             AudioInputStream stm = AudioSystem.getAudioInputStream(file);
             return stm;
         }
