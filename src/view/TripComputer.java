@@ -15,6 +15,9 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+/**
+ * @author Rob Wells
+ */
 public class TripComputer implements MenuState {
     Graphics2D renderer;
     private JFrame frame;
@@ -106,7 +109,7 @@ public class TripComputer implements MenuState {
             this.setText(infoHeader + "\n" + infoValue);
         }
         /*
-            Changes the Text in the JTextPane
+         * Changes the Text in the JTextPane
          */
         public void resetValues(String newValue) {
             setText(infoHeader + "\n" + newValue);
