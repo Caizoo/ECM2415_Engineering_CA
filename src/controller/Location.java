@@ -60,7 +60,9 @@ public class Location implements Runnable {
                 SoundPlayer.playFile("res/errorMessages/NoGPS.wav");
             }
         } catch (Exception ex) {
+            //Exits in the case of an error as the device will no longer work.
             SoundPlayer.playFile("res/errorMessages/NoGPS.wav");
+            System.exit(1);
         }
     }
 
